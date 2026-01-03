@@ -1,0 +1,40 @@
+name: News Keyword Bot Pro
+
+on:
+  schedule:
+    - cron: '0 22,6,14 * * *'
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Run analyzer
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_AD_CUSTOMER_ID: ${{ secrets.NAVER_AD_CUSTOMER_ID }}
+          NAVER_AD_CLIENT_ID: ${{ secrets.NAVER_AD_CLIENT_ID }}
+          NAVER_AD_CLIENT_SECRET: ${{ secrets.NAVER_AD_CLIENT_SECRET }}
+        run: python main.py
+      
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "자동 업데이트: $(date +'%Y-%m-%d %H:%M')" || exit 0
+          git push
