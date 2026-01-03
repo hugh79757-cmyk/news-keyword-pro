@@ -97,17 +97,8 @@
             background: var(--primary);
             color: white;
             cursor: pointer;
-            user-select: none;
         }
         .keyword-table th:hover { background: #1e40af; }
-        .keyword-table th.sort-asc::after {
-            content: ' ▲';
-            font-size: 0.8em;
-        }
-        .keyword-table th.sort-desc::after {
-            content: ' ▼';
-            font-size: 0.8em;
-        }
         .keyword-table tr:nth-child(even) { background: #f9fafb; }
         .keyword-table tr:hover { background: #f0f4ff; }
         .keyword-table td:nth-child(2) { text-align: left; }
@@ -162,49 +153,12 @@
             .related-grid { grid-template-columns: 1fr; }
         }
     </style>
-    <script>
-        function sortTable(columnIndex) {
-            const table = document.querySelector('.keyword-table');
-            if (!table) return;
-            
-            const tbody = table.querySelector('tbody');
-            if (!tbody) return;
-            
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-
-            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
-            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
-            table.dataset.sortColumn = columnIndex;
-
-            rows.sort((a, b) => {
-                let aVal = a.cells[columnIndex].textContent.trim();
-                let bVal = b.cells[columnIndex].textContent.trim();
-
-                const aNum = parseFloat(aVal.replace(/,/g, ''));
-                const bNum = parseFloat(bVal.replace(/,/g, ''));
-
-                if (!isNaN(aNum) && !isNaN(bNum)) {
-                    return isAsc ? bNum - aNum : aNum - bNum;
-                }
-                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
-            });
-
-            rows.forEach(row => tbody.appendChild(row));
-
-            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
-                th.classList.remove('sort-asc', 'sort-desc');
-                if (i === columnIndex) {
-                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
-                }
-            });
-        }
-    </script>
 </head>
 <body>
     <header class="header">
         <h1>📱 IT/모바일 키워드</h1>
-        <p>상위노출 가능한 블로그 키워드 64개</p>
-        <small>📅 2026년 01월 04일 03시 40분 업데이트</small>
+        <p>상위노출 가능한 블로그 키워드 66개</p>
+        <small>📅 2026년 01월 04일 02시 08분 업데이트</small>
     </header>
     
     <nav class="nav">
@@ -213,19 +167,19 @@
     
     <main class="container">
         <section class="card">
-            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <h2>📊 추천 키워드 (포화도 1.5 이하)</h2>
             <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
-                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움)
             </p>
             <table class="keyword-table">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0)">순위</th>
-                        <th onclick="sortTable(1)">키워드</th>
-                        <th onclick="sortTable(2)">월간검색량</th>
-                        <th onclick="sortTable(3)">블로그문서수</th>
-                        <th onclick="sortTable(4)">포화도</th>
-                        <th onclick="sortTable(5)">난이도</th>
+                        <th>순위</th>
+                        <th>키워드</th>
+                        <th>월간검색량</th>
+                        <th>블로그문서수</th>
+                        <th>포화도</th>
+                        <th>난이도</th>
                         <th>검색</th>
                     </tr>
                 </thead>
@@ -237,537 +191,537 @@
             <td>191,730</td>
             <td>3,951</td>
             <td>0.02</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=엘지전자주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>2</td>
-            <td><strong>챗지피티</strong></td>
-            <td>7,909,800</td>
-            <td>239,750</td>
-            <td>0.03</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
-            <td>3</td>
             <td><strong>휴림로봇주가</strong></td>
             <td>565,300</td>
             <td>19,133</td>
             <td>0.03</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=휴림로봇주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>4</td>
+            <td>3</td>
             <td><strong>갤럭시S26</strong></td>
             <td>304,100</td>
-            <td>11,179</td>
+            <td>11,177</td>
             <td>0.04</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>5</td>
+            <td>4</td>
             <td><strong>검색상위종목</strong></td>
             <td>759,290</td>
             <td>35,106</td>
             <td>0.05</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=검색상위종목" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>6</td>
+            <td>5</td>
             <td><strong>에스피지주가</strong></td>
             <td>329,000</td>
-            <td>17,017</td>
+            <td>17,016</td>
             <td>0.05</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=에스피지주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>7</td>
+            <td>6</td>
             <td><strong>삼성전자주가</strong></td>
             <td>13,310,900</td>
-            <td>816,286</td>
+            <td>816,253</td>
             <td>0.06</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성전자주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>8</td>
+            <td>7</td>
             <td><strong>삼성중공업주가</strong></td>
             <td>1,426,700</td>
-            <td>82,559</td>
+            <td>82,553</td>
             <td>0.06</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성중공업주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>9</td>
+            <td>8</td>
             <td><strong>두산에너빌리티주가</strong></td>
             <td>999,700</td>
-            <td>64,263</td>
+            <td>64,260</td>
             <td>0.06</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=두산에너빌리티주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>10</td>
+            <td>9</td>
             <td><strong>태성주가</strong></td>
             <td>190,140</td>
             <td>10,874</td>
             <td>0.06</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=태성주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>11</td>
+            <td>10</td>
             <td><strong>삼성전자우주가</strong></td>
             <td>497,000</td>
             <td>34,298</td>
             <td>0.07</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성전자우주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>12</td>
+            <td>11</td>
             <td><strong>한화오션주가</strong></td>
             <td>1,076,300</td>
-            <td>81,144</td>
+            <td>81,138</td>
             <td>0.08</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=한화오션주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>13</td>
-            <td><strong>쳇GPT</strong></td>
-            <td>486,800</td>
-            <td>38,214</td>
-            <td>0.08</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=쳇GPT" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
-            <td>14</td>
+            <td>12</td>
             <td><strong>대한전선주가</strong></td>
             <td>370,100</td>
-            <td>30,224</td>
+            <td>30,225</td>
             <td>0.08</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=대한전선주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>15</td>
+            <td>13</td>
             <td><strong>고영주가</strong></td>
             <td>286,800</td>
             <td>21,998</td>
             <td>0.08</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=고영주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>16</td>
+            <td>14</td>
             <td><strong>적금계산기</strong></td>
             <td>248,200</td>
-            <td>23,381</td>
+            <td>23,382</td>
             <td>0.09</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=적금계산기" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>17</td>
+            <td>15</td>
             <td><strong>삼성전자우</strong></td>
             <td>777,300</td>
-            <td>79,359</td>
+            <td>79,358</td>
             <td>0.1</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성전자우" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>18</td>
+            <td>16</td>
             <td><strong>현대자동차주가</strong></td>
             <td>645,800</td>
-            <td>73,981</td>
+            <td>73,979</td>
             <td>0.11</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=현대자동차주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>19</td>
+            <td>17</td>
             <td><strong>에이비엘바이오주가</strong></td>
             <td>259,200</td>
-            <td>29,519</td>
+            <td>29,518</td>
             <td>0.11</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=에이비엘바이오주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>20</td>
+            <td>18</td>
             <td><strong>알테오젠주가</strong></td>
             <td>588,700</td>
-            <td>67,868</td>
+            <td>67,866</td>
             <td>0.12</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=알테오젠주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>21</td>
+            <td>19</td>
             <td><strong>한미반도체주가</strong></td>
             <td>522,000</td>
-            <td>61,857</td>
+            <td>61,853</td>
             <td>0.12</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=한미반도체주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>22</td>
-            <td><strong>챗GPT</strong></td>
-            <td>4,606,800</td>
-            <td>603,765</td>
-            <td>0.13</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=챗GPT" target="_blank" class="analyze-btn">🔍</a></td>
+            <td>20</td>
+            <td><strong>기아자동차주가</strong></td>
+            <td>145,080</td>
+            <td>18,008</td>
+            <td>0.12</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=기아자동차주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>23</td>
+            <td>21</td>
             <td><strong>현대로템주가</strong></td>
             <td>405,500</td>
-            <td>58,905</td>
+            <td>58,902</td>
             <td>0.15</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=현대로템주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>24</td>
+            <td>22</td>
             <td><strong>종합주가지수</strong></td>
             <td>335,000</td>
             <td>50,830</td>
             <td>0.15</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=종합주가지수" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>25</td>
+            <td>23</td>
             <td><strong>한국전력주가</strong></td>
             <td>488,500</td>
-            <td>76,431</td>
+            <td>76,416</td>
             <td>0.16</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=한국전력주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>26</td>
+            <td>24</td>
             <td><strong>나스닥선물</strong></td>
             <td>1,686,600</td>
-            <td>307,795</td>
+            <td>307,792</td>
             <td>0.18</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=나스닥선물" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>27</td>
+            <td>25</td>
             <td><strong>현대건설주가</strong></td>
             <td>450,300</td>
-            <td>83,272</td>
+            <td>83,264</td>
             <td>0.18</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=현대건설주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>28</td>
+            <td>26</td>
             <td><strong>SK하이닉스주가</strong></td>
             <td>1,846,100</td>
-            <td>347,453</td>
+            <td>347,427</td>
             <td>0.19</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=SK하이닉스주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>29</td>
+            <td>27</td>
             <td><strong>에코프로주가</strong></td>
             <td>881,100</td>
-            <td>167,260</td>
+            <td>167,256</td>
             <td>0.19</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=에코프로주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>30</td>
+            <td>28</td>
             <td><strong>포스코퓨처엠주가</strong></td>
             <td>234,180</td>
             <td>45,385</td>
             <td>0.19</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=포스코퓨처엠주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>31</td>
+            <td>29</td>
             <td><strong>주식시세</strong></td>
             <td>562,300</td>
-            <td>114,355</td>
+            <td>114,353</td>
             <td>0.2</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=주식시세" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>32</td>
+            <td>30</td>
             <td><strong>삼성전기주가</strong></td>
             <td>404,600</td>
-            <td>80,812</td>
+            <td>80,803</td>
             <td>0.2</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성전기주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>33</td>
+            <td>31</td>
             <td><strong>고려아연주가</strong></td>
             <td>253,800</td>
-            <td>49,701</td>
+            <td>49,698</td>
             <td>0.2</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=고려아연주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>34</td>
+            <td>32</td>
             <td><strong>이수페타시스주가</strong></td>
             <td>178,860</td>
             <td>35,483</td>
             <td>0.2</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=이수페타시스주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>35</td>
+            <td>33</td>
             <td><strong>유한양행주가</strong></td>
             <td>235,500</td>
-            <td>50,502</td>
+            <td>50,499</td>
             <td>0.21</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=유한양행주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>36</td>
+            <td>34</td>
             <td><strong>제주반도체주가</strong></td>
             <td>230,400</td>
-            <td>49,514</td>
+            <td>49,505</td>
             <td>0.21</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=제주반도체주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>37</td>
+            <td>35</td>
             <td><strong>삼양식품주가</strong></td>
             <td>194,100</td>
-            <td>40,366</td>
+            <td>40,364</td>
             <td>0.21</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼양식품주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>38</td>
+            <td>36</td>
             <td><strong>하이닉스주가</strong></td>
             <td>1,879,000</td>
-            <td>404,397</td>
+            <td>404,370</td>
             <td>0.22</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=하이닉스주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>39</td>
+            <td>37</td>
             <td><strong>레인보우로보틱스주가</strong></td>
             <td>198,300</td>
-            <td>44,597</td>
+            <td>44,596</td>
             <td>0.22</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=레인보우로보틱스주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>40</td>
+            <td>38</td>
             <td><strong>HLB주가</strong></td>
             <td>244,500</td>
             <td>55,125</td>
             <td>0.23</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=HLB주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>41</td>
+            <td>39</td>
             <td><strong>한국항공우주주가</strong></td>
             <td>209,750</td>
-            <td>49,106</td>
+            <td>49,103</td>
             <td>0.23</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=한국항공우주주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>42</td>
+            <td>40</td>
             <td><strong>삼성SDI주가</strong></td>
             <td>630,300</td>
-            <td>151,396</td>
+            <td>151,392</td>
             <td>0.24</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성SDI주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>43</td>
+            <td>41</td>
             <td><strong>SKC주가</strong></td>
             <td>191,390</td>
-            <td>46,264</td>
+            <td>46,255</td>
             <td>0.24</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=SKC주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>44</td>
-            <td><strong>CHATGPT</strong></td>
-            <td>1,897,800</td>
-            <td>501,284</td>
-            <td>0.26</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=CHATGPT" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
-            <td>45</td>
+            <td>42</td>
             <td><strong>대한항공주가</strong></td>
             <td>298,400</td>
-            <td>77,342</td>
+            <td>77,334</td>
             <td>0.26</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=대한항공주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>46</td>
+            <td>43</td>
             <td><strong>HMM주가</strong></td>
             <td>189,600</td>
-            <td>50,508</td>
+            <td>50,507</td>
             <td>0.27</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=HMM주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>47</td>
+            <td>44</td>
             <td><strong>셀트리온주가</strong></td>
             <td>538,500</td>
-            <td>149,016</td>
+            <td>149,003</td>
             <td>0.28</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=셀트리온주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>48</td>
+            <td>45</td>
+            <td><strong>우리기술주가</strong></td>
+            <td>149,980</td>
+            <td>43,340</td>
+            <td>0.29</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=우리기술주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>46</td>
             <td><strong>삼성물산주가</strong></td>
             <td>249,640</td>
-            <td>74,942</td>
+            <td>74,931</td>
             <td>0.3</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=삼성물산주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>49</td>
+            <td>47</td>
             <td><strong>현대중공업주가</strong></td>
             <td>317,710</td>
-            <td>99,299</td>
+            <td>99,292</td>
             <td>0.31</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=현대중공업주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>50</td>
+            <td>48</td>
             <td><strong>기아차주가</strong></td>
             <td>232,730</td>
-            <td>73,397</td>
+            <td>73,394</td>
             <td>0.32</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=기아차주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>51</td>
+            <td>49</td>
             <td><strong>현대모비스주가</strong></td>
             <td>234,600</td>
-            <td>80,602</td>
+            <td>80,587</td>
             <td>0.34</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=현대모비스주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>52</td>
+            <td>50</td>
+            <td><strong>현대제철주가</strong></td>
+            <td>140,540</td>
+            <td>47,848</td>
+            <td>0.34</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=현대제철주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>51</td>
             <td><strong>하이브주가</strong></td>
             <td>208,700</td>
-            <td>73,030</td>
+            <td>73,028</td>
             <td>0.35</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=하이브주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>53</td>
+            <td>52</td>
             <td><strong>에코프로비엠주가</strong></td>
             <td>289,100</td>
-            <td>105,876</td>
+            <td>105,875</td>
             <td>0.37</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=에코프로비엠주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>53</td>
+            <td><strong>아모레퍼시픽주가</strong></td>
+            <td>154,870</td>
+            <td>61,455</td>
+            <td>0.4</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=아모레퍼시픽주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>54</td>
             <td><strong>한화시스템주가</strong></td>
             <td>312,600</td>
-            <td>127,072</td>
+            <td>127,059</td>
             <td>0.41</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=한화시스템주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
@@ -775,9 +729,9 @@
             <td>55</td>
             <td><strong>현대차주가</strong></td>
             <td>874,300</td>
-            <td>370,654</td>
+            <td>370,633</td>
             <td>0.42</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=현대차주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
@@ -785,9 +739,9 @@
             <td>56</td>
             <td><strong>갤럭시S25</strong></td>
             <td>381,400</td>
-            <td>163,525</td>
+            <td>163,482</td>
             <td>0.43</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S25" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
@@ -795,9 +749,9 @@
             <td>57</td>
             <td><strong>쿠팡주가</strong></td>
             <td>244,100</td>
-            <td>108,755</td>
+            <td>108,762</td>
             <td>0.45</td>
-            <td>🟢</td>
+            <td>🟢 매우쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=쿠팡주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
@@ -805,69 +759,89 @@
             <td>58</td>
             <td><strong>엔비디아주가</strong></td>
             <td>844,600</td>
-            <td>432,874</td>
+            <td>432,864</td>
             <td>0.51</td>
-            <td>🟡</td>
+            <td>🟡 쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=엔비디아주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>59</td>
-            <td><strong>카카오주가</strong></td>
-            <td>793,300</td>
-            <td>410,769</td>
-            <td>0.52</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=카카오주가" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><strong>한전주가</strong></td>
+            <td>154,490</td>
+            <td>78,329</td>
+            <td>0.51</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=한전주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>60</td>
-            <td><strong>연말시상식</strong></td>
-            <td>270,900</td>
-            <td>148,499</td>
-            <td>0.55</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=연말시상식" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><strong>카카오주가</strong></td>
+            <td>793,300</td>
+            <td>410,757</td>
+            <td>0.52</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=카카오주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>61</td>
-            <td><strong>갤럭시워치8</strong></td>
-            <td>158,200</td>
-            <td>101,983</td>
-            <td>0.64</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><strong>삼성바이오로직스주가</strong></td>
+            <td>145,620</td>
+            <td>87,862</td>
+            <td>0.6</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=삼성바이오로직스주가" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>62</td>
-            <td><strong>코스피지수</strong></td>
-            <td>1,386,400</td>
-            <td>914,222</td>
-            <td>0.66</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=코스피지수" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><strong>갤럭시워치8</strong></td>
+            <td>158,200</td>
+            <td>101,972</td>
+            <td>0.64</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>63</td>
-            <td><strong>LG전자주가</strong></td>
-            <td>164,730</td>
-            <td>136,546</td>
-            <td>0.83</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=LG전자주가" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><strong>코스피지수</strong></td>
+            <td>1,386,400</td>
+            <td>914,187</td>
+            <td>0.66</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=코스피지수" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>64</td>
+            <td><strong>한화솔루션주가</strong></td>
+            <td>155,870</td>
+            <td>124,795</td>
+            <td>0.8</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=한화솔루션주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>65</td>
+            <td><strong>LG전자주가</strong></td>
+            <td>164,730</td>
+            <td>136,543</td>
+            <td>0.83</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=LG전자주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>66</td>
             <td><strong>나스닥</strong></td>
             <td>1,313,000</td>
-            <td>1,304,870</td>
+            <td>1,304,854</td>
             <td>0.99</td>
-            <td>🟡</td>
+            <td>🟡 쉬움</td>
             <td><a href="https://search.naver.com/search.naver?query=나스닥" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
@@ -884,15 +858,7 @@
                     <strong>엘지전자주가</strong>
                     <a href="https://search.naver.com/search.naver?query=엘지전자주가" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=엘지전자주가" target="_blank">엘지전자주가</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가전망" target="_blank">엘지전자주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가얼마" target="_blank">엘지전자주가얼마</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가보기" target="_blank">엘지전자주가보기</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가상승세" target="_blank">엘지전자주가상승세</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>챗지피티</strong>
-                    <a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank">챗지피티</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 무료" target="_blank">챗지피티 무료</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 사주" target="_blank">챗지피티 사주</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 유료 가격" target="_blank">챗지피티 유료 가격</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 팩폭" target="_blank">챗지피티 팩폭</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=엘지전자주가" target="_blank">엘지전자주가</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가전망" target="_blank">엘지전자주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가얼마" target="_blank">엘지전자주가얼마</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가보기" target="_blank">엘지전자주가보기</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가상승세" target="_blank">엘지전자주가상승세</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가 오르는이유" target="_blank">엘지전자주가 오르는이유</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자주가오른이유" target="_blank">엘지전자주가오른이유</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자 주가 배당금" target="_blank">엘지전자 주가 배당금</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자 주가 목표가" target="_blank">엘지전자 주가 목표가</a></li><li><a href="https://search.naver.com/search.naver?query=엘지전자 주가 급등" target="_blank">엘지전자 주가 급등</a></li></ul>
             </div>
             
             <div class="related-card">
@@ -900,7 +866,7 @@
                     <strong>휴림로봇주가</strong>
                     <a href="https://search.naver.com/search.naver?query=휴림로봇주가" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=휴림로봇주가보기" target="_blank">휴림로봇주가보기</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇주가지수" target="_blank">휴림로봇주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가" target="_blank">휴림로봇 주가</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가전망" target="_blank">휴림로봇 주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가 배당금" target="_blank">휴림로봇 주가 배당금</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=휴림로봇주가보기" target="_blank">휴림로봇주가보기</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇주가지수" target="_blank">휴림로봇주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가" target="_blank">휴림로봇 주가</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가전망" target="_blank">휴림로봇 주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가 배당금" target="_blank">휴림로봇 주가 배당금</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가 분석" target="_blank">휴림로봇 주가 분석</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가 상승 원인" target="_blank">휴림로봇 주가 상승 원인</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가차트" target="_blank">휴림로봇 주가차트</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가 상승 이유" target="_blank">휴림로봇 주가 상승 이유</a></li><li><a href="https://search.naver.com/search.naver?query=휴림로봇 주가 하락 이유" target="_blank">휴림로봇 주가 하락 이유</a></li></ul>
             </div>
             
             <div class="related-card">
@@ -908,7 +874,7 @@
                     <strong>갤럭시S26</strong>
                     <a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 출시일" target="_blank">갤럭시s26 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26울트라" target="_blank">갤럭시S26울트라</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank">갤럭시S26</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 색상" target="_blank">갤럭시s26 색상</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 디자인" target="_blank">갤럭시s26 디자인</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 출시일" target="_blank">갤럭시s26 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26울트라" target="_blank">갤럭시S26울트라</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank">갤럭시S26</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 색상" target="_blank">갤럭시s26 색상</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 디자인" target="_blank">갤럭시s26 디자인</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 가격" target="_blank">갤럭시s26 가격</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시 s26 사전예약" target="_blank">갤럭시 s26 사전예약</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시 s26 엣지" target="_blank">갤럭시 s26 엣지</a></li><li><a href="https://search.naver.com/search.naver?query=삼성 갤럭시 s26" target="_blank">삼성 갤럭시 s26</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시 s26 플러스" target="_blank">갤럭시 s26 플러스</a></li></ul>
             </div>
             
             <div class="related-card">
@@ -916,7 +882,7 @@
                     <strong>검색상위종목</strong>
                     <a href="https://search.naver.com/search.naver?query=검색상위종목" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=검색 상위종목" target="_blank">검색 상위종목</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 현대차" target="_blank">검색 상위종목 현대차</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 삼성전자우" target="_blank">검색 상위종목 삼성전자우</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 금양" target="_blank">검색 상위종목 금양</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 두산" target="_blank">검색 상위종목 두산</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=검색 상위종목" target="_blank">검색 상위종목</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 현대차" target="_blank">검색 상위종목 현대차</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 삼성전자우" target="_blank">검색 상위종목 삼성전자우</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 금양" target="_blank">검색 상위종목 금양</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 두산" target="_blank">검색 상위종목 두산</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 삼성전자" target="_blank">검색 상위종목 삼성전자</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목기아차" target="_blank">검색 상위종목기아차</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 한화" target="_blank">검색 상위종목 한화</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 삼성중공업" target="_blank">검색 상위종목 삼성중공업</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 기아" target="_blank">검색 상위종목 기아</a></li></ul>
             </div>
             
             <div class="related-card">
@@ -924,39 +890,7 @@
                     <strong>에스피지주가</strong>
                     <a href="https://search.naver.com/search.naver?query=에스피지주가" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에스피지주가배당" target="_blank">에스피지주가배당</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가" target="_blank">에스피지 주가</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 전망" target="_blank">에스피지 주가 전망</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 목표가" target="_blank">에스피지 주가 목표가</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 목표" target="_blank">에스피지 주가 목표</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>삼성전자주가</strong>
-                    <a href="https://search.naver.com/search.naver?query=삼성전자주가" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=삼성전자주가 주가전망" target="_blank">삼성전자주가 주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=삼성전자주가시세" target="_blank">삼성전자주가시세</a></li><li><a href="https://search.naver.com/search.naver?query=삼성전자주가는" target="_blank">삼성전자주가는</a></li><li><a href="https://search.naver.com/search.naver?query=삼성전자주가지수" target="_blank">삼성전자주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=삼성전자주가가격" target="_blank">삼성전자주가가격</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>삼성중공업주가</strong>
-                    <a href="https://search.naver.com/search.naver?query=삼성중공업주가" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=삼성중공업주가지수" target="_blank">삼성중공업주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=삼성중공업주가시세" target="_blank">삼성중공업주가시세</a></li><li><a href="https://search.naver.com/search.naver?query=삼성중공업주가보기" target="_blank">삼성중공업주가보기</a></li><li><a href="https://search.naver.com/search.naver?query=삼성중공업주가그래프" target="_blank">삼성중공업주가그래프</a></li><li><a href="https://search.naver.com/search.naver?query=삼성중공업 주가" target="_blank">삼성중공업 주가</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>두산에너빌리티주가</strong>
-                    <a href="https://search.naver.com/search.naver?query=두산에너빌리티주가" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=두산에너빌리티주가지수" target="_blank">두산에너빌리티주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=두산에너빌리티주가현황" target="_blank">두산에너빌리티주가현황</a></li><li><a href="https://search.naver.com/search.naver?query=두산에너빌리티주가가격" target="_blank">두산에너빌리티주가가격</a></li><li><a href="https://search.naver.com/search.naver?query=두산에너빌리티주가현재시가" target="_blank">두산에너빌리티주가현재시가</a></li><li><a href="https://search.naver.com/search.naver?query=두산에너빌리티주가지수전망" target="_blank">두산에너빌리티주가지수전망</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>태성주가</strong>
-                    <a href="https://search.naver.com/search.naver?query=태성주가" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=태성주가전망" target="_blank">태성주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=태성주가차트" target="_blank">태성주가차트</a></li><li><a href="https://search.naver.com/search.naver?query=태성 주가" target="_blank">태성 주가</a></li><li><a href="https://search.naver.com/search.naver?query=태성 주가 예상" target="_blank">태성 주가 예상</a></li><li><a href="https://search.naver.com/search.naver?query=태성 주가 목표" target="_blank">태성 주가 목표</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에스피지주가배당" target="_blank">에스피지주가배당</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가" target="_blank">에스피지 주가</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 전망" target="_blank">에스피지 주가 전망</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 목표가" target="_blank">에스피지 주가 목표가</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 목표" target="_blank">에스피지 주가 목표</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 하락" target="_blank">에스피지 주가 하락</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 상승 이유" target="_blank">에스피지 주가 상승 이유</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 폭락" target="_blank">에스피지 주가 폭락</a></li></ul>
             </div>
             
             </div>
@@ -964,7 +898,7 @@
     </main>
     
     <footer class="footer">
-        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+        <p>🤖 Powered by Claude AI & Naver API</p>
     </footer>
 </body>
 </html>

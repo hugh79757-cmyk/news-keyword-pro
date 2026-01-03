@@ -50,11 +50,11 @@ def main():
         
         # 연관검색어 조회 (상위 5개만)
         related_data = []
-        for item in keyword_results[:5]:
+        for item in keyword_results[:15]:
             related = naver_api.get_autocomplete(item['keyword'])
             related_data.append({
                 "keyword": item['keyword'],
-                "related": related
+                "related": related[:5]
             })
         
         all_results[category_id] = keyword_results
@@ -62,6 +62,9 @@ def main():
         # 4. 카테고리 페이지 생성
         print(f"\n  [4/4] 페이지 생성 중...")
         builder.build_category_page(category_id, category_info, keyword_results, related_data)
+        
+        # 5. CSV에 저장
+        builder.save_to_csv(category_info['name'], keyword_results)
     
     # 메인 페이지 생성
     print(f"\n{'='*60}")
@@ -82,6 +85,8 @@ def main():
     for cat_id, results in all_results.items():
         cat_info = NEWS_CATEGORIES[cat_id]
         print(f"   {cat_info['icon']} {cat_info['name']}: {len(results)}개")
+    
+    print(f"\n📁 CSV 저장: output/history.csv")
 
 
 if __name__ == "__main__":

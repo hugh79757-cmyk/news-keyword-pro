@@ -171,13 +171,13 @@ def analyze_keywords(keywords, limit=50):
         
         # 포화도 등급
         if saturation <= 0.5:
-            possibility = "🟢 매우쉬움"
+            possibility = "🟢"
         elif saturation <= 1.0:
-            possibility = "🟡 쉬움"
+            possibility = "🟡"
         elif saturation <= 1.5:
-            possibility = "🟠 보통"
+            possibility = "🟠"
         else:
-            possibility = "🔴 어려움"
+            possibility = "🔴"
         
         results.append({
             "keyword": keyword,

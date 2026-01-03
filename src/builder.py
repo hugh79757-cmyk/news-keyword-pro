@@ -1,5 +1,7 @@
 import os
 import shutil
+import csv
+
 from datetime import datetime, timezone, timedelta
 from config import NEWS_CATEGORIES, SATURATION_THRESHOLD
 
@@ -48,7 +50,7 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
             naver_url = f"https://search.naver.com/search.naver?query={keyword}"
             
             related_items = ""
-            for rel_kw in related:
+            for rel_kw in related[:5]:
                 rel_url = f"https://search.naver.com/search.naver?query={rel_kw}"
                 related_items += f'<li><a href="{rel_url}" target="_blank">{rel_kw}</a></li>'
             
@@ -80,7 +82,7 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
     # 저장
     output_path = f"output/{category_info['output']}"
     
-    # 🔴 아카이브 백업 (기존 파일이 있으면)
+    # 아카이브 백업
     archive_dir = "output/archive"
     os.makedirs(archive_dir, exist_ok=True)
     
@@ -106,6 +108,42 @@ def generate_nav_links(current_category=None):
     
     nav += '<a href="archive.html" class="nav-btn">📚 아카이브</a>'
     return nav
+
+
+def save_to_csv(category_name, keyword_results):
+    """키워드 결과를 날짜별 CSV에 저장"""
+    
+    kst = timezone(timedelta(hours=9))
+    now = datetime.now(kst)
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M")
+    
+    # 날짜별 폴더 생성
+    csv_dir = "output/csv"
+    os.makedirs(csv_dir, exist_ok=True)
+    
+    # 날짜별 파일명
+    csv_path = f"{csv_dir}/{date_str}.csv"
+    
+    file_exists = os.path.exists(csv_path)
+    
+    with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
+        writer = csv.writer(f)
+        
+        if not file_exists:
+            writer.writerow(['시간', '카테고리', '키워드', '월간검색량', '블로그문서수', '포화도', '상위노출'])
+        
+        for item in keyword_results:
+            writer.writerow([
+                time_str,
+                category_name,
+                item['keyword'],
+                item['monthly_search'],
+                item['blog_count'],
+                item['saturation'],
+                item['possibility']
+            ])
+
 
 
 def build_index_page(all_results):
@@ -151,15 +189,12 @@ def build_index_page(all_results):
         </div>
         """
     
-    # 네비게이션
     nav_html = generate_nav_links()
     
-    # 템플릿 치환
     html = template.replace("{{update_time}}", update_time)
     html = html.replace("{{summary_cards}}", summary_cards)
     html = html.replace("{{nav_links}}", nav_html)
     
-    # 저장
     with open("output/index.html", "w", encoding="utf-8") as f:
         f.write(html)
     
@@ -167,7 +202,7 @@ def build_index_page(all_results):
 
 
 def build_archive_page():
-    """아카이브 페이지 생성"""
+    """아카이브 페이지 생성 (페이지네이션 포함)"""
     
     archive_dir = "output/archive"
     os.makedirs(archive_dir, exist_ok=True)
@@ -183,45 +218,74 @@ def build_archive_page():
     except:
         template = get_default_archive_template()
     
-    # 파일 목록 생성
-    file_list = ""
-    for filename in files:
-        parts = filename.replace('.html', '').split('_')
-        if len(parts) >= 3:
-            date_part = parts[0]
-            time_part = parts[1]
-            category = parts[2]
-            
-            # 카테고리 이름 찾기
-            cat_name = category
-            for cat_id, cat_info in NEWS_CATEGORIES.items():
-                if cat_id == category:
-                    cat_name = f"{cat_info['icon']} {cat_info['name']}"
-                    break
-            
-            try:
-                date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
-                display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
-            except:
-                display_date = date_part
-            
-            file_list += f'''
-            <li>
-                <a href="archive/{filename}">
-                    <span class="archive-date">📅 {display_date}</span>
-                    <span class="archive-category">{cat_name}</span>
-                </a>
-            </li>
-            '''
+    items_per_page = 100
+    total_files = len(files)
+    total_pages = (total_files + items_per_page - 1) // items_per_page
+    if total_pages == 0:
+        total_pages = 1
     
-    html = template.replace("{{archive_count}}", str(len(files)))
-    html = html.replace("{{archive_list}}", file_list)
-    html = html.replace("{{nav_links}}", generate_nav_links())
+    for page in range(1, total_pages + 1):
+        start_idx = (page - 1) * items_per_page
+        end_idx = start_idx + items_per_page
+        page_files = files[start_idx:end_idx]
+        
+        file_list = ""
+        for filename in page_files:
+            parts = filename.replace('.html', '').split('_')
+            if len(parts) >= 3:
+                date_part = parts[0]
+                time_part = parts[1]
+                category = parts[2]
+                
+                cat_name = category
+                for cat_id, cat_info in NEWS_CATEGORIES.items():
+                    if cat_id == category:
+                        cat_name = f"{cat_info['icon']} {cat_info['name']}"
+                        break
+                
+                try:
+                    date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
+                    display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
+                except:
+                    display_date = date_part
+                
+                file_list += f'''
+                <li>
+                    <a href="archive/{filename}">
+                        <span class="archive-date">📅 {display_date}</span>
+                        <span class="archive-category">{cat_name}</span>
+                    </a>
+                </li>
+                '''
+        
+        pagination = '<div class="pagination">'
+        if page > 1:
+            prev_link = "archive.html" if page == 2 else f"archive-{page-1}.html"
+            pagination += f'<a href="{prev_link}" class="page-btn">← 이전</a>'
+        
+        for p in range(1, total_pages + 1):
+            p_link = "archive.html" if p == 1 else f"archive-{p}.html"
+            active = "active" if p == page else ""
+            pagination += f'<a href="{p_link}" class="page-btn {active}">{p}</a>'
+        
+        if page < total_pages:
+            pagination += f'<a href="archive-{page+1}.html" class="page-btn">다음 →</a>'
+        pagination += '</div>'
+        
+        html = template.replace("{{archive_count}}", str(total_files))
+        html = html.replace("{{archive_list}}", file_list)
+        html = html.replace("{{nav_links}}", generate_nav_links())
+        html = html.replace("{{pagination}}", pagination)
+        
+        if page == 1:
+            output_file = "output/archive.html"
+        else:
+            output_file = f"output/archive-{page}.html"
+        
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(html)
     
-    with open("output/archive.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    
-    print(f"    ✅ output/archive.html 생성 완료 ({len(files)}개 아카이브)")
+    print(f"    ✅ 아카이브 생성 완료 ({total_files}개, {total_pages}페이지)")
 
 
 def get_default_archive_template():
@@ -230,12 +294,12 @@ def get_default_archive_template():
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아카이브 - 뉴스 키워드</title>
+    <title>아카이브</title>
 </head>
 <body>
     <h1>아카이브</h1>
-    <p>{{archive_count}}개 저장됨</p>
+    <p>{{archive_count}}개</p>
     <ul>{{archive_list}}</ul>
+    {{pagination}}
 </body>
 </html>"""

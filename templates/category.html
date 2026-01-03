@@ -97,8 +97,17 @@
             background: var(--primary);
             color: white;
             cursor: pointer;
+            user-select: none;
         }
         .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
         .keyword-table tr:nth-child(even) { background: #f9fafb; }
         .keyword-table tr:hover { background: #f0f4ff; }
         .keyword-table td:nth-child(2) { text-align: left; }
@@ -153,6 +162,43 @@
             .related-grid { grid-template-columns: 1fr; }
         }
     </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <header class="header">
@@ -167,19 +213,19 @@
     
     <main class="container">
         <section class="card">
-            <h2>📊 추천 키워드 (포화도 1.5 이하)</h2>
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
             <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
-                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움)
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
             </p>
             <table class="keyword-table">
                 <thead>
                     <tr>
-                        <th>순위</th>
-                        <th>키워드</th>
-                        <th>월간검색량</th>
-                        <th>블로그문서수</th>
-                        <th>포화도</th>
-                        <th>난이도</th>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
                         <th>검색</th>
                     </tr>
                 </thead>
@@ -198,7 +244,7 @@
     </main>
     
     <footer class="footer">
-        <p>🤖 Powered by Claude AI & Naver API</p>
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
     </footer>
 </body>
 </html>
