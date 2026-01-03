@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뉴스 키워드 인사이트 Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --red: #ef4444;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* 헤더 */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .header p { opacity: 0.9; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        /* 네비게이션 */
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* 메인 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        /* 요약 카드 그리드 */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .summary-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+        .summary-icon { font-size: 2rem; }
+        .summary-header h3 { font-size: 1.2rem; color: var(--primary); }
+        .summary-keywords {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .summary-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .summary-footer span {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        .view-btn {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .view-btn:hover { text-decoration: underline; }
+        
+        /* 푸터 */
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        .footer p { opacity: 0.8; font-size: 0.85rem; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5rem; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🎯 뉴스 키워드 인사이트 Pro</h1>
+        <p>카테고리별 <strong>고단가 블로그 키워드</strong> 분석</p>
+        <small>📅 2026년 01월 03일 22시 46분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">📚 아카이브</a>
+    </nav>
+    
+    <main class="container">
+        <div class="summary-grid">
+            
+        <div class="summary-card">
+            <div class="summary-header">
+                <span class="summary-icon">🏠</span>
+                <h3>부동산</h3>
+            </div>
+            <p class="summary-keywords">용인푸르지오클루센트</p>
+            <div class="summary-footer">
+                <span>1개 키워드</span>
+                <a href="realestate.html" class="view-btn">자세히 보기 →</a>
+            </div>
+        </div>
+        
+        <div class="summary-card">
+            <div class="summary-header">
+                <span class="summary-icon">💰</span>
+                <h3>금융</h3>
+            </div>
+            <p class="summary-keywords">회색코뿔소</p>
+            <div class="summary-footer">
+                <span>1개 키워드</span>
+                <a href="finance.html" class="view-btn">자세히 보기 →</a>
+            </div>
+        </div>
+        
+        <div class="summary-card">
+            <div class="summary-header">
+                <span class="summary-icon">🚗</span>
+                <h3>자동차</h3>
+            </div>
+            <p class="summary-keywords">셀트리온주가</p>
+            <div class="summary-footer">
+                <span>1개 키워드</span>
+                <a href="car.html" class="view-btn">자세히 보기 →</a>
+            </div>
+        </div>
+        
+        <div class="summary-card">
+            <div class="summary-header">
+                <span class="summary-icon">📱</span>
+                <h3>IT/모바일</h3>
+            </div>
+            <p class="summary-keywords">갤럭시S26가격</p>
+            <div class="summary-footer">
+                <span>1개 키워드</span>
+                <a href="tech.html" class="view-btn">자세히 보기 →</a>
+            </div>
+        </div>
+        
+        <div class="summary-card">
+            <div class="summary-header">
+                <span class="summary-icon">🏛️</span>
+                <h3>정부정책</h3>
+            </div>
+            <p class="summary-keywords">육아기10시출근제</p>
+            <div class="summary-footer">
+                <span>1개 키워드</span>
+                <a href="policy.html" class="view-btn">자세히 보기 →</a>
+            </div>
+        </div>
+        
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by Claude AI & Naver API</p>
+    </footer>
+</body>
+</html>
