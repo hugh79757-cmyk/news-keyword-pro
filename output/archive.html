@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 아카이브 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --gold: #f59e0b;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+        }
+        .nav-btn:hover { background: var(--primary); color: white; }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .count-box {
+            background: #fffbeb;
+            border: 2px solid var(--gold);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .count-box strong { font-size: 1.5rem; color: var(--primary); }
+        
+        .archive-list { list-style: none; }
+        .archive-list li {
+            background: var(--card-bg);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .archive-list li:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+        }
+        .archive-list a {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 18px;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .archive-date { color: var(--text-light); }
+        .archive-category { color: var(--primary); font-weight: 500; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📚 과거 분석 아카이브</h1>
+        <p>이전에 분석된 키워드 리포트</p>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">📚 아카이브</a>
+    </nav>
+    
+    <main class="container">
+        <div class="count-box">
+            <strong>14</strong>개의 분석 결과가 저장되어 있습니다.
+        </div>
+        <ul class="archive-list">
+            
+            <li>
+                <a href="archive/2026-01-03_22-09_tech.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:09</span>
+                    <span class="archive-category">📱 IT/모바일</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-09_policy.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:09</span>
+                    <span class="archive-category">🏛️ 정부정책</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-08_realestate.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:08</span>
+                    <span class="archive-category">🏠 부동산</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-08_health.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:08</span>
+                    <span class="archive-category">💊 건강/의료</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-08_finance.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:08</span>
+                    <span class="archive-category">💰 금융</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-08_car.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:08</span>
+                    <span class="archive-category">🚗 자동차</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-07_tech.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:07</span>
+                    <span class="archive-category">📱 IT/모바일</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-07_stock.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:07</span>
+                    <span class="archive-category">📈 증권/주식</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-07_policy.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:07</span>
+                    <span class="archive-category">🏛️ 정부정책</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-06_health.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:06</span>
+                    <span class="archive-category">💊 건강/의료</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-06_finance.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:06</span>
+                    <span class="archive-category">💰 금융</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-06_car.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:06</span>
+                    <span class="archive-category">🚗 자동차</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-05_stock.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:05</span>
+                    <span class="archive-category">📈 증권/주식</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="archive/2026-01-03_22-05_realestate.html">
+                    <span class="archive-date">📅 2026년 01월 03일 22:05</span>
+                    <span class="archive-category">🏠 부동산</span>
+                </a>
+            </li>
+            
+        </ul>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by Claude AI & Naver API</p>
+    </footer>
+</body>
+</html>
