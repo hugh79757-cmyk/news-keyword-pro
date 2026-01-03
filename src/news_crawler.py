@@ -19,7 +19,7 @@ def crawl_news(category_id, query):
     }
     params = {
         "query": query,
-        "display": 30,
+        "display": 50,
         "sort": "date"
     }
     
@@ -43,7 +43,7 @@ def crawl_news(category_id, query):
         
         # 중복 제거
         headlines = list(dict.fromkeys(headlines))
-        return headlines[:20]
+        return headlines[:35]
         
     except Exception as e:
         print(f"    ❌ API 에러: {e}")

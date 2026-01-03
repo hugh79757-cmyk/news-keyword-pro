@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>뉴스 키워드 인사이트 Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #1e3a8a;
@@ -18,7 +20,13 @@
             --text-light: #6b7280;
             --border: #e5e7eb;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
@@ -26,7 +34,7 @@
             color: var(--text);
             line-height: 1.7;
         }
-        
+
         /* 헤더 */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
@@ -34,17 +42,25 @@
             text-align: center;
             color: white;
         }
-        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-        .header p { opacity: 0.9; }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
         .header small {
             display: inline-block;
             margin-top: 0.5rem;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
         }
-        
+
         /* 네비게이션 */
         .nav {
             display: flex;
@@ -55,6 +71,7 @@
             background: white;
             border-bottom: 1px solid var(--border);
         }
+
         .nav-btn {
             padding: 8px 16px;
             border-radius: 20px;
@@ -64,50 +81,64 @@
             font-size: 0.9rem;
             transition: all 0.2s;
         }
-        .nav-btn:hover, .nav-btn.active {
+
+        .nav-btn:hover,
+        .nav-btn.active {
             background: var(--primary);
             color: white;
         }
-        
+
         /* 메인 컨테이너 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
-        
+
         /* 요약 카드 그리드 */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
+
         .summary-card {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border);
             transition: all 0.3s;
         }
+
         .summary-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
+
         .summary-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 1rem;
         }
-        .summary-icon { font-size: 2rem; }
-        .summary-header h3 { font-size: 1.2rem; color: var(--primary); }
+
+        .summary-icon {
+            font-size: 2rem;
+        }
+
+        .summary-header h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
         .summary-keywords {
             color: var(--text-light);
             font-size: 0.95rem;
             margin-bottom: 1rem;
             line-height: 1.6;
         }
+
         .summary-footer {
             display: flex;
             justify-content: space-between;
@@ -115,17 +146,43 @@
             padding-top: 1rem;
             border-top: 1px solid var(--border);
         }
+
         .summary-footer span {
             color: var(--text-light);
             font-size: 0.85rem;
         }
+
         .view-btn {
             color: var(--primary-light);
             text-decoration: none;
             font-weight: 500;
         }
-        .view-btn:hover { text-decoration: underline; }
-        
+
+        .view-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* 테이블 정렬 스타일 */
+        th {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        th:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+
+        th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+
         /* 푸터 */
         .footer {
             background: var(--primary);
@@ -134,33 +191,95 @@
             padding: 1.5rem;
             margin-top: 3rem;
         }
-        .footer p { opacity: 0.8; font-size: 0.85rem; }
-        
+
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.85rem;
+        }
+
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.5rem; }
-            .summary-grid { grid-template-columns: 1fr; }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // 현재 정렬 상태 확인
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                // 숫자 변환 시도 (콤마 제거)
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            // 헤더 화살표 업데이트
+            document.querySelectorAll('th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+
+        // 페이지 로드 시 테이블 헤더에 클릭 이벤트 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            const headers = document.querySelectorAll('th');
+            headers.forEach((th, index) => {
+                // 마지막 열(분석)은 정렬 제외
+                if (index < headers.length - 1) {
+                    th.addEventListener('click', () => sortTable(index));
+                }
+            });
+        });
+    </script>
 </head>
+
 <body>
     <header class="header">
         <h1>🎯 뉴스 키워드 인사이트 Pro</h1>
         <p>카테고리별 <strong>고단가 블로그 키워드</strong> 분석</p>
         <small>📅 {{update_time}} 업데이트</small>
     </header>
-    
+
     <nav class="nav">
         {{nav_links}}
     </nav>
-    
+
     <main class="container">
         <div class="summary-grid">
             {{summary_cards}}
         </div>
     </main>
-    
+
     <footer class="footer">
-        <p>🤖 Powered by Claude AI & Naver API</p>
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
     </footer>
 </body>
+
 </html>

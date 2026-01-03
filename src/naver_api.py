@@ -4,42 +4,51 @@ import hashlib
 import hmac
 import base64
 import time
+from urllib.parse import quote
+
 
 def get_search_volume(keywords):
     """네이버 광고 API로 검색량 조회"""
     
     customer_id = os.getenv("NAVER_AD_CUSTOMER_ID")
-    api_key = os.getenv("NAVER_AD_CLIENT_ID")          # 변경
-    secret_key = os.getenv("NAVER_AD_CLIENT_SECRET")   # 변경
+    api_key = os.getenv("NAVER_AD_CLIENT_ID")
+    secret_key = os.getenv("NAVER_AD_CLIENT_SECRET")
     
     if not all([customer_id, api_key, secret_key]):
         print("    ⚠️ 네이버 광고 API 키 없음")
         return {}
     
-    url = "https://api.naver.com/keywordstool"
-    
-    timestamp = str(int(time.time() * 1000))
-    signature = generate_signature(timestamp, "GET", "/keywordstool", secret_key)
-    
-    headers = {
-        "X-Timestamp": timestamp,
-        "X-API-KEY": api_key,
-        "X-Customer": customer_id,
-        "X-Signature": signature
-    }
+    base_url = "https://api.naver.com"
+    uri = "/keywordstool"
     
     results = {}
     
     # 5개씩 나눠서 요청
     for i in range(0, len(keywords), 5):
         batch = keywords[i:i+5]
-        params = {
-            "hintKeywords": ",".join(batch),
-            "showDetail": "1"
+        
+        # 빈 키워드 제거
+        cleaned_batch = [kw.strip().replace(" ", "") for kw in batch if kw.strip()]
+        if not cleaned_batch:
+            continue
+        
+        timestamp = str(int(time.time() * 1000))
+        signature = generate_signature(timestamp, "GET", uri, secret_key)
+        
+        headers = {
+            "X-Timestamp": timestamp,
+            "X-API-KEY": api_key,
+            "X-Customer": customer_id,
+            "X-Signature": signature,
+            "Content-Type": "application/json; charset=UTF-8"
         }
         
         try:
-            response = requests.get(url, headers=headers, params=params, timeout=10)
+            # 한글 키워드 URL 인코딩
+            encoded_keywords = quote(",".join(cleaned_batch), safe='')
+            full_url = f"{base_url}{uri}?hintKeywords={encoded_keywords}&showDetail=1"
+            
+            response = requests.get(full_url, headers=headers, timeout=10)
             
             if response.status_code == 200:
                 data = response.json()
@@ -123,29 +132,33 @@ def get_autocomplete(keyword):
         if response.status_code == 200:
             data = response.json()
             items = data.get("items", [[]])[0]
-            return [item[0] for item in items[:5] if item]
+            return [item[0] for item in items[:15] if item]  # 5 → 10개
     except:
         pass
     
     return []
 
 
-def analyze_keywords(keywords, limit=15):
+
+def analyze_keywords(keywords, limit=50):
     """키워드 분석 (검색량 + 블로그수 + 포화도)"""
     
     print(f"    📊 {len(keywords)}개 중 상위 {limit}개 분석...")
     
     keywords_to_check = keywords[:limit]
     
-    # 검색량 조회
+    # 검색량 조회 (연관 키워드도 함께 반환됨)
     search_volumes = get_search_volume(keywords_to_check)
+    
+    print(f"    🔍 {len(search_volumes)}개 키워드 검색량 조회 완료")
+    
+    # 검색량 기준 상위 100개 정렬
+    sorted_keywords = sorted(search_volumes.items(), key=lambda x: x[1], reverse=True)[:80]
     
     results = []
     
-    for keyword in keywords_to_check:
-        monthly_search = search_volumes.get(keyword, 0)
-        
-        if monthly_search < 500:
+    for keyword, monthly_search in sorted_keywords:
+        if monthly_search < 100:
             continue
         
         blog_count = get_blog_count(keyword)
