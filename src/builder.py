@@ -24,7 +24,7 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
         print(f"    ❌ 템플릿 파일 없음")
         return
     
-    # 키워드 테이블 생성
+        # 키워드 테이블 생성
     table_rows = ""
     for idx, item in enumerate(filtered_results, 1):
         keyword = item['keyword']
@@ -34,12 +34,15 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
             <td>{idx}</td>
             <td><strong>{keyword}</strong></td>
             <td>{item['monthly_search']:,}</td>
-            <td>{item['blog_count']:,}</td>
+            <td>{item.get('blog_count', 0):,}</td>
+            <td>{item.get('news_count', 0):,}</td>
+            <td>{item.get('web_count', 0):,}</td>
             <td>{item['saturation']}</td>
             <td>{item['possibility']}</td>
             <td><a href="{naver_url}" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         """
+
     
     # 연관검색어 카드 생성
     related_cards = ""
@@ -118,11 +121,9 @@ def save_to_csv(category_name, keyword_results):
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M")
     
-    # 날짜별 폴더 생성
     csv_dir = "output/csv"
     os.makedirs(csv_dir, exist_ok=True)
     
-    # 날짜별 파일명
     csv_path = f"{csv_dir}/{date_str}.csv"
     
     file_exists = os.path.exists(csv_path)
@@ -131,7 +132,7 @@ def save_to_csv(category_name, keyword_results):
         writer = csv.writer(f)
         
         if not file_exists:
-            writer.writerow(['시간', '카테고리', '키워드', '월간검색량', '블로그문서수', '포화도', '상위노출'])
+            writer.writerow(['시간', '카테고리', '키워드', '월간검색량', '블로그', '뉴스', '웹문서', '포화도', '난이도'])
         
         for item in keyword_results:
             writer.writerow([
@@ -139,10 +140,13 @@ def save_to_csv(category_name, keyword_results):
                 category_name,
                 item['keyword'],
                 item['monthly_search'],
-                item['blog_count'],
+                item.get('blog_count', 0),
+                item.get('news_count', 0),
+                item.get('web_count', 0),
                 item['saturation'],
                 item['possibility']
             ])
+
 
 
 

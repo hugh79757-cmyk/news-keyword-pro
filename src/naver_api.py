@@ -5,6 +5,10 @@ import hmac
 import base64
 import time
 from urllib.parse import quote
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 
 def get_search_volume(keywords):
@@ -110,6 +114,57 @@ def get_blog_count(keyword):
     
     return 0
 
+def get_news_count(keyword):
+    """네이버 검색 API로 뉴스 문서 수 조회"""
+    
+    client_id = os.getenv("NAVER_CLIENT_ID")
+    client_secret = os.getenv("NAVER_CLIENT_SECRET")
+    
+    if not all([client_id, client_secret]):
+        return 0
+    
+    url = "https://openapi.naver.com/v1/search/news.json"
+    headers = {
+        "X-Naver-Client-Id": client_id,
+        "X-Naver-Client-Secret": client_secret
+    }
+    params = {"query": keyword, "display": 1}
+    
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=5)
+        if response.status_code == 200:
+            return response.json().get("total", 0)
+    except:
+        pass
+    
+    return 0
+
+
+def get_web_count(keyword):
+    """네이버 검색 API로 웹문서 수 조회"""
+    
+    client_id = os.getenv("NAVER_CLIENT_ID")
+    client_secret = os.getenv("NAVER_CLIENT_SECRET")
+    
+    if not all([client_id, client_secret]):
+        return 0
+    
+    url = "https://openapi.naver.com/v1/search/webkr.json"
+    headers = {
+        "X-Naver-Client-Id": client_id,
+        "X-Naver-Client-Secret": client_secret
+    }
+    params = {"query": keyword, "display": 1}
+    
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=5)
+        if response.status_code == 200:
+            return response.json().get("total", 0)
+    except:
+        pass
+    
+    return 0
+
 
 def get_autocomplete(keyword):
     """네이버 자동완성 API로 연관검색어 조회"""
@@ -141,7 +196,7 @@ def get_autocomplete(keyword):
 
 
 def analyze_keywords(keywords, limit=50):
-    """키워드 분석 (검색량 + 블로그수 + 포화도)"""
+    """키워드 분석 (검색량 + 블로그/뉴스/웹문서 + 포화도)"""
     
     print(f"    📊 {len(keywords)}개 중 상위 {limit}개 분석...")
     
@@ -152,18 +207,22 @@ def analyze_keywords(keywords, limit=50):
     
     print(f"    🔍 {len(search_volumes)}개 키워드 검색량 조회 완료")
     
-    # 검색량 기준 상위 100개 정렬
+    # 검색량 기준 상위 80개 정렬
     sorted_keywords = sorted(search_volumes.items(), key=lambda x: x[1], reverse=True)[:80]
     
     results = []
     
-    for keyword, monthly_search in sorted_keywords:
+    for idx, (keyword, monthly_search) in enumerate(sorted_keywords):
         if monthly_search < 100:
             continue
         
+        # 블로그, 뉴스, 웹문서 조회
         blog_count = get_blog_count(keyword)
+        news_count = get_news_count(keyword)
+        web_count = get_web_count(keyword)
         time.sleep(0.05)
         
+        # 포화도 (블로그 기준)
         if blog_count == 0:
             saturation = 0
         else:
@@ -183,12 +242,18 @@ def analyze_keywords(keywords, limit=50):
             "keyword": keyword,
             "monthly_search": monthly_search,
             "blog_count": blog_count,
+            "news_count": news_count,
+            "web_count": web_count,
             "saturation": saturation,
             "possibility": possibility
         })
+        
+        if (idx + 1) % 20 == 0:
+            print(f"    ⏳ {idx + 1}개 분석 중...")
     
     # 포화도순 정렬
     results.sort(key=lambda x: x["saturation"])
     
     print(f"    ✅ {len(results)}개 키워드 분석 완료")
     return results
+

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚗 자동차 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <h1>🚗 자동차 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 22개</p>
+        <small>📅 2026년 01월 04일 03시 37분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn active">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">📚 아카이브</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>코덱스200</strong></td>
+            <td>105,400</td>
+            <td>3,911</td>
+            <td>0.04</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=코덱스200" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>검색상위종목</strong></td>
+            <td>759,290</td>
+            <td>35,106</td>
+            <td>0.05</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=검색상위종목" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>셀토스풀체인지</strong></td>
+            <td>188,200</td>
+            <td>9,780</td>
+            <td>0.05</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=셀토스풀체인지" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>나스닥선물</strong></td>
+            <td>1,686,600</td>
+            <td>307,794</td>
+            <td>0.18</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=나스닥선물" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>에이피알주가</strong></td>
+            <td>145,730</td>
+            <td>25,790</td>
+            <td>0.18</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에이피알주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>GV90</strong></td>
+            <td>82,100</td>
+            <td>17,539</td>
+            <td>0.21</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=GV90" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>셀토스</strong></td>
+            <td>516,800</td>
+            <td>170,301</td>
+            <td>0.33</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=셀토스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>테슬라모델Y</strong></td>
+            <td>358,500</td>
+            <td>147,530</td>
+            <td>0.41</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=테슬라모델Y" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>테슬라주가</strong></td>
+            <td>1,215,000</td>
+            <td>529,545</td>
+            <td>0.44</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=테슬라주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>EV9</strong></td>
+            <td>97,200</td>
+            <td>51,211</td>
+            <td>0.53</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=EV9" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>K8하이브리드</strong></td>
+            <td>68,000</td>
+            <td>35,963</td>
+            <td>0.53</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=K8하이브리드" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>렉서스ES300H</strong></td>
+            <td>86,200</td>
+            <td>47,605</td>
+            <td>0.55</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=렉서스ES300H" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>펠리세이드</strong></td>
+            <td>185,500</td>
+            <td>107,589</td>
+            <td>0.58</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=펠리세이드" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>폴스타</strong></td>
+            <td>74,000</td>
+            <td>43,641</td>
+            <td>0.59</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=폴스타" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>GV70</strong></td>
+            <td>223,500</td>
+            <td>141,907</td>
+            <td>0.63</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=GV70" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>BMW5시리즈</strong></td>
+            <td>92,700</td>
+            <td>59,048</td>
+            <td>0.64</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=BMW5시리즈" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>셀토스하이브리드</strong></td>
+            <td>86,400</td>
+            <td>56,146</td>
+            <td>0.65</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=셀토스하이브리드" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>BYD</strong></td>
+            <td>178,000</td>
+            <td>127,714</td>
+            <td>0.72</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=BYD" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>테슬라모델X</strong></td>
+            <td>105,400</td>
+            <td>84,320</td>
+            <td>0.8</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=테슬라모델X" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>KODEX200</strong></td>
+            <td>96,500</td>
+            <td>77,178</td>
+            <td>0.8</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=KODEX200" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>EV6</strong></td>
+            <td>116,000</td>
+            <td>115,950</td>
+            <td>1.0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=EV6" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>BYD전기차</strong></td>
+            <td>86,800</td>
+            <td>86,437</td>
+            <td>1.0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=BYD전기차" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>코덱스200</strong>
+                    <a href="https://search.naver.com/search.naver?query=코덱스200" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=코덱스200" target="_blank">코덱스200</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200타겟위클리" target="_blank">코덱스200타겟위클리</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200미국채혼합" target="_blank">코덱스200미국채혼합</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200 배당금" target="_blank">코덱스200 배당금</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200tr" target="_blank">코덱스200tr</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>검색상위종목</strong>
+                    <a href="https://search.naver.com/search.naver?query=검색상위종목" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=검색 상위종목" target="_blank">검색 상위종목</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 현대차" target="_blank">검색 상위종목 현대차</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 삼성전자우" target="_blank">검색 상위종목 삼성전자우</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 금양" target="_blank">검색 상위종목 금양</a></li><li><a href="https://search.naver.com/search.naver?query=검색 상위종목 두산" target="_blank">검색 상위종목 두산</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>셀토스풀체인지</strong>
+                    <a href="https://search.naver.com/search.naver?query=셀토스풀체인지" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=셀토스 풀체인지" target="_blank">셀토스 풀체인지</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 풀체인지 실내" target="_blank">셀토스 풀체인지 실내</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 풀체인지 가격" target="_blank">셀토스 풀체인지 가격</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 풀체인지 색상" target="_blank">셀토스 풀체인지 색상</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 풀체인지 제원" target="_blank">셀토스 풀체인지 제원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>나스닥선물</strong>
+                    <a href="https://search.naver.com/search.naver?query=나스닥선물" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=나스닥선물" target="_blank">나스닥선물</a></li><li><a href="https://search.naver.com/search.naver?query=나스닥선물지수" target="_blank">나스닥선물지수</a></li><li><a href="https://search.naver.com/search.naver?query=나스닥선물 실시간" target="_blank">나스닥선물 실시간</a></li><li><a href="https://search.naver.com/search.naver?query=나스닥선물시세" target="_blank">나스닥선물시세</a></li><li><a href="https://search.naver.com/search.naver?query=나스닥선물100" target="_blank">나스닥선물100</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>에이피알주가</strong>
+                    <a href="https://search.naver.com/search.naver?query=에이피알주가" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에이피알주가가격" target="_blank">에이피알주가가격</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가" target="_blank">에이피알 주가</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가전망" target="_blank">에이피알 주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가 목표가" target="_blank">에이피알 주가 목표가</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가 분석" target="_blank">에이피알 주가 분석</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>GV90</strong>
+                    <a href="https://search.naver.com/search.naver?query=GV90" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=gv90" target="_blank">gv90</a></li><li><a href="https://search.naver.com/search.naver?query=gv90 출시일" target="_blank">gv90 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=gv90 가격" target="_blank">gv90 가격</a></li><li><a href="https://search.naver.com/search.naver?query=gv90 전기차" target="_blank">gv90 전기차</a></li><li><a href="https://search.naver.com/search.naver?query=gv90 예상도" target="_blank">gv90 예상도</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>셀토스</strong>
+                    <a href="https://search.naver.com/search.naver?query=셀토스" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=셀토스" target="_blank">셀토스</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 풀체인지" target="_blank">셀토스 풀체인지</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 하이브리드" target="_blank">셀토스 하이브리드</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 2026" target="_blank">셀토스 2026</a></li><li><a href="https://search.naver.com/search.naver?query=셀토스 2025" target="_blank">셀토스 2025</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>테슬라모델Y</strong>
+                    <a href="https://search.naver.com/search.naver?query=테슬라모델Y" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=테슬라 모델y" target="_blank">테슬라 모델y</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 모델y 주니퍼" target="_blank">테슬라 모델y 주니퍼</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 모델y 가격" target="_blank">테슬라 모델y 가격</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 모델y 보조금" target="_blank">테슬라 모델y 보조금</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 모델y 할부" target="_blank">테슬라 모델y 할부</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>테슬라주가</strong>
+                    <a href="https://search.naver.com/search.naver?query=테슬라주가" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=테슬라주가지수" target="_blank">테슬라주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라주가는" target="_blank">테슬라주가는</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라주가시세" target="_blank">테슬라주가시세</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라주가오르는이유" target="_blank">테슬라주가오르는이유</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라주가 떨어진 이유" target="_blank">테슬라주가 떨어진 이유</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>EV9</strong>
+                    <a href="https://search.naver.com/search.naver?query=EV9" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=ev9" target="_blank">ev9</a></li><li><a href="https://search.naver.com/search.naver?query=ev9 가격" target="_blank">ev9 가격</a></li><li><a href="https://search.naver.com/search.naver?query=ev9 할인" target="_blank">ev9 할인</a></li><li><a href="https://search.naver.com/search.naver?query=ev9 gt" target="_blank">ev9 gt</a></li><li><a href="https://search.naver.com/search.naver?query=ev9 중고" target="_blank">ev9 중고</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>
