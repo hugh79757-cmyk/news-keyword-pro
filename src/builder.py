@@ -222,7 +222,7 @@ def build_archive_page():
     except:
         template = get_default_archive_template()
     
-    items_per_page = 100
+    items_per_page = 50
     total_files = len(files)
     total_pages = (total_files + items_per_page - 1) // items_per_page
     if total_pages == 0:
