@@ -72,7 +72,7 @@ def analyze():
     
     # 1. AI 롱테일 확장 (입력 키워드 기반)
     print("🧠 AI 롱테일 키워드 생성 중...")
-    longtail_keywords = generate_longtail(sentences[:20])
+    longtail_keywords = generate_longtail(sentences[:15])
     print(f"✅ {len(longtail_keywords)}개 롱테일 키워드 생성")
     
     # 2. 전체 키워드 = 입력 + 롱테일만
