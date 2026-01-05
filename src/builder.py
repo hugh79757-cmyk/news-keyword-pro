@@ -110,6 +110,8 @@ def generate_nav_links(current_category=None):
         nav += f'<a href="{cat_info["output"]}" class="nav-btn {active}">{cat_info["icon"]} {cat_info["name"]}</a>'
     
     nav += '<a href="archive.html" class="nav-btn">📚 아카이브</a>'
+    nav += '<a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>'
+
     return nav
 
 
