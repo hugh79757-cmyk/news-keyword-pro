@@ -309,3 +309,169 @@ def get_default_archive_template():
     {{pagination}}
 </body>
 </html>"""
+
+
+def build_manual_archive_page():
+    """수동 분석 아카이브 페이지 생성"""
+    
+    archive_dir = "output/archive"
+    os.makedirs(archive_dir, exist_ok=True)
+    
+    # _manual_ 파일만 필터링
+    files = sorted(
+        [f for f in os.listdir(archive_dir) if f.endswith('.html') and '_manual_' in f],
+        reverse=True
+    )
+    
+    total_files = len(files)
+    
+    file_list = ""
+    for filename in files:
+        parts = filename.replace('.html', '').split('_manual_')
+        if len(parts) >= 2:
+            date_time = parts[0]
+            keyword = parts[1]
+            
+            try:
+                date_part = date_time.split('_')[0]
+                time_part = date_time.split('_')[1]
+                date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
+                display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
+            except:
+                display_date = date_time
+            
+            file_list += f'''
+            <li>
+                <a href="archive/{filename}">
+                    <span class="archive-date">📅 {display_date}</span>
+                    <span class="archive-category">🔍 {keyword}</span>
+                </a>
+            </li>
+            '''
+    
+    html = f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 수동 분석 아카이브</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {{
+            --primary: #1e3a8a;
+            --gold: #f59e0b;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }}
+        .header {{
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }}
+        .header h1 {{ font-size: 1.8rem; }}
+        .nav {{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }}
+        .nav-btn {{
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+        }}
+        .nav-btn:hover {{ background: var(--primary); color: white; }}
+        .container {{
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }}
+        .count-box {{
+            background: #fffbeb;
+            border: 2px solid var(--gold);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }}
+        .count-box strong {{ font-size: 1.5rem; color: var(--primary); }}
+        .archive-list {{ list-style: none; }}
+        .archive-list li {{
+            background: var(--card-bg);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }}
+        .archive-list li:hover {{
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+        }}
+        .archive-list a {{
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 18px;
+            color: var(--text);
+            text-decoration: none;
+        }}
+        .archive-date {{ color: var(--text-light); }}
+        .archive-category {{ color: var(--primary); font-weight: 500; }}
+        .footer {{
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📋 수동 분석 아카이브</h1>
+        <p>직접 분석한 키워드 리포트</p>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a>
+        <a href="archive.html" class="nav-btn">🗂️ 자동 아카이브</a>
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <div class="count-box">
+            <strong>{total_files}</strong>개의 수동 분석 결과가 저장되어 있습니다.
+        </div>
+        <ul class="archive-list">
+            {file_list}
+        </ul>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>"""
+    
+    with open("output/manual-archive.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    
+    print(f"    ✅ 수동 아카이브 생성 완료 ({total_files}개)")
+
