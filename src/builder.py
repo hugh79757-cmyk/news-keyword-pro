@@ -24,7 +24,7 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
         print(f"    ❌ 템플릿 파일 없음")
         return
     
-        # 키워드 테이블 생성
+    # 키워드 테이블 생성
     table_rows = ""
     for idx, item in enumerate(filtered_results, 1):
         keyword = item['keyword']
@@ -35,8 +35,6 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
             <td><strong>{keyword}</strong></td>
             <td>{item['monthly_search']:,}</td>
             <td>{item.get('blog_count', 0):,}</td>
-            <td>{item.get('news_count', 0):,}</td>
-            <td>{item.get('web_count', 0):,}</td>
             <td>{item['saturation']}</td>
             <td>{item['possibility']}</td>
             <td><a href="{naver_url}" target="_blank" class="analyze-btn">🔍</a></td>
@@ -112,6 +110,7 @@ def generate_nav_links(current_category=None, is_archive=False):
         nav += f'<a href="{prefix}{cat_info["output"]}" class="nav-btn {active}">{cat_info["icon"]} {cat_info["name"]}</a>'
     
     nav += f'<a href="{prefix}archive.html" class="nav-btn">🗂️ 아카이브</a>'
+    nav += '<a href="https://8.informationhot.kr/archive.html" class="nav-btn" target="_blank">📋 수동아카이브</a>'
     nav += '<a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>'
 
     return nav
@@ -136,7 +135,7 @@ def save_to_csv(category_name, keyword_results):
         writer = csv.writer(f)
         
         if not file_exists:
-            writer.writerow(['시간', '카테고리', '키워드', '월간검색량', '블로그', '뉴스', '웹문서', '포화도', '난이도'])
+            writer.writerow(['시간', '카테고리', '키워드', '월간검색량', '블로그', '포화도', '난이도'])
         
         for item in keyword_results:
             writer.writerow([
@@ -145,13 +144,9 @@ def save_to_csv(category_name, keyword_results):
                 item['keyword'],
                 item['monthly_search'],
                 item.get('blog_count', 0),
-                item.get('news_count', 0),
-                item.get('web_count', 0),
                 item['saturation'],
                 item['possibility']
             ])
-
-
 
 
 def build_index_page(all_results):
@@ -245,14 +240,14 @@ def build_archive_page():
                 time_part = parts[1]
                 category = parts[2]
                 
-            cat_name = category
-            if category == "manual":
-                 cat_name = "🔍 수동분석"
-            else:
-                for cat_id, cat_info in NEWS_CATEGORIES.items():
-                    if cat_id == category:
-                        cat_name = f"{cat_info['icon']} {cat_info['name']}"
-                        break
+                cat_name = category
+                if category == "manual":
+                    cat_name = "🔍 수동분석"
+                else:
+                    for cat_id, cat_info in NEWS_CATEGORIES.items():
+                        if cat_id == category:
+                            cat_name = f"{cat_info['icon']} {cat_info['name']}"
+                            break
                 
                 try:
                     date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
