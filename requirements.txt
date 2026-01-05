@@ -2,4 +2,6 @@ requests
 beautifulsoup4
 anthropic
 python-dotenv
-openai
+openaiflask
+flask
+flask
