@@ -290,7 +290,7 @@ def save_manual_archive(title_keywords, results, related_data):
         </div>
         """
     
-    # HTML 생성
+        # HTML 생성
     html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -304,6 +304,9 @@ def save_manual_archive(title_keywords, results, related_data):
         body {{ font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }}
         .header {{ background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }}
         .header h1 {{ font-size: 1.8rem; margin-bottom: 0.5rem; }}
+        .nav-buttons {{ display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }}
+        .nav-btn {{ padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }}
+        .nav-btn:hover {{ background: #1e40af; }}
         .container {{ max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }}
         .card {{ background: var(--card-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }}
         .card h2 {{ color: var(--primary); margin-bottom: 1rem; }}
@@ -331,6 +334,11 @@ def save_manual_archive(title_keywords, results, related_data):
         <p>수동 키워드 분석 결과</p>
         <small>📅 {update_time}</small>
     </header>
+    <nav class="nav-buttons">
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+    </nav>
     <main class="container">
         <section class="card">
             <h2>📊 분석 결과 ({len(results)}개 키워드)</h2>
