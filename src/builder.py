@@ -244,10 +244,13 @@ def build_archive_page():
                 category = parts[2]
                 
                 cat_name = category
-                for cat_id, cat_info in NEWS_CATEGORIES.items():
-                    if cat_id == category:
-                        cat_name = f"{cat_info['icon']} {cat_info['name']}"
-                        break
+            if category == "manual":
+                 cat_name = "🔍 수동분석"
+        else:
+         for cat_id, cat_info in NEWS_CATEGORIES.items():
+             if cat_id == category:
+             cat_name = f"{cat_info['icon']} {cat_info['name']}"
+             break
                 
                 try:
                     date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
