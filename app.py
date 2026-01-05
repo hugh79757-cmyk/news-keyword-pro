@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import sys
 import os
 import re
+import base64
 from datetime import datetime, timezone, timedelta
 
 from src.naver_api import get_search_volume, get_blog_count, get_autocomplete
@@ -289,7 +290,7 @@ def save_manual_archive(title_keywords, results, related_data):
         </div>
         """
     
-        # HTML 생성
+    # HTML 생성
     html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -363,7 +364,6 @@ def save_manual_archive(title_keywords, results, related_data):
             const rows = Array.from(tbody.querySelectorAll('tr'));
             const headers = table.querySelectorAll('th');
             
-            // 현재 정렬 상태 확인
             const currentOrder = table.dataset.sortOrder;
             const currentColumn = table.dataset.sortColumn;
             
@@ -372,12 +372,10 @@ def save_manual_archive(title_keywords, results, related_data):
                 newOrder = 'desc';
             }}
             
-            // 정렬
             rows.sort((a, b) => {{
                 let aVal = a.cells[columnIndex].textContent.trim();
                 let bVal = b.cells[columnIndex].textContent.trim();
                 
-                // 숫자 변환 (쉼표 제거)
                 const aNum = parseFloat(aVal.replace(/,/g, ''));
                 const bNum = parseFloat(bVal.replace(/,/g, ''));
                 
@@ -388,14 +386,11 @@ def save_manual_archive(title_keywords, results, related_data):
                 return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
             }});
             
-            // 테이블 업데이트
             rows.forEach(row => tbody.appendChild(row));
             
-            // 상태 저장
             table.dataset.sortOrder = newOrder;
             table.dataset.sortColumn = columnIndex;
             
-            // 헤더 클래스 업데이트
             headers.forEach((h, i) => {{
                 h.classList.remove('sort-asc', 'sort-desc');
                 if (i === columnIndex) {{
@@ -406,6 +401,62 @@ def save_manual_archive(title_keywords, results, related_data):
     </script>
 </body>
 </html>"""
+
+    # 로컬 파일 저장
+    filepath = os.path.join(archive_dir, filename)
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(html)
+    
+    # GitHub에도 저장
+    github_url = save_to_github(filename, html)
+    
+    if github_url:
+        return github_url
+    return f"archive/{filename}"
+
+
+def save_to_github(filename, content):
+    """GitHub에 아카이브 파일 저장"""
+    token = os.getenv("GITHUB_TOKEN")
+    repo = os.getenv("GITHUB_REPO")
+    
+    if not token or not repo:
+        print("    ⚠️ GitHub 설정 없음, 로컬 저장만 진행")
+        return None
+    
+    import requests as req
+    
+    path = f"output/archive/{filename}"
+    url = f"https://api.github.com/repos/{repo}/contents/{path}"
+    
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
+    # 파일 존재 여부 확인
+    response = req.get(url, headers=headers)
+    sha = None
+    if response.status_code == 200:
+        sha = response.json().get("sha")
+    
+    # 파일 업로드
+    data = {
+        "message": f"아카이브 추가: {filename}",
+        "content": base64.b64encode(content.encode()).decode(),
+        "branch": "main"
+    }
+    if sha:
+        data["sha"] = sha
+    
+    response = req.put(url, headers=headers, json=data)
+    
+    if response.status_code in [200, 201]:
+        print(f"    ✅ GitHub 저장 완료: {path}")
+        return f"https://hugh79757-cmyk.github.io/news-keyword-pro/archive/{filename}"
+    else:
+        print(f"    ⚠️ GitHub 저장 실패: {response.status_code}")
+        return None
 
     
     filepath = os.path.join(archive_dir, filename)
