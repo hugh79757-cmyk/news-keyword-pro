@@ -101,15 +101,17 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
     print(f"    ✅ {output_path} 생성 완료 ({len(filtered_results)}개 키워드)")
 
 
-def generate_nav_links(current_category=None):
+def generate_nav_links(current_category=None, is_archive=False):
     """네비게이션 링크 생성"""
-    nav = '<a href="index.html" class="nav-btn">🏠 홈</a>'
+    prefix = "../" if is_archive else ""
+    
+    nav = f'<a href="{prefix}index.html" class="nav-btn">🏠 홈</a>'
     
     for cat_id, cat_info in NEWS_CATEGORIES.items():
         active = "active" if cat_id == current_category else ""
-        nav += f'<a href="{cat_info["output"]}" class="nav-btn {active}">{cat_info["icon"]} {cat_info["name"]}</a>'
+        nav += f'<a href="{prefix}{cat_info["output"]}" class="nav-btn {active}">{cat_info["icon"]} {cat_info["name"]}</a>'
     
-    nav += '<a href="archive.html" class="nav-btn">📚 아카이브</a>'
+    nav += f'<a href="{prefix}archive.html" class="nav-btn">🗂️ 아카이브</a>'
     nav += '<a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>'
 
     return nav
@@ -283,7 +285,7 @@ def build_archive_page():
         
         html = template.replace("{{archive_count}}", str(total_files))
         html = html.replace("{{archive_list}}", file_list)
-        html = html.replace("{{nav_links}}", generate_nav_links())
+        html = html.replace("{{nav_links}}", generate_nav_links(is_archive=True))
         html = html.replace("{{pagination}}", pagination)
         
         if page == 1:
