@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ 정부정책 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <h1>🏛️ 정부정책 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 9개</p>
+        <small>📅 2026년 01월 05일 20시 15분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn active">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+               <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그</th>
+                        <th onclick="sortTable(4)">뉴스</th>
+                        <th onclick="sortTable(5)">웹문서</th>
+                        <th onclick="sortTable(6)">포화도</th>
+                        <th onclick="sortTable(7)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>EV7</strong></td>
+            <td>13,570</td>
+            <td>1,137</td>
+            <td>113</td>
+            <td>40,142</td>
+            <td>0.08</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=EV7" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>스즈키짐니</strong></td>
+            <td>10,860</td>
+            <td>4,105</td>
+            <td>108</td>
+            <td>145,624</td>
+            <td>0.38</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=스즈키짐니" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>텔루라이드</strong></td>
+            <td>36,490</td>
+            <td>16,991</td>
+            <td>18,948</td>
+            <td>232,795</td>
+            <td>0.47</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=텔루라이드" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>제네시스GV90</strong></td>
+            <td>20,850</td>
+            <td>10,354</td>
+            <td>1,083</td>
+            <td>213,139</td>
+            <td>0.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=제네시스GV90" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>GV70</strong></td>
+            <td>224,300</td>
+            <td>142,070</td>
+            <td>35,211</td>
+            <td>1,233,760</td>
+            <td>0.63</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=GV70" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>연비좋은차순위</strong></td>
+            <td>9,790</td>
+            <td>6,245</td>
+            <td>1,568</td>
+            <td>381,210</td>
+            <td>0.64</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=연비좋은차순위" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>BYD</strong></td>
+            <td>180,700</td>
+            <td>128,209</td>
+            <td>71,993</td>
+            <td>4,346,759</td>
+            <td>0.71</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=BYD" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>테슬라FSD</strong></td>
+            <td>63,500</td>
+            <td>59,285</td>
+            <td>9,681</td>
+            <td>1,479,185</td>
+            <td>0.93</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=테슬라FSD" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>BYD전기차</strong></td>
+            <td>88,650</td>
+            <td>86,851</td>
+            <td>57,601</td>
+            <td>2,801,551</td>
+            <td>0.98</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=BYD전기차" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>EV7</strong>
+                    <a href="https://search.naver.com/search.naver?query=EV7" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=ev7" target="_blank">ev7</a></li><li><a href="https://search.naver.com/search.naver?query=ev7 출시일" target="_blank">ev7 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=ev7 가격" target="_blank">ev7 가격</a></li><li><a href="https://search.naver.com/search.naver?query=ev70" target="_blank">ev70</a></li><li><a href="https://search.naver.com/search.naver?query=ev7 전기차" target="_blank">ev7 전기차</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>스즈키짐니</strong>
+                    <a href="https://search.naver.com/search.naver?query=스즈키짐니" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=스즈키짐니 단점" target="_blank">스즈키짐니 단점</a></li><li><a href="https://search.naver.com/search.naver?query=스즈키짐니크기" target="_blank">스즈키짐니크기</a></li><li><a href="https://search.naver.com/search.naver?query=스즈키 짐니" target="_blank">스즈키 짐니</a></li><li><a href="https://search.naver.com/search.naver?query=스즈키 짐니 가격" target="_blank">스즈키 짐니 가격</a></li><li><a href="https://search.naver.com/search.naver?query=스즈키 짐니 중고" target="_blank">스즈키 짐니 중고</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>텔루라이드</strong>
+                    <a href="https://search.naver.com/search.naver?query=텔루라이드" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=텔루라이드" target="_blank">텔루라이드</a></li><li><a href="https://search.naver.com/search.naver?query=텔루라이드 국내출시" target="_blank">텔루라이드 국내출시</a></li><li><a href="https://search.naver.com/search.naver?query=텔루라이드 국내" target="_blank">텔루라이드 국내</a></li><li><a href="https://search.naver.com/search.naver?query=텔루라이드 가격" target="_blank">텔루라이드 가격</a></li><li><a href="https://search.naver.com/search.naver?query=텔루라이드 하이브리드" target="_blank">텔루라이드 하이브리드</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>제네시스GV90</strong>
+                    <a href="https://search.naver.com/search.naver?query=제네시스GV90" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=제네시스 gv90" target="_blank">제네시스 gv90</a></li><li><a href="https://search.naver.com/search.naver?query=제네시스 gv90 출시일" target="_blank">제네시스 gv90 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=제네시스 gv90 가격" target="_blank">제네시스 gv90 가격</a></li><li><a href="https://search.naver.com/search.naver?query=제네시스 gv90 가격표" target="_blank">제네시스 gv90 가격표</a></li><li><a href="https://search.naver.com/search.naver?query=제네시스 gv90 하이브리드" target="_blank">제네시스 gv90 하이브리드</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>GV70</strong>
+                    <a href="https://search.naver.com/search.naver?query=GV70" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=gv70" target="_blank">gv70</a></li><li><a href="https://search.naver.com/search.naver?query=gv70 하이브리드" target="_blank">gv70 하이브리드</a></li><li><a href="https://search.naver.com/search.naver?query=gv70 전기차" target="_blank">gv70 전기차</a></li><li><a href="https://search.naver.com/search.naver?query=gv70 풀체인지" target="_blank">gv70 풀체인지</a></li><li><a href="https://search.naver.com/search.naver?query=gv70 중고" target="_blank">gv70 중고</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>연비좋은차순위</strong>
+                    <a href="https://search.naver.com/search.naver?query=연비좋은차순위" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=연비 좋은 차 순위" target="_blank">연비 좋은 차 순위</a></li><li><a href="https://search.naver.com/search.naver?query=연비좋은차 순위 외제" target="_blank">연비좋은차 순위 외제</a></li><li><a href="https://search.naver.com/search.naver?query=연비좋은차 순위 디젤" target="_blank">연비좋은차 순위 디젤</a></li><li><a href="https://search.naver.com/search.naver?query=연비 좋은 차 순위 가솔린" target="_blank">연비 좋은 차 순위 가솔린</a></li><li><a href="https://search.naver.com/search.naver?query=연비좋은차 순위 중고차" target="_blank">연비좋은차 순위 중고차</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>BYD</strong>
+                    <a href="https://search.naver.com/search.naver?query=BYD" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=byd" target="_blank">byd</a></li><li><a href="https://search.naver.com/search.naver?query=byd 전기차" target="_blank">byd 전기차</a></li><li><a href="https://search.naver.com/search.naver?query=byd 씨라이언7" target="_blank">byd 씨라이언7</a></li><li><a href="https://search.naver.com/search.naver?query=byd 아토3" target="_blank">byd 아토3</a></li><li><a href="https://search.naver.com/search.naver?query=byd 씰" target="_blank">byd 씰</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>테슬라FSD</strong>
+                    <a href="https://search.naver.com/search.naver?query=테슬라FSD" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=테슬라 fsd" target="_blank">테슬라 fsd</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 FSD 가격" target="_blank">테슬라 FSD 가격</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 fsd 모델" target="_blank">테슬라 fsd 모델</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 fsd 가능 모델" target="_blank">테슬라 fsd 가능 모델</a></li><li><a href="https://search.naver.com/search.naver?query=테슬라 fsd 한국" target="_blank">테슬라 fsd 한국</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>BYD전기차</strong>
+                    <a href="https://search.naver.com/search.naver?query=BYD전기차" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=BYD전기차가격" target="_blank">BYD전기차가격</a></li><li><a href="https://search.naver.com/search.naver?query=Byd 전기차" target="_blank">Byd 전기차</a></li><li><a href="https://search.naver.com/search.naver?query=byd 전기차 중국" target="_blank">byd 전기차 중국</a></li><li><a href="https://search.naver.com/search.naver?query=byd 전기차 보조금" target="_blank">byd 전기차 보조금</a></li><li><a href="https://search.naver.com/search.naver?query=byd 전기차 국적" target="_blank">byd 전기차 국적</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>레이EV</strong>
+                    <a href="https://search.naver.com/search.naver?query=레이EV" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=레이ev" target="_blank">레이ev</a></li><li><a href="https://search.naver.com/search.naver?query=레이ev 주행거리" target="_blank">레이ev 주행거리</a></li><li><a href="https://search.naver.com/search.naver?query=레이ev 보조금" target="_blank">레이ev 보조금</a></li><li><a href="https://search.naver.com/search.naver?query=레이ev 출고기간" target="_blank">레이ev 출고기간</a></li><li><a href="https://search.naver.com/search.naver?query=레이ev 실구매가" target="_blank">레이ev 실구매가</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>
