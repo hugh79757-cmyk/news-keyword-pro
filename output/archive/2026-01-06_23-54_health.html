@@ -163,25 +163,20 @@
         }
     </style>
     <script>
-                function sortTable(columnIndex) {
+        function sortTable(columnIndex) {
             const table = document.querySelector('.keyword-table');
             if (!table) return;
             
             const tbody = table.querySelector('tbody');
             if (!tbody) return;
             
-            // 광고 행 제외 (colspan 있는 행 제외)
-            const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
-                return row.cells.length > 1 && !row.querySelector('[colspan]');
-            });
+            const rows = Array.from(tbody.querySelectorAll('tr'));
 
             const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
             table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
             table.dataset.sortColumn = columnIndex;
 
             rows.sort((a, b) => {
-                if (!a.cells[columnIndex] || !b.cells[columnIndex]) return 0;
-                
                 let aVal = a.cells[columnIndex].textContent.trim();
                 let bVal = b.cells[columnIndex].textContent.trim();
 
@@ -203,7 +198,6 @@
                 }
             });
         }
-
     </script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
 </head>
@@ -212,7 +206,7 @@
     <header class="header">
         <h1>💊 건강/의료 키워드</h1>
         <p>상위노출 가능한 블로그 키워드 13개</p>
-        <small>📅 2026년 01월 06일 23시 54분 업데이트</small>
+        <small>📅 2026년 01월 06일 23시 21분 업데이트</small>
     </header>
 
     </header>
@@ -275,32 +269,32 @@
         
         <tr>
             <td>3</td>
+            <td><strong>로게인폼</strong></td>
+            <td>38,870</td>
+            <td>5,862</td>
+            <td>0.15</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=로게인폼" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
             <td><strong>콘드로이친1200</strong></td>
             <td>77,180</td>
-            <td>15,573</td>
+            <td>15,572</td>
             <td>0.2</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>4</td>
-            <td><strong>에스로반연고</strong></td>
-            <td>46,710</td>
-            <td>16,156</td>
-            <td>0.35</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=에스로반연고" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
             <td>5</td>
-            <td><strong>대한간호협회</strong></td>
-            <td>48,700</td>
-            <td>18,632</td>
-            <td>0.38</td>
+            <td><strong>대장암초기증상</strong></td>
+            <td>34,220</td>
+            <td>10,253</td>
+            <td>0.3</td>
             <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=대장암초기증상" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
@@ -317,52 +311,52 @@
         
         <tr>
             <td>6</td>
-            <td><strong>인터넷사주</strong></td>
-            <td>51,230</td>
-            <td>22,231</td>
-            <td>0.43</td>
+            <td><strong>에스로반연고</strong></td>
+            <td>46,710</td>
+            <td>16,155</td>
+            <td>0.35</td>
             <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=인터넷사주" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=에스로반연고" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>7</td>
+            <td><strong>미주신경성실신</strong></td>
+            <td>46,900</td>
+            <td>17,992</td>
+            <td>0.38</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=미주신경성실신" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
             <td><strong>위고비</strong></td>
             <td>203,400</td>
-            <td>100,129</td>
+            <td>100,122</td>
             <td>0.49</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=위고비" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>8</td>
-            <td><strong>미녹시딜</strong></td>
-            <td>95,800</td>
-            <td>59,547</td>
-            <td>0.62</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
             <td>9</td>
-            <td><strong>노보노디스크</strong></td>
-            <td>67,700</td>
-            <td>48,520</td>
-            <td>0.72</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=노보노디스크" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><strong>병원동행매니저</strong></td>
+            <td>52,120</td>
+            <td>25,410</td>
+            <td>0.49</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=병원동행매니저" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>10</td>
-            <td><strong>운세</strong></td>
-            <td>2,249,100</td>
-            <td>1,692,843</td>
-            <td>0.75</td>
+            <td><strong>미녹시딜</strong></td>
+            <td>95,800</td>
+            <td>59,546</td>
+            <td>0.62</td>
             <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=운세" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
@@ -379,19 +373,19 @@
         
         <tr>
             <td>11</td>
-            <td><strong>췌장암초기증상</strong></td>
-            <td>47,100</td>
-            <td>42,233</td>
-            <td>0.9</td>
+            <td><strong>노보노디스크</strong></td>
+            <td>67,700</td>
+            <td>48,518</td>
+            <td>0.72</td>
             <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=췌장암초기증상" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=노보노디스크" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>12</td>
             <td><strong>노로바이러스</strong></td>
             <td>152,900</td>
-            <td>144,070</td>
+            <td>144,065</td>
             <td>0.94</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=노로바이러스" target="_blank" class="analyze-btn">🔍</a></td>
@@ -433,10 +427,10 @@
             
             <div class="related-card">
                 <div class="related-header">
-                    <strong>콘드로이친1200</strong>
-                    <a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank" class="analyze-btn">🔍</a>
+                    <strong>로게인폼</strong>
+                    <a href="https://search.naver.com/search.naver?query=로게인폼" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank">콘드로이친1200</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200효능" target="_blank">콘드로이친1200효능</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200가격" target="_blank">콘드로이친1200가격</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200부작용" target="_blank">콘드로이친1200부작용</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200 지성" target="_blank">콘드로이친1200 지성</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=로게인폼" target="_blank">로게인폼</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 가격" target="_blank">로게인폼 가격</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 여성" target="_blank">로게인폼 여성</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 직구" target="_blank">로게인폼 직구</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 바르는법" target="_blank">로게인폼 바르는법</a></li></ul>
             </div>
             
     <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
@@ -449,6 +443,22 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
     
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>콘드로이친1200</strong>
+                    <a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank">콘드로이친1200</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200효능" target="_blank">콘드로이친1200효능</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200가격" target="_blank">콘드로이친1200가격</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200부작용" target="_blank">콘드로이친1200부작용</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200 지성" target="_blank">콘드로이친1200 지성</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>대장암초기증상</strong>
+                    <a href="https://search.naver.com/search.naver?query=대장암초기증상" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=대장암초기증상아랫배통증" target="_blank">대장암초기증상아랫배통증</a></li><li><a href="https://search.naver.com/search.naver?query=대장암 초기증상" target="_blank">대장암 초기증상</a></li><li><a href="https://search.naver.com/search.naver?query=대장암 초기증상 방귀" target="_blank">대장암 초기증상 방귀</a></li><li><a href="https://search.naver.com/search.naver?query=대장암 초기증상 혈변" target="_blank">대장암 초기증상 혈변</a></li><li><a href="https://search.naver.com/search.naver?query=대장암 초기증상 설사" target="_blank">대장암 초기증상 설사</a></li></ul>
+            </div>
+            
             <div class="related-card">
                 <div class="related-header">
                     <strong>에스로반연고</strong>
@@ -457,22 +467,6 @@
                 <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에스로반 연고" target="_blank">에스로반 연고</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 효능" target="_blank">에스로반 연고 효능</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 가격" target="_blank">에스로반 연고 가격</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 약국" target="_blank">에스로반 연고 약국</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 상처" target="_blank">에스로반 연고 상처</a></li></ul>
             </div>
             
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>대한간호협회</strong>
-                    <a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=대한간호협회 에듀센터" target="_blank">대한간호협회 에듀센터</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank">대한간호협회</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 면허신고" target="_blank">대한간호협회 면허신고</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 보수교육" target="_blank">대한간호협회 보수교육</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 에듀" target="_blank">대한간호협회 에듀</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>인터넷사주</strong>
-                    <a href="https://search.naver.com/search.naver?query=인터넷사주" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=인터넷사주" target="_blank">인터넷사주</a></li><li><a href="https://search.naver.com/search.naver?query=무료인터넷사주" target="_blank">무료인터넷사주</a></li><li><a href="https://search.naver.com/search.naver?query=인터넷사주풀이" target="_blank">인터넷사주풀이</a></li></ul>
-            </div>
-            
     <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
         <ins class="adsbygoogle"
              style="display:block"
@@ -483,6 +477,14 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
     
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>미주신경성실신</strong>
+                    <a href="https://search.naver.com/search.naver?query=미주신경성실신" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신" target="_blank">미주신경성 실신</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 똥" target="_blank">미주신경성 실신 똥</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 치료" target="_blank">미주신경성 실신 치료</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 원인" target="_blank">미주신경성 실신 원인</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 증상" target="_blank">미주신경성 실신 증상</a></li></ul>
+            </div>
+            
             <div class="related-card">
                 <div class="related-header">
                     <strong>위고비</strong>
@@ -493,18 +495,10 @@
             
             <div class="related-card">
                 <div class="related-header">
-                    <strong>미녹시딜</strong>
-                    <a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank" class="analyze-btn">🔍</a>
+                    <strong>병원동행매니저</strong>
+                    <a href="https://search.naver.com/search.naver?query=병원동행매니저" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank">미녹시딜</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 여자" target="_blank">미녹시딜 여자</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 5%" target="_blank">미녹시딜 5%</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 부작용" target="_blank">미녹시딜 부작용</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 가격" target="_blank">미녹시딜 가격</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
-                    <strong>노보노디스크</strong>
-                    <a href="https://search.naver.com/search.naver?query=노보노디스크" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=노보노디스크" target="_blank">노보노디스크</a></li><li><a href="https://search.naver.com/search.naver?query=노보노디스크 주가" target="_blank">노보노디스크 주가</a></li><li><a href="https://search.naver.com/search.naver?query=노보노디스크 위고비" target="_blank">노보노디스크 위고비</a></li><li><a href="https://search.naver.com/search.naver?query=노보노디스크 경구용" target="_blank">노보노디스크 경구용</a></li><li><a href="https://search.naver.com/search.naver?query=노보노디스크 배당" target="_blank">노보노디스크 배당</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=병원동행매니저 자격증" target="_blank">병원동행매니저 자격증</a></li><li><a href="https://search.naver.com/search.naver?query=병원동행매니저 급여" target="_blank">병원동행매니저 급여</a></li><li><a href="https://search.naver.com/search.naver?query=병원동행매니저 취업방법" target="_blank">병원동행매니저 취업방법</a></li><li><a href="https://search.naver.com/search.naver?query=병원동행매니저 취업" target="_blank">병원동행매니저 취업</a></li><li><a href="https://search.naver.com/search.naver?query=병원동행매니저" target="_blank">병원동행매니저</a></li></ul>
             </div>
             
     <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
@@ -519,10 +513,10 @@
     
             <div class="related-card">
                 <div class="related-header">
-                    <strong>운세</strong>
-                    <a href="https://search.naver.com/search.naver?query=운세" target="_blank" class="analyze-btn">🔍</a>
+                    <strong>미녹시딜</strong>
+                    <a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=운세" target="_blank">운세</a></li><li><a href="https://search.naver.com/search.naver?query=오늘띠별운세" target="_blank">오늘띠별운세</a></li><li><a href="https://search.naver.com/search.naver?query=닭띠오늘의운세" target="_blank">닭띠오늘의운세</a></li><li><a href="https://search.naver.com/search.naver?query=양띠오늘의운세" target="_blank">양띠오늘의운세</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank">미녹시딜</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 여자" target="_blank">미녹시딜 여자</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 5%" target="_blank">미녹시딜 5%</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 부작용" target="_blank">미녹시딜 부작용</a></li><li><a href="https://search.naver.com/search.naver?query=미녹시딜 가격" target="_blank">미녹시딜 가격</a></li></ul>
             </div>
             
             </div>

@@ -163,20 +163,25 @@
         }
     </style>
     <script>
-        function sortTable(columnIndex) {
+                function sortTable(columnIndex) {
             const table = document.querySelector('.keyword-table');
             if (!table) return;
             
             const tbody = table.querySelector('tbody');
             if (!tbody) return;
             
-            const rows = Array.from(tbody.querySelectorAll('tr'));
+            // 광고 행 제외 (colspan 있는 행 제외)
+            const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+                return row.cells.length > 1 && !row.querySelector('[colspan]');
+            });
 
             const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
             table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
             table.dataset.sortColumn = columnIndex;
 
             rows.sort((a, b) => {
+                if (!a.cells[columnIndex] || !b.cells[columnIndex]) return 0;
+                
                 let aVal = a.cells[columnIndex].textContent.trim();
                 let bVal = b.cells[columnIndex].textContent.trim();
 
@@ -198,6 +203,7 @@
                 }
             });
         }
+
     </script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
 </head>
