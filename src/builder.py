@@ -55,8 +55,10 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
         </tr>
         """
         # 5개마다 광고 삽입
-        if idx % 5 == 0:
-            table_rows += ad_code
+        # 테이블 중간 광고 비활성화 (정렬 문제)
+        # if idx % 5 == 0:
+        #     table_rows += ad_code
+     
 
 
     

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{category_icon}} {{category_name}} - 뉴스 키워드</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary: #1e3a8a;
@@ -100,11 +101,11 @@
             user-select: none;
         }
         .keyword-table th:hover { background: #1e40af; }
-        .keyword-table th.sort-asc::after {
+        .keyword-table th.asc::after {
             content: ' ▲';
             font-size: 0.8em;
         }
-        .keyword-table th.sort-desc::after {
+        .keyword-table th.desc::after {
             content: ' ▼';
             font-size: 0.8em;
         }
@@ -162,50 +163,6 @@
             .related-grid { grid-template-columns: 1fr; }
         }
     </style>
-    <script>
-                function sortTable(columnIndex) {
-            const table = document.querySelector('.keyword-table');
-            if (!table) return;
-            
-            const tbody = table.querySelector('tbody');
-            if (!tbody) return;
-            
-            // 광고 행 제외 (colspan 있는 행 제외)
-            const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
-                return row.cells.length > 1 && !row.querySelector('[colspan]');
-            });
-
-            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
-            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
-            table.dataset.sortColumn = columnIndex;
-
-            rows.sort((a, b) => {
-                if (!a.cells[columnIndex] || !b.cells[columnIndex]) return 0;
-                
-                let aVal = a.cells[columnIndex].textContent.trim();
-                let bVal = b.cells[columnIndex].textContent.trim();
-
-                const aNum = parseFloat(aVal.replace(/,/g, ''));
-                const bNum = parseFloat(bVal.replace(/,/g, ''));
-
-                if (!isNaN(aNum) && !isNaN(bNum)) {
-                    return isAsc ? bNum - aNum : aNum - bNum;
-                }
-                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
-            });
-
-            rows.forEach(row => tbody.appendChild(row));
-
-            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
-                th.classList.remove('sort-asc', 'sort-desc');
-                if (i === columnIndex) {
-                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
-                }
-            });
-        }
-
-    </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -215,20 +172,17 @@
         <small>📅 {{update_time}} 업데이트</small>
     </header>
 
-    </header>
+    <!-- 상단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
 
-<!-- 상단 광고 -->
-<div style="text-align:center; margin: 20px auto; max-width: 728px;">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6677996696534146"
-     data-ad-slot="4514938349"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-    
     <nav class="nav">
         {{nav_links}}
     </nav>
@@ -240,14 +194,14 @@
                 포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
             </p>
             <table class="keyword-table">
-               <thead>
+                <thead>
                     <tr>
-                        <th onclick="sortTable(0)">순위</th>
-                        <th onclick="sortTable(1)">키워드</th>
-                        <th onclick="sortTable(2)">월간검색량</th>
-                        <th onclick="sortTable(3)">블로그</th>
-                        <th onclick="sortTable(4)">포화도</th>
-                        <th onclick="sortTable(5)">난이도</th>
+                        <th>순위</th>
+                        <th>키워드</th>
+                        <th>월간검색량</th>
+                        <th>블로그</th>
+                        <th>포화도</th>
+                        <th>난이도</th>
                         <th>검색</th>
                     </tr>
                 </thead>
@@ -266,21 +220,64 @@
     </main>
 
     <!-- 하단 광고 -->
-<div style="text-align:center; margin: 20px auto; max-width: 728px;">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6677996696534146"
-     data-ad-slot="4514938349"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
 
-<footer class="footer">
-
-    
     <footer class="footer">
         <p>🤖 Powered by GPT-4o-mini & Naver API</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+
+            const headers = table.querySelectorAll('th');
+            const tbody = table.querySelector('tbody');
+
+            headers.forEach((header, index) => {
+                // 마지막 열(검색)은 정렬 제외
+                if (index === headers.length - 1) return;
+
+                header.addEventListener('click', function () {
+                    // 광고 행 제외 (colspan 있는 행 제외)
+                    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+                        return row.cells.length > 1 && !row.querySelector('[colspan]');
+                    });
+                    const isAsc = header.classList.contains('asc');
+
+                    headers.forEach(h => h.classList.remove('asc', 'desc'));
+                    header.classList.add(isAsc ? 'desc' : 'asc');
+
+                    rows.sort((a, b) => {
+                        if (!a.cells[index] || !b.cells[index]) return 0;
+                        
+                        let aVal = a.cells[index].textContent.trim();
+                        let bVal = b.cells[index].textContent.trim();
+
+                        const aNum = parseFloat(aVal.replace(/,/g, ''));
+                        const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return isAsc ? bNum - aNum : aNum - bNum;
+                        }
+
+                        return isAsc
+                            ? bVal.localeCompare(aVal, 'ko')
+                            : aVal.localeCompare(bVal, 'ko');
+                    });
+
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    </script>
 </body>
 </html>
