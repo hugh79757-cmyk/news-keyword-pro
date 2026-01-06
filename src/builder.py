@@ -251,8 +251,21 @@ def build_archive_page():
         page_files = files[start_idx:end_idx]
         
         file_list = ""
-        for filename in page_files:
+        ad_code = """
+        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6677996696534146"
+                 data-ad-slot="4514938349"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </li>
+        """
+        
+        for idx, filename in enumerate(page_files, 1):
             parts = filename.replace('.html', '').split('_')
+
             if len(parts) >= 3:
                 date_part = parts[0]
                 time_part = parts[1]
@@ -281,6 +294,11 @@ def build_archive_page():
                     </a>
                 </li>
                 '''
+                   # 10개마다 광고 삽입
+                if idx % 10 == 0:
+                    file_list += ad_code
+        
+        pagination = '<div class="pagination">'
         
         pagination = '<div class="pagination">'
         if page > 1:
