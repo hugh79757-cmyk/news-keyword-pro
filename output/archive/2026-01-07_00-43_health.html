@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💊 건강/의료 - 뉴스 키워드</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary: #1e3a8a;
@@ -101,11 +100,11 @@
             user-select: none;
         }
         .keyword-table th:hover { background: #1e40af; }
-        .keyword-table th.asc::after {
+        .keyword-table th.sort-asc::after {
             content: ' ▲';
             font-size: 0.8em;
         }
-        .keyword-table th.desc::after {
+        .keyword-table th.sort-desc::after {
             content: ' ▼';
             font-size: 0.8em;
         }
@@ -163,26 +162,73 @@
             .related-grid { grid-template-columns: 1fr; }
         }
     </style>
+    <script>
+                function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            // 광고 행 제외 (colspan 있는 행 제외)
+            const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+                return row.cells.length > 1 && !row.querySelector('[colspan]');
+            });
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                if (!a.cells[columnIndex] || !b.cells[columnIndex]) return 0;
+                
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+
+    </script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header class="header">
         <h1>💊 건강/의료 키워드</h1>
-        <p>상위노출 가능한 블로그 키워드 11개</p>
-        <small>📅 2026년 01월 07일 00시 43분 업데이트</small>
+        <p>상위노출 가능한 블로그 키워드 13개</p>
+        <small>📅 2026년 01월 06일 23시 54분 업데이트</small>
     </header>
 
-    <!-- 상단 광고 -->
-    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+    </header>
 
+<!-- 상단 광고 -->
+<div style="text-align:center; margin: 20px auto; max-width: 728px;">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6677996696534146"
+     data-ad-slot="4514938349"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+    
     <nav class="nav">
         <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn active">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
     </nav>
@@ -194,14 +240,14 @@
                 포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
             </p>
             <table class="keyword-table">
-                <thead>
+               <thead>
                     <tr>
-                        <th>순위</th>
-                        <th>키워드</th>
-                        <th>월간검색량</th>
-                        <th>블로그</th>
-                        <th>포화도</th>
-                        <th>난이도</th>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
                         <th>검색</th>
                     </tr>
                 </thead>
@@ -211,7 +257,7 @@
             <td>1</td>
             <td><strong>비만도계산기</strong></td>
             <td>113,320</td>
-            <td>4,033</td>
+            <td>4,032</td>
             <td>0.04</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=비만도계산기" target="_blank" class="analyze-btn">🔍</a></td>
@@ -239,22 +285,22 @@
         
         <tr>
             <td>4</td>
-            <td><strong>알부민</strong></td>
-            <td>398,700</td>
-            <td>137,624</td>
-            <td>0.35</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=알부민" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
-            <td>5</td>
             <td><strong>에스로반연고</strong></td>
             <td>46,710</td>
             <td>16,156</td>
             <td>0.35</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=에스로반연고" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>대한간호협회</strong></td>
+            <td>48,700</td>
+            <td>18,632</td>
+            <td>0.38</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
@@ -271,19 +317,19 @@
         
         <tr>
             <td>6</td>
-            <td><strong>미주신경성실신</strong></td>
-            <td>46,900</td>
-            <td>17,991</td>
-            <td>0.38</td>
+            <td><strong>인터넷사주</strong></td>
+            <td>51,230</td>
+            <td>22,231</td>
+            <td>0.43</td>
             <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=미주신경성실신" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=인터넷사주" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>7</td>
             <td><strong>위고비</strong></td>
             <td>203,400</td>
-            <td>100,143</td>
+            <td>100,129</td>
             <td>0.49</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=위고비" target="_blank" class="analyze-btn">🔍</a></td>
@@ -293,7 +339,7 @@
             <td>8</td>
             <td><strong>미녹시딜</strong></td>
             <td>95,800</td>
-            <td>59,549</td>
+            <td>59,547</td>
             <td>0.62</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank" class="analyze-btn">🔍</a></td>
@@ -303,7 +349,7 @@
             <td>9</td>
             <td><strong>노보노디스크</strong></td>
             <td>67,700</td>
-            <td>48,523</td>
+            <td>48,520</td>
             <td>0.72</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=노보노디스크" target="_blank" class="analyze-btn">🔍</a></td>
@@ -311,12 +357,12 @@
         
         <tr>
             <td>10</td>
-            <td><strong>노로바이러스</strong></td>
-            <td>152,900</td>
-            <td>144,075</td>
-            <td>0.94</td>
+            <td><strong>운세</strong></td>
+            <td>2,249,100</td>
+            <td>1,692,843</td>
+            <td>0.75</td>
             <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=노로바이러스" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=운세" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
@@ -333,9 +379,29 @@
         
         <tr>
             <td>11</td>
+            <td><strong>췌장암초기증상</strong></td>
+            <td>47,100</td>
+            <td>42,233</td>
+            <td>0.9</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=췌장암초기증상" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>노로바이러스</strong></td>
+            <td>152,900</td>
+            <td>144,070</td>
+            <td>0.94</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=노로바이러스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
             <td><strong>부천대</strong></td>
             <td>68,200</td>
-            <td>65,568</td>
+            <td>65,567</td>
             <td>0.96</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=부천대" target="_blank" class="analyze-btn">🔍</a></td>
@@ -385,14 +451,6 @@
     
             <div class="related-card">
                 <div class="related-header">
-                    <strong>알부민</strong>
-                    <a href="https://search.naver.com/search.naver?query=알부민" target="_blank" class="analyze-btn">🔍</a>
-                </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=알부민" target="_blank">알부민</a></li><li><a href="https://search.naver.com/search.naver?query=알부민 효능" target="_blank">알부민 효능</a></li><li><a href="https://search.naver.com/search.naver?query=알부민 영양제" target="_blank">알부민 영양제</a></li><li><a href="https://search.naver.com/search.naver?query=알부민 부작용" target="_blank">알부민 부작용</a></li><li><a href="https://search.naver.com/search.naver?query=알부민 추천" target="_blank">알부민 추천</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-                <div class="related-header">
                     <strong>에스로반연고</strong>
                     <a href="https://search.naver.com/search.naver?query=에스로반연고" target="_blank" class="analyze-btn">🔍</a>
                 </div>
@@ -401,10 +459,18 @@
             
             <div class="related-card">
                 <div class="related-header">
-                    <strong>미주신경성실신</strong>
-                    <a href="https://search.naver.com/search.naver?query=미주신경성실신" target="_blank" class="analyze-btn">🔍</a>
+                    <strong>대한간호협회</strong>
+                    <a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신" target="_blank">미주신경성 실신</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 똥" target="_blank">미주신경성 실신 똥</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 치료" target="_blank">미주신경성 실신 치료</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 원인" target="_blank">미주신경성 실신 원인</a></li><li><a href="https://search.naver.com/search.naver?query=미주신경성 실신 증상" target="_blank">미주신경성 실신 증상</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=대한간호협회 에듀센터" target="_blank">대한간호협회 에듀센터</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank">대한간호협회</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 면허신고" target="_blank">대한간호협회 면허신고</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 보수교육" target="_blank">대한간호협회 보수교육</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 에듀" target="_blank">대한간호협회 에듀</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>인터넷사주</strong>
+                    <a href="https://search.naver.com/search.naver?query=인터넷사주" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=인터넷사주" target="_blank">인터넷사주</a></li><li><a href="https://search.naver.com/search.naver?query=무료인터넷사주" target="_blank">무료인터넷사주</a></li><li><a href="https://search.naver.com/search.naver?query=인터넷사주풀이" target="_blank">인터넷사주풀이</a></li></ul>
             </div>
             
     <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
@@ -453,10 +519,10 @@
     
             <div class="related-card">
                 <div class="related-header">
-                    <strong>노로바이러스</strong>
-                    <a href="https://search.naver.com/search.naver?query=노로바이러스" target="_blank" class="analyze-btn">🔍</a>
+                    <strong>운세</strong>
+                    <a href="https://search.naver.com/search.naver?query=운세" target="_blank" class="analyze-btn">🔍</a>
                 </div>
-                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=노로바이러스 증상" target="_blank">노로바이러스 증상</a></li><li><a href="https://search.naver.com/search.naver?query=노로바이러스 전염" target="_blank">노로바이러스 전염</a></li><li><a href="https://search.naver.com/search.naver?query=노로바이러스" target="_blank">노로바이러스</a></li><li><a href="https://search.naver.com/search.naver?query=노로바이러스 잠복기" target="_blank">노로바이러스 잠복기</a></li><li><a href="https://search.naver.com/search.naver?query=노로바이러스 치료" target="_blank">노로바이러스 치료</a></li></ul>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=운세" target="_blank">운세</a></li><li><a href="https://search.naver.com/search.naver?query=오늘띠별운세" target="_blank">오늘띠별운세</a></li><li><a href="https://search.naver.com/search.naver?query=닭띠오늘의운세" target="_blank">닭띠오늘의운세</a></li><li><a href="https://search.naver.com/search.naver?query=양띠오늘의운세" target="_blank">양띠오늘의운세</a></li></ul>
             </div>
             
             </div>
@@ -464,64 +530,21 @@
     </main>
 
     <!-- 하단 광고 -->
-    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+<div style="text-align:center; margin: 20px auto; max-width: 728px;">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6677996696534146"
+     data-ad-slot="4514938349"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
 
+<footer class="footer">
+
+    
     <footer class="footer">
         <p>🤖 Powered by GPT-4o-mini & Naver API</p>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const table = document.querySelector('.keyword-table');
-            if (!table) return;
-
-            const headers = table.querySelectorAll('th');
-            const tbody = table.querySelector('tbody');
-
-            headers.forEach((header, index) => {
-                // 마지막 열(검색)은 정렬 제외
-                if (index === headers.length - 1) return;
-
-                header.addEventListener('click', function () {
-                    // 광고 행 제외 (colspan 있는 행 제외)
-                    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
-                        return row.cells.length > 1 && !row.querySelector('[colspan]');
-                    });
-                    const isAsc = header.classList.contains('asc');
-
-                    headers.forEach(h => h.classList.remove('asc', 'desc'));
-                    header.classList.add(isAsc ? 'desc' : 'asc');
-
-                    rows.sort((a, b) => {
-                        if (!a.cells[index] || !b.cells[index]) return 0;
-                        
-                        let aVal = a.cells[index].textContent.trim();
-                        let bVal = b.cells[index].textContent.trim();
-
-                        const aNum = parseFloat(aVal.replace(/,/g, ''));
-                        const bNum = parseFloat(bVal.replace(/,/g, ''));
-
-                        if (!isNaN(aNum) && !isNaN(bNum)) {
-                            return isAsc ? bNum - aNum : aNum - bNum;
-                        }
-
-                        return isAsc
-                            ? bVal.localeCompare(aVal, 'ko')
-                            : aVal.localeCompare(bVal, 'ko');
-                    });
-
-                    rows.forEach(row => tbody.appendChild(row));
-                });
-            });
-        });
-    </script>
 </body>
 </html>
