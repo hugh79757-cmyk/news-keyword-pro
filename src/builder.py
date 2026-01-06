@@ -24,8 +24,22 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
         print(f"    ❌ 템플릿 파일 없음")
         return
     
-    # 키워드 테이블 생성
+       # 키워드 테이블 생성
     table_rows = ""
+    ad_code = """
+        <tr>
+            <td colspan="7" style="text-align:center; padding: 20px; background: #f9f9f9;">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-6677996696534146"
+                     data-ad-slot="4514938349"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </td>
+        </tr>
+        """
+    
     for idx, item in enumerate(filtered_results, 1):
         keyword = item['keyword']
         naver_url = f"https://search.naver.com/search.naver?query={keyword}"
@@ -40,6 +54,10 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
             <td><a href="{naver_url}" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         """
+        # 10개마다 광고 삽입
+        if idx % 10 == 0:
+            table_rows += ad_code
+
 
     
     # 연관검색어 카드 생성
@@ -325,29 +343,54 @@ def build_manual_archive_page():
     
     total_files = len(files)
     
-    file_list = ""
-    for filename in files:
-        parts = filename.replace('.html', '').split('_manual_')
-        if len(parts) >= 2:
-            date_time = parts[0]
-            keyword = parts[1]
-            
-            try:
-                date_part = date_time.split('_')[0]
-                time_part = date_time.split('_')[1]
-                date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
-                display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
-            except:
-                display_date = date_time
-            
-            file_list += f'''
-            <li>
-                <a href="archive/{filename}">
-                    <span class="archive-date">📅 {display_date}</span>
-                    <span class="archive-category">🔍 {keyword}</span>
-                </a>
-            </li>
-            '''
+            file_list = ""
+        ad_code = """
+        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6677996696534146"
+                 data-ad-slot="4514938349"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </li>
+        """
+        
+        for idx, filename in enumerate(page_files, 1):
+            parts = filename.replace('.html', '').split('_')
+            if len(parts) >= 3:
+                date_part = parts[0]
+                time_part = parts[1]
+                category = parts[2]
+                
+                cat_name = category
+                if category == "manual":
+                    cat_name = "🔍 수동분석"
+                else:
+                    for cat_id, cat_info in NEWS_CATEGORIES.items():
+                        if cat_id == category:
+                            cat_name = f"{cat_info['icon']} {cat_info['name']}"
+                            break
+                
+                try:
+                    date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
+                    display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
+                except:
+                    display_date = date_part
+                
+                file_list += f'''
+                <li>
+                    <a href="archive/{filename}">
+                        <span class="archive-date">📅 {display_date}</span>
+                        <span class="archive-category">{cat_name}</span>
+                    </a>
+                </li>
+                '''
+                
+                # 10개마다 광고 삽입
+                if idx % 10 == 0:
+                    file_list += ad_code
+
     
     html = f"""<!DOCTYPE html>
 <html lang="ko">
