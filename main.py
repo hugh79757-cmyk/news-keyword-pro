@@ -73,6 +73,7 @@ def main():
     
     builder.build_index_page(all_results)
     builder.build_archive_page()
+    builder.build_manual_archive_page()
     
     # 완료 요약
     print(f"\n{'='*60}")
