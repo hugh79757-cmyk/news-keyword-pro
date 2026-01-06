@@ -343,54 +343,44 @@ def build_manual_archive_page():
     
     total_files = len(files)
     
-            file_list = ""
-        ad_code = """
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        """
-        
-        for idx, filename in enumerate(page_files, 1):
-            parts = filename.replace('.html', '').split('_')
-            if len(parts) >= 3:
-                date_part = parts[0]
-                time_part = parts[1]
-                category = parts[2]
-                
-                cat_name = category
-                if category == "manual":
-                    cat_name = "🔍 수동분석"
-                else:
-                    for cat_id, cat_info in NEWS_CATEGORIES.items():
-                        if cat_id == category:
-                            cat_name = f"{cat_info['icon']} {cat_info['name']}"
-                            break
-                
-                try:
-                    date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
-                    display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
-                except:
-                    display_date = date_part
-                
-                file_list += f'''
-                <li>
-                    <a href="archive/{filename}">
-                        <span class="archive-date">📅 {display_date}</span>
-                        <span class="archive-category">{cat_name}</span>
-                    </a>
-                </li>
-                '''
-                
-                # 10개마다 광고 삽입
-                if idx % 10 == 0:
-                    file_list += ad_code
-
+    file_list = ""
+    ad_code = """
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    """
+    
+    for idx, filename in enumerate(files, 1):
+        parts = filename.replace('.html', '').split('_manual_')
+        if len(parts) >= 2:
+            date_time = parts[0]
+            keyword = parts[1]
+            
+            try:
+                date_part, time_part = date_time.split('_')
+                date_obj = datetime.strptime(f"{date_part} {time_part}", "%Y-%m-%d %H-%M")
+                display_date = date_obj.strftime("%Y년 %m월 %d일 %H:%M")
+            except:
+                display_date = date_time
+            
+            file_list += f'''
+            <li>
+                <a href="archive/{filename}">
+                    <span class="archive-date">📅 {display_date}</span>
+                    <span class="archive-category">🔍 {keyword}</span>
+                </a>
+            </li>
+            '''
+            
+            # 10개마다 광고 삽입
+            if idx % 10 == 0:
+                file_list += ad_code
     
     html = f"""<!DOCTYPE html>
 <html lang="ko">
@@ -398,6 +388,7 @@ def build_manual_archive_page():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📋 수동 분석 아카이브</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -517,4 +508,5 @@ def build_manual_archive_page():
         f.write(html)
     
     print(f"    ✅ 수동 아카이브 생성 완료 ({total_files}개)")
+
 
