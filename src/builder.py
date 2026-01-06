@@ -54,16 +54,27 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
             <td><a href="{naver_url}" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         """
-        # 10개마다 광고 삽입
-        if idx % 10 == 0:
+        # 5개마다 광고 삽입
+        if idx % 5 == 0:
             table_rows += ad_code
 
 
     
-    # 연관검색어 카드 생성
-    related_cards = ""
+        related_cards = ""
+    related_ad_code = """
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    """
+    
     if related_data:
-        for item in related_data[:10]:
+        for idx, item in enumerate(related_data[:10], 1):
             keyword = item['keyword']
             related = item['related']
             naver_url = f"https://search.naver.com/search.naver?query={keyword}"
@@ -85,6 +96,11 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
                 <ul class="related-list">{related_items}</ul>
             </div>
             """
+            
+            # 3개마다 광고 삽입
+            if idx % 3 == 0:
+                related_cards += related_ad_code
+
     
     # 템플릿 치환
     html = template.replace("{{category_name}}", category_info['name'])
@@ -294,8 +310,8 @@ def build_archive_page():
                     </a>
                 </li>
                 '''
-                   # 10개마다 광고 삽입
-                if idx % 10 == 0:
+                   # 5개마다 광고 삽입
+                if idx % 5 == 0:
                     file_list += ad_code
         
         pagination = '<div class="pagination">'
@@ -396,8 +412,8 @@ def build_manual_archive_page():
             </li>
             '''
             
-            # 10개마다 광고 삽입
-            if idx % 10 == 0:
+            # 5개마다 광고 삽입
+            if idx % 5 == 0:
                 file_list += ad_code
     
     html = f"""<!DOCTYPE html>

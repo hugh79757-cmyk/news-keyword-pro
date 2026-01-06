@@ -70,36 +70,18 @@ def analyze():
     print(f"📝 {len(sentences)}개 키워드 정제됨")
     print(f"    → {sentences[:5]}...")
     
-    # 1. AI 롱테일 확장 (입력 키워드 기반)
-    print("🧠 AI 롱테일 키워드 생성 중...")
-    longtail_keywords = generate_longtail(sentences[:15])
-    print(f"✅ {len(longtail_keywords)}개 롱테일 키워드 생성")
-    
-    # 2. 전체 키워드 = 입력 + 롱테일만
-    all_keywords = list(set(sentences + longtail_keywords))
-    print(f"📊 총 {len(all_keywords)}개 키워드 분석 시작...")
+        # 롱테일 비활성화 - 입력 키워드만 사용
+    all_keywords = list(set(sentences))
+    print(f"📝 {len(all_keywords)}개 키워드 분석 시작")
+
     
     # 3. 직접 분석 (연관 키워드 제외)
     results = analyze_direct(all_keywords)
     
-    # 입력 키워드가 포함된 결과만 필터링
-    print(f"🔍 입력 키워드 기반 필터링 중...")
-    filtered_results = []
-    for item in results:
-        for original_kw in sentences:
-            original_clean = original_kw.replace(" ", "")
-            result_clean = item['keyword'].replace(" ", "")
-            if original_clean in result_clean or result_clean in original_clean:
-                filtered_results.append(item)
-                break
     
-    if filtered_results:
-        results = filtered_results
-        print(f"✅ 필터링 완료: {len(results)}개 키워드")
-    else:
-        print(f"⚠️ 입력 키워드 포함된 결과 없음, 전체 표시")
-    
-    print(f"✅ 분석 완료: {len(results)}개 키워드")
+     # 필터링 없이 모든 결과 표시
+    print(f"✅ {len(results)}개 키워드 분석 완료")
+
     
     # 4. 연관검색어 조회 (상위 10개)
     related_data = []
