@@ -58,11 +58,8 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
         # 테이블 중간 광고 비활성화 (정렬 문제)
         # if idx % 5 == 0:
         #     table_rows += ad_code
-     
-
-
     
-        related_cards = ""
+    related_cards = ""
     related_ad_code = """
     <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
         <ins class="adsbygoogle"
