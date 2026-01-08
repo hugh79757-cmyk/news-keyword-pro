@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta name="google-site-verification" content="gWEAZRdroAJvrxbYNgysEL8U7Oq7uIPjKfI6sZutBLs" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 증권/주식 - 뉴스 키워드</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LC96P4MDYH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LC96P4MDYH');
+</script>
+
+
+</head>
+
+<body>
+    <header class="header">
+        <h1>📈 증권/주식 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 7개</p>
+        <small>📅 2026년 01월 08일 12시 59분 업데이트</small>
+    </header>
+
+    <!-- 상단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn active">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>키워드</th>
+                        <th>월간검색량</th>
+                        <th>블로그</th>
+                        <th>포화도</th>
+                        <th>난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>환율조회</strong></td>
+            <td>1,021,800</td>
+            <td>15,281</td>
+            <td>0.01</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=환율조회" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>환율</strong></td>
+            <td>24,935,400</td>
+            <td>3,278,365</td>
+            <td>0.13</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=환율" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>SK하이닉스</strong></td>
+            <td>2,798,900</td>
+            <td>868,810</td>
+            <td>0.31</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=SK하이닉스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>주식시세조회</strong></td>
+            <td>7,980</td>
+            <td>3,739</td>
+            <td>0.47</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=주식시세조회" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>CMA통장</strong></td>
+            <td>72,800</td>
+            <td>36,408</td>
+            <td>0.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=CMA통장" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>주식시세표</strong></td>
+            <td>7,390</td>
+            <td>5,849</td>
+            <td>0.79</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=주식시세표" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>주식부호100인</strong></td>
+            <td>420</td>
+            <td>398</td>
+            <td>0.95</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=주식부호100인" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>환율조회</strong>
+                    <a href="https://search.naver.com/search.naver?query=환율조회" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=환율조회" target="_blank">환율조회</a></li><li><a href="https://search.naver.com/search.naver?query=환율조회실시간" target="_blank">환율조회실시간</a></li><li><a href="https://search.naver.com/search.naver?query=미국환율 조회" target="_blank">미국환율 조회</a></li><li><a href="https://search.naver.com/search.naver?query=달러환율조회" target="_blank">달러환율조회</a></li><li><a href="https://search.naver.com/search.naver?query=일본환율조회" target="_blank">일본환율조회</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>환율</strong>
+                    <a href="https://search.naver.com/search.naver?query=환율" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=환율" target="_blank">환율</a></li><li><a href="https://search.naver.com/search.naver?query=환율계산기" target="_blank">환율계산기</a></li><li><a href="https://search.naver.com/search.naver?query=환율 달러" target="_blank">환율 달러</a></li><li><a href="https://search.naver.com/search.naver?query=환율조회" target="_blank">환율조회</a></li><li><a href="https://search.naver.com/search.naver?query=환율 전망" target="_blank">환율 전망</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>SK하이닉스</strong>
+                    <a href="https://search.naver.com/search.naver?query=SK하이닉스" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=sk하이닉스" target="_blank">sk하이닉스</a></li><li><a href="https://search.naver.com/search.naver?query=sk하이닉스 주가" target="_blank">sk하이닉스 주가</a></li><li><a href="https://search.naver.com/search.naver?query=sk하이닉스 채용" target="_blank">sk하이닉스 채용</a></li><li><a href="https://search.naver.com/search.naver?query=sk하이닉스 성과급" target="_blank">sk하이닉스 성과급</a></li><li><a href="https://search.naver.com/search.naver?query=sk하이닉스 인수합병" target="_blank">sk하이닉스 인수합병</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>주식시세조회</strong>
+                    <a href="https://search.naver.com/search.naver?query=주식시세조회" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=주식시세조회" target="_blank">주식시세조회</a></li><li><a href="https://search.naver.com/search.naver?query=주식시세조회 삼성" target="_blank">주식시세조회 삼성</a></li><li><a href="https://search.naver.com/search.naver?query=주식시세조회 보는법" target="_blank">주식시세조회 보는법</a></li><li><a href="https://search.naver.com/search.naver?query=주식시세조회 어플" target="_blank">주식시세조회 어플</a></li><li><a href="https://search.naver.com/search.naver?query=주식시세조회 한화" target="_blank">주식시세조회 한화</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>CMA통장</strong>
+                    <a href="https://search.naver.com/search.naver?query=CMA통장" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=CMA통장" target="_blank">CMA통장</a></li><li><a href="https://search.naver.com/search.naver?query=CMA통장금리" target="_blank">CMA통장금리</a></li><li><a href="https://search.naver.com/search.naver?query=CMA통장추천" target="_blank">CMA통장추천</a></li><li><a href="https://search.naver.com/search.naver?query=CMA통장비교" target="_blank">CMA통장비교</a></li><li><a href="https://search.naver.com/search.naver?query=CMA통장이란" target="_blank">CMA통장이란</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>주식시세표</strong>
+                    <a href="https://search.naver.com/search.naver?query=주식시세표" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=주식시세표" target="_blank">주식시세표</a></li><li><a href="https://search.naver.com/search.naver?query=주식시세표 보는 방법" target="_blank">주식시세표 보는 방법</a></li><li><a href="https://search.naver.com/search.naver?query=주식시세표사 보는 방법" target="_blank">주식시세표사 보는 방법</a></li><li><a href="https://search.naver.com/search.naver?query=주식 시세표 보는법" target="_blank">주식 시세표 보는법</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>주식부호100인</strong>
+                    <a href="https://search.naver.com/search.naver?query=주식부호100인" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=주식부호 100인" target="_blank">주식부호 100인</a></li><li><a href="https://search.naver.com/search.naver?query=주식부호 100인 명단" target="_blank">주식부호 100인 명단</a></li><li><a href="https://search.naver.com/search.naver?query=주식부호 100인 리스트" target="_blank">주식부호 100인 리스트</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>IRP</strong>
+                    <a href="https://search.naver.com/search.naver?query=IRP" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=irp" target="_blank">irp</a></li><li><a href="https://search.naver.com/search.naver?query=irp 세액공제" target="_blank">irp 세액공제</a></li><li><a href="https://search.naver.com/search.naver?query=irp 계좌개설" target="_blank">irp 계좌개설</a></li><li><a href="https://search.naver.com/search.naver?query=irp 뜻" target="_blank">irp 뜻</a></li><li><a href="https://search.naver.com/search.naver?query=irp 계좌" target="_blank">irp 계좌</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>주가지수</strong>
+                    <a href="https://search.naver.com/search.naver?query=주가지수" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=주가지수" target="_blank">주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=주가지수 뜻" target="_blank">주가지수 뜻</a></li><li><a href="https://search.naver.com/search.naver?query=종합주가지수" target="_blank">종합주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=삼성전자주가지수" target="_blank">삼성전자주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=하이닉스주가지수" target="_blank">하이닉스주가지수</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>주식투자하는법</strong>
+                    <a href="https://search.naver.com/search.naver?query=주식투자하는법" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=주식투자하는법" target="_blank">주식투자하는법</a></li><li><a href="https://search.naver.com/search.naver?query=주식투자하는법 배우기" target="_blank">주식투자하는법 배우기</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+
+    <!-- 하단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+
+            const headers = table.querySelectorAll('th');
+            const tbody = table.querySelector('tbody');
+
+            headers.forEach((header, index) => {
+                // 마지막 열(검색)은 정렬 제외
+                if (index === headers.length - 1) return;
+
+                header.addEventListener('click', function () {
+                    // 광고 행 제외 (colspan 있는 행 제외)
+                    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+                        return row.cells.length > 1 && !row.querySelector('[colspan]');
+                    });
+                    const isAsc = header.classList.contains('asc');
+
+                    headers.forEach(h => h.classList.remove('asc', 'desc'));
+                    header.classList.add(isAsc ? 'desc' : 'asc');
+
+                    rows.sort((a, b) => {
+                        if (!a.cells[index] || !b.cells[index]) return 0;
+                        
+                        let aVal = a.cells[index].textContent.trim();
+                        let bVal = b.cells[index].textContent.trim();
+
+                        const aNum = parseFloat(aVal.replace(/,/g, ''));
+                        const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return isAsc ? bNum - aNum : aNum - bNum;
+                        }
+
+                        return isAsc
+                            ? bVal.localeCompare(aVal, 'ko')
+                            : aVal.localeCompare(bVal, 'ko');
+                    });
+
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
