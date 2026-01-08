@@ -116,16 +116,27 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
     # 저장
     output_path = f"output/{category_info['output']}"
     
-    # 아카이브 백업
+    # 아카이브 백업 (단순화된 네비게이션 적용)
     archive_dir = "output/archive"
     os.makedirs(archive_dir, exist_ok=True)
     
-    if os.path.exists(output_path):
-        archive_filename = f"{date_prefix}_{category_id}.html"
-        archive_path = os.path.join(archive_dir, archive_filename)
-        shutil.copy(output_path, archive_path)
+    archive_filename = f"{date_prefix}_{category_id}.html"
+    archive_path = os.path.join(archive_dir, archive_filename)
     
-    # 새 파일 저장
+    # 아카이브용 HTML 생성 (단순화된 네비게이션)
+    archive_nav_html = generate_nav_links(category_id, is_archive=True)
+    archive_html = template.replace("{{category_name}}", category_info['name'])
+    archive_html = archive_html.replace("{{category_icon}}", category_info['icon'])
+    archive_html = archive_html.replace("{{update_time}}", update_time)
+    archive_html = archive_html.replace("{{keyword_rows}}", table_rows)
+    archive_html = archive_html.replace("{{related_cards}}", related_cards)
+    archive_html = archive_html.replace("{{keyword_count}}", str(len(filtered_results)))
+    archive_html = archive_html.replace("{{nav_links}}", archive_nav_html)
+    
+    with open(archive_path, "w", encoding="utf-8") as f:
+        f.write(archive_html)
+    
+    # 새 파일 저장 (일반 네비게이션)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
     
