@@ -272,7 +272,7 @@ def save_manual_archive(title_keywords, results, related_data):
         </div>
         """
     
-        # HTML 생성
+    # HTML 생성
     html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -318,7 +318,7 @@ def save_manual_archive(title_keywords, results, related_data):
     </header>
     <nav class="nav-buttons">
         <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
-        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
+        <a href="https://8.informationhot.kr/manual-archive.html" class="nav-btn">📁 수동아카이브</a>
         <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
     </nav>
     <main class="container">
@@ -353,39 +353,24 @@ def save_manual_archive(title_keywords, results, related_data):
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
             const headers = table.querySelectorAll('th');
-            
             const currentOrder = table.dataset.sortOrder;
             const currentColumn = table.dataset.sortColumn;
-            
             let newOrder = 'asc';
-            if (currentColumn == columnIndex && currentOrder === 'asc') {{
-                newOrder = 'desc';
-            }}
-            
+            if (currentColumn == columnIndex && currentOrder === 'asc') {{ newOrder = 'desc'; }}
             rows.sort((a, b) => {{
                 let aVal = a.cells[columnIndex].textContent.trim();
                 let bVal = b.cells[columnIndex].textContent.trim();
-                
                 const aNum = parseFloat(aVal.replace(/,/g, ''));
                 const bNum = parseFloat(bVal.replace(/,/g, ''));
-                
-                if (!isNaN(aNum) && !isNaN(bNum)) {{
-                    return newOrder === 'asc' ? aNum - bNum : bNum - aNum;
-                }}
-                
+                if (!isNaN(aNum) && !isNaN(bNum)) {{ return newOrder === 'asc' ? aNum - bNum : bNum - aNum; }}
                 return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
             }});
-            
             rows.forEach(row => tbody.appendChild(row));
-            
             table.dataset.sortOrder = newOrder;
             table.dataset.sortColumn = columnIndex;
-            
             headers.forEach((h, i) => {{
                 h.classList.remove('sort-asc', 'sort-desc');
-                if (i === columnIndex) {{
-                    h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc');
-                }}
+                if (i === columnIndex) {{ h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc'); }}
             }});
         }}
     </script>
@@ -397,13 +382,15 @@ def save_manual_archive(title_keywords, results, related_data):
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(html)
     
-    # GitHub에도 저장
+    # GitHub에 아카이브 파일 저장
     github_url = save_to_github(filename, html)
+    
+    # manual-archive.html 목록 업데이트
+    update_manual_archive_list()
     
     if github_url:
         return github_url
     return f"archive/{filename}"
-
 
 def save_to_github(filename, content):
     """GitHub에 아카이브 파일 저장"""
@@ -455,6 +442,143 @@ def save_to_github(filename, content):
     
     return f"archive/{filename}"
 
+def update_manual_archive_list():
+    """manual-archive.html 목록 자동 업데이트"""
+    import glob
+    
+    archive_dir = "output/archive"
+    files = glob.glob(f"{archive_dir}/*_manual_*.html")
+    files.sort(reverse=True)  # 최신순
+    
+    if not files:
+        print("    ⚠️ 수동분석 아카이브 파일 없음")
+        return
+    
+    # 목록 HTML 생성
+    list_items = ""
+    for f in files[:50]:  # 최근 50개만
+        filename = os.path.basename(f)
+        parts = filename.replace(".html", "").split("_manual_")
+        if len(parts) == 2:
+            date_part = parts[0].replace("_", " ").replace("-", ".")
+            title = parts[1]
+            list_items += f'''
+                <tr>
+                    <td>{date_part}</td>
+                    <td><a href="https://8.informationhot.kr/archive/{filename}">{title}</a></td>
+                </tr>'''
+    
+    # 새 manual-archive.html 생성
+    html = f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📁 수동 분석 아카이브</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {{ --primary: #1e3a8a; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{ font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }}
+        .header {{ background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }}
+        .header h1 {{ font-size: 1.8rem; }}
+        .nav {{ display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 1rem; background: white; border-bottom: 1px solid var(--border); }}
+        .nav-btn {{ padding: 8px 16px; border-radius: 20px; text-decoration: none; color: var(--text); background: var(--bg); font-size: 0.9rem; }}
+        .nav-btn:hover, .nav-btn.active {{ background: var(--primary); color: white; }}
+        .container {{ max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }}
+        .card {{ background: var(--card-bg); border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }}
+        .card h2 {{ color: var(--primary); margin-bottom: 1rem; }}
+        table {{ width: 100%; border-collapse: collapse; }}
+        th, td {{ border: 1px solid var(--border); padding: 12px; text-align: left; }}
+        th {{ background: var(--primary); color: white; }}
+        tr:nth-child(even) {{ background: #f9fafb; }}
+        a {{ color: var(--primary); text-decoration: none; }}
+        a:hover {{ text-decoration: underline; }}
+        .footer {{ background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📁 수동 분석 아카이브</h1>
+        <p>수동 키워드 분석 결과 모음</p>
+    </header>
+    <nav class="nav">
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+        <a href="https://8.informationhot.kr/stock.html" class="nav-btn">📈 증권/주식</a>
+        <a href="https://8.informationhot.kr/realestate.html" class="nav-btn">🏠 부동산</a>
+        <a href="https://8.informationhot.kr/finance.html" class="nav-btn">💰 금융</a>
+        <a href="https://8.informationhot.kr/car.html" class="nav-btn">🚗 자동차</a>
+        <a href="https://8.informationhot.kr/health.html" class="nav-btn">💊 건강/의료</a>
+        <a href="https://8.informationhot.kr/tech.html" class="nav-btn">📱 IT/모바일</a>
+        <a href="https://8.informationhot.kr/policy.html" class="nav-btn">🏛️ 정부정책</a>
+        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
+        <a href="https://8.informationhot.kr/manual-archive.html" class="nav-btn active">📁 수동아카이브</a>
+        <a href="https://news-keyword-pro.onrender.com/" class="nav-btn">🔍 수동분석</a>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <h2>📋 분석 결과 목록 ({len(files)}개)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>날짜</th>
+                        <th>제목</th>
+                    </tr>
+                </thead>
+                <tbody>{list_items}</tbody>
+            </table>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>"""
+    
+    # 로컬 저장
+    with open("output/manual-archive.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    
+    # GitHub에도 저장
+    save_manual_archive_to_github(html)
+    print("    ✅ manual-archive.html 목록 업데이트 완료")
+
+
+
+def save_manual_archive_to_github(content):
+    """manual-archive.html을 GitHub에 저장"""
+    token = os.getenv("GITHUB_TOKEN")
+    repo = os.getenv("GITHUB_REPO")
+    
+    if not token or not repo:
+        return
+    
+    import requests as req
+    
+    path = "output/manual-archive.html"
+    url = f"https://api.github.com/repos/{repo}/contents/{path}"
+    
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
+    # 기존 파일 SHA 가져오기
+    response = req.get(url, headers=headers)
+    sha = response.json().get("sha") if response.status_code == 200 else None
+    
+    # 파일 업로드
+    data = {
+        "message": "수동아카이브 목록 업데이트",
+        "content": base64.b64encode(content.encode()).decode(),
+        "branch": "main"
+    }
+    if sha:
+        data["sha"] = sha
+    
+    req.put(url, headers=headers, json=data)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5001)
+
