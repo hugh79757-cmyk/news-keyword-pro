@@ -431,7 +431,7 @@ def save_to_github(filename, content):
     
     if response.status_code in [200, 201]:
         print(f"    ✅ GitHub 저장 완료: {path}")
-        return f"https://hugh79757-cmyk.github.io/news-keyword-pro/archive/{filename}"
+        return f"https://8.informationhot.kr/output/archive/{filename}"
     else:
         print(f"    ⚠️ GitHub 저장 실패: {response.status_code}")
         return None
@@ -461,7 +461,7 @@ def update_manual_archive_list():
             list_items += f'''
                 <tr>
                     <td>{date_part}</td>
-                    <td><a href="https://8.informationhot.kr/archive/{filename}">{title}</a></td>
+                    <td><a href="https://8.informationhot.kr/output/archive/{filename}">{title}</a></td>
                 </tr>'''
     
     # 새 manual-archive.html 생성
