@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 김광규 안유진, 탁재훈 신정환 - 수동분석</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e3a8a; --green: #10b981; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .nav-buttons { display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .nav-btn { padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }
+        .nav-btn:hover { background: #1e40af; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .keyword-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .keyword-table th, .keyword-table td { border: 1px solid var(--border); padding: 12px 8px; text-align: center; }
+        .keyword-table th { background: var(--primary); color: white; cursor: pointer; user-select: none; }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th::after { content: ' ↕'; opacity: 0.5; }
+        .keyword-table th.sort-asc::after { content: ' ↑'; opacity: 1; }
+        .keyword-table th.sort-desc::after { content: ' ↓'; opacity: 1; }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        .search-link { display: inline-block; padding: 4px 10px; background: var(--green); color: white; border-radius: 4px; text-decoration: none; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+        .related-card { background: #f8f9fa; border-radius: 8px; padding: 1rem; border: 1px solid var(--border); }
+        .related-card h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .related-card ul { list-style: none; }
+        .related-card a { color: var(--text); text-decoration: none; }
+        .footer { background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🔍 김광규 안유진, 탁재훈 신정환</h1>
+        <p>수동 키워드 분석 결과</p>
+        <small>📅 2026년 01월 08일 15시 56분</small>
+    </header>
+    <nav class="nav-buttons">
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <h2>📊 분석 결과 (37개 키워드)</h2>
+            <table class="keyword-table" id="keywordTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <tr>
+            <td>1</td>
+            <td><strong>방첩사 발전적 해체</strong></td>
+            <td>10</td>
+            <td>5</td>
+            <td>0.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=방첩사 발전적 해체" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>김정규 회장 파기환송</strong></td>
+            <td>0</td>
+            <td>6</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김정규 회장 파기환송" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>문정희 방탄커피</strong></td>
+            <td>0</td>
+            <td>13</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=문정희 방탄커피" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>황정음 전속계약 해지</strong></td>
+            <td>10</td>
+            <td>57</td>
+            <td>5.7</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=황정음 전속계약 해지" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>제주SK 김신진</strong></td>
+            <td>0</td>
+            <td>61</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=제주SK 김신진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>신영대 의원직 상실</strong></td>
+            <td>10</td>
+            <td>63</td>
+            <td>6.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=신영대 의원직 상실" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>구혜선 카이스트 박사</strong></td>
+            <td>0</td>
+            <td>68</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=구혜선 카이스트 박사" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>디즈니 라푼젤 캐스팅</strong></td>
+            <td>0</td>
+            <td>121</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=디즈니 라푼젤 캐스팅" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>에버턴 대 울브스</strong></td>
+            <td>0</td>
+            <td>171</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에버턴 대 울브스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>김광규 안유진</strong></td>
+            <td>15</td>
+            <td>182</td>
+            <td>12.13</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김광규 안유진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>삼부토건 주가조작 이응근</strong></td>
+            <td>10</td>
+            <td>223</td>
+            <td>22.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=삼부토건 주가조작 이응근" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>전북 박지수 영입</strong></td>
+            <td>10</td>
+            <td>343</td>
+            <td>34.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=전북 박지수 영입" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>지드래곤 팬미팅 2월</strong></td>
+            <td>10</td>
+            <td>359</td>
+            <td>35.9</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=지드래곤 팬미팅 2월" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>알바노 MVP</strong></td>
+            <td>20</td>
+            <td>566</td>
+            <td>28.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=알바노 MVP" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>최신형 도수치료</strong></td>
+            <td>10</td>
+            <td>766</td>
+            <td>76.6</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=최신형 도수치료" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>그린란드 매입 논의</strong></td>
+            <td>0</td>
+            <td>864</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=그린란드 매입 논의" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>퇴직연금 기금화</strong></td>
+            <td>0</td>
+            <td>1,035</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=퇴직연금 기금화" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>김병기 쿠팡 의혹</strong></td>
+            <td>10</td>
+            <td>1,598</td>
+            <td>159.8</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김병기 쿠팡 의혹" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>프로젝트 Y 한소희 전종서</strong></td>
+            <td>0</td>
+            <td>2,469</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=프로젝트 Y 한소희 전종서" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>번리 대 맨유</strong></td>
+            <td>0</td>
+            <td>2,497</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=번리 대 맨유" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>본머스 대 토트넘</strong></td>
+            <td>0</td>
+            <td>3,107</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=본머스 대 토트넘" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>탁재훈 신정환</strong></td>
+            <td>0</td>
+            <td>4,357</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=탁재훈 신정환" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>장재원</strong></td>
+            <td>0</td>
+            <td>10,976</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=장재원" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td><strong>이병진</strong></td>
+            <td>0</td>
+            <td>15,577</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=이병진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td><strong>광주 전남 행정통합</strong></td>
+            <td>10,310</td>
+            <td>19,184</td>
+            <td>1.86</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=광주 전남 행정통합" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>26</td>
+            <td><strong>송승환</strong></td>
+            <td>28,120</td>
+            <td>22,165</td>
+            <td>0.79</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=송승환" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>27</td>
+            <td><strong>손흥민 올해의 팀</strong></td>
+            <td>10</td>
+            <td>31,366</td>
+            <td>3136.6</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=손흥민 올해의 팀" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>28</td>
+            <td><strong>암요양병원 위치</strong></td>
+            <td>0</td>
+            <td>46,460</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=암요양병원 위치" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>29</td>
+            <td><strong>임용고시 준비</strong></td>
+            <td>0</td>
+            <td>74,592</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=임용고시 준비" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>30</td>
+            <td><strong>노안 증상</strong></td>
+            <td>0</td>
+            <td>164,111</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=노안 증상" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>31</td>
+            <td><strong>강아지 입양 비용</strong></td>
+            <td>330</td>
+            <td>284,036</td>
+            <td>860.72</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=강아지 입양 비용" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>32</td>
+            <td><strong>자동차보험 특약할인</strong></td>
+            <td>25</td>
+            <td>292,124</td>
+            <td>11684.96</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=자동차보험 특약할인" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>33</td>
+            <td><strong>개인회생 시 변제금</strong></td>
+            <td>0</td>
+            <td>482,511</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=개인회생 시 변제금" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>34</td>
+            <td><strong>형사변호사 재판상담</strong></td>
+            <td>0</td>
+            <td>490,351</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=형사변호사 재판상담" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>35</td>
+            <td><strong>부동산전문변호사</strong></td>
+            <td>8,810</td>
+            <td>603,174</td>
+            <td>68.46</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=부동산전문변호사" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>36</td>
+            <td><strong>만성허리통증</strong></td>
+            <td>0</td>
+            <td>756,090</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=만성허리통증" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>37</td>
+            <td><strong>ps</strong></td>
+            <td>0</td>
+            <td>3,191,329</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=ps" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        </tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+        <div class="related-card">
+            <h4>방첩사 발전적 해체</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>김정규 회장 파기환송</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>문정희 방탄커피</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>황정음 전속계약 해지</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>제주SK 김신진</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>신영대 의원직 상실</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>구혜선 카이스트 박사</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>디즈니 라푼젤 캐스팅</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>에버턴 대 울브스</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>김광규 안유진</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('keywordTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const headers = table.querySelectorAll('th');
+            
+            const currentOrder = table.dataset.sortOrder;
+            const currentColumn = table.dataset.sortColumn;
+            
+            let newOrder = 'asc';
+            if (currentColumn == columnIndex && currentOrder === 'asc') {
+                newOrder = 'desc';
+            }
+            
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+                
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return newOrder === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+                
+                return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+            
+            table.dataset.sortOrder = newOrder;
+            table.dataset.sortColumn = columnIndex;
+            
+            headers.forEach((h, i) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
