@@ -236,9 +236,10 @@ def save_manual_archive(title_keywords, results, related_data):
     update_time = now.strftime("%Y년 %m월 %d일 %H시 %M분")
     
     title_text = ", ".join(title_keywords) if title_keywords else "수동분석"
-    safe_title = re.sub(r'[^\w가-힣\s]', '', title_text)[:30]
-    
-    filename = f"{date_str}_manual_{safe_title}.html"
+    import hashlib
+    title_hash = hashlib.md5(title_text.encode()).hexdigest()[:8]
+    filename = f"{date_str}_manual_{title_hash}.html"
+
     
     archive_dir = "output/archive"
     os.makedirs(archive_dir, exist_ok=True)
@@ -436,11 +437,6 @@ def save_to_github(filename, content):
         return None
 
     
-    filepath = os.path.join(archive_dir, filename)
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(html)
-    
-    return f"archive/{filename}"
 
 def update_manual_archive_list():
     """manual-archive.html 목록 자동 업데이트"""
