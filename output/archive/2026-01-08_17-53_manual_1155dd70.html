@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 AdsenseFarm, 실시간 인기 검색어 모음 - 수동분석</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e3a8a; --green: #10b981; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .nav-buttons { display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .nav-btn { padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }
+        .nav-btn:hover { background: #1e40af; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .keyword-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .keyword-table th, .keyword-table td { border: 1px solid var(--border); padding: 12px 8px; text-align: center; }
+        .keyword-table th { background: var(--primary); color: white; cursor: pointer; user-select: none; }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th::after { content: ' ↕'; opacity: 0.5; }
+        .keyword-table th.sort-asc::after { content: ' ↑'; opacity: 1; }
+        .keyword-table th.sort-desc::after { content: ' ↓'; opacity: 1; }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        .search-link { display: inline-block; padding: 4px 10px; background: var(--green); color: white; border-radius: 4px; text-decoration: none; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+        .related-card { background: #f8f9fa; border-radius: 8px; padding: 1rem; border: 1px solid var(--border); }
+        .related-card h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .related-card ul { list-style: none; }
+        .related-card a { color: var(--text); text-decoration: none; }
+        .footer { background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🔍 AdsenseFarm, 실시간 인기 검색어 모음</h1>
+        <p>수동 키워드 분석 결과</p>
+        <small>📅 2026년 01월 08일 17시 53분</small>
+    </header>
+    <nav class="nav-buttons">
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/manual-archive.html" class="nav-btn">📁 수동아카이브</a>
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <h2>📊 분석 결과 (39개 키워드)</h2>
+            <table class="keyword-table" id="keywordTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <tr>
+            <td>1</td>
+            <td><strong>김정규 회장 파기환송</strong></td>
+            <td>0</td>
+            <td>8</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김정규 회장 파기환송" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>차승원X추성훈 차가네</strong></td>
+            <td>0</td>
+            <td>15</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=차승원X추성훈 차가네" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>축구사랑 나눔재단 신영록 유연수</strong></td>
+            <td>0</td>
+            <td>31</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=축구사랑 나눔재단 신영록 유연수" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>AdsenseFarm</strong></td>
+            <td>0</td>
+            <td>66</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=AdsenseFarm" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>황정음 전속계약 해지</strong></td>
+            <td>10</td>
+            <td>68</td>
+            <td>6.8</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=황정음 전속계약 해지" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>방첩사 해체 권고</strong></td>
+            <td>10</td>
+            <td>77</td>
+            <td>7.7</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=방첩사 해체 권고" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>방첩사 해체 수순</strong></td>
+            <td>0</td>
+            <td>89</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=방첩사 해체 수순" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>신영대 당선 무효</strong></td>
+            <td>0</td>
+            <td>96</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=신영대 당선 무효" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>김지민 갑질 폭로</strong></td>
+            <td>10</td>
+            <td>131</td>
+            <td>13.1</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김지민 갑질 폭로" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>에버턴 대 울브스</strong></td>
+            <td>0</td>
+            <td>172</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에버턴 대 울브스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>유승준 저스디스</strong></td>
+            <td>130</td>
+            <td>252</td>
+            <td>1.94</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=유승준 저스디스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>FC서울 주장단</strong></td>
+            <td>0</td>
+            <td>270</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=FC서울 주장단" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>김혜경 여사 K뷰티</strong></td>
+            <td>10</td>
+            <td>302</td>
+            <td>30.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김혜경 여사 K뷰티" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>김병기 쿠팡 식사 의혹</strong></td>
+            <td>10</td>
+            <td>349</td>
+            <td>34.9</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김병기 쿠팡 식사 의혹" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>구혜선 카이스트 석사 졸업</strong></td>
+            <td>10</td>
+            <td>399</td>
+            <td>39.9</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=구혜선 카이스트 석사 졸업" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>김상수 롯데 잔류</strong></td>
+            <td>10</td>
+            <td>723</td>
+            <td>72.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김상수 롯데 잔류" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>유아 스크린 데뷔</strong></td>
+            <td>0</td>
+            <td>725</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=유아 스크린 데뷔" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>퇴직연금 기금화</strong></td>
+            <td>0</td>
+            <td>1,047</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=퇴직연금 기금화" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>농협 수사 의뢰</strong></td>
+            <td>0</td>
+            <td>1,173</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=농협 수사 의뢰" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>실시간 인기 검색어 모음</strong></td>
+            <td>10</td>
+            <td>1,651</td>
+            <td>165.1</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=실시간 인기 검색어 모음" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>번리 대 맨유</strong></td>
+            <td>0</td>
+            <td>2,498</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=번리 대 맨유" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>본머스 대 토트넘</strong></td>
+            <td>0</td>
+            <td>3,108</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=본머스 대 토트넘" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>이재명 수석보좌관회의</strong></td>
+            <td>0</td>
+            <td>3,319</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=이재명 수석보좌관회의" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td><strong>삼부토건 주가조작 의혹</strong></td>
+            <td>10</td>
+            <td>3,842</td>
+            <td>384.2</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=삼부토건 주가조작 의혹" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td><strong>노안 라식 비용</strong></td>
+            <td>270</td>
+            <td>12,920</td>
+            <td>47.85</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=노안 라식 비용" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>26</td>
+            <td><strong>이병진</strong></td>
+            <td>0</td>
+            <td>15,592</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=이병진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>27</td>
+            <td><strong>미국 투자이민</strong></td>
+            <td>3,770</td>
+            <td>20,747</td>
+            <td>5.5</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=미국 투자이민" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>28</td>
+            <td><strong>손흥민 올해의 팀</strong></td>
+            <td>10</td>
+            <td>31,370</td>
+            <td>3137.0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=손흥민 올해의 팀" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>29</td>
+            <td><strong>암보험 비갱신형 추천</strong></td>
+            <td>0</td>
+            <td>77,049</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=암보험 비갱신형 추천" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>30</td>
+            <td><strong>게임학원 진로</strong></td>
+            <td>10</td>
+            <td>92,811</td>
+            <td>9281.1</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=게임학원 진로" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>31</td>
+            <td><strong>노안 증상</strong></td>
+            <td>3,900</td>
+            <td>164,083</td>
+            <td>42.07</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=노안 증상" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>32</td>
+            <td><strong>임대차 분쟁 해결</strong></td>
+            <td>0</td>
+            <td>179,265</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=임대차 분쟁 해결" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>33</td>
+            <td><strong>서울 아파트값 상승</strong></td>
+            <td>60</td>
+            <td>265,296</td>
+            <td>4421.6</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=서울 아파트값 상승" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>34</td>
+            <td><strong>허리디스크 초기</strong></td>
+            <td>0</td>
+            <td>334,688</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=허리디스크 초기" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>35</td>
+            <td><strong>이삿짐센터 가격비교</strong></td>
+            <td>0</td>
+            <td>372,183</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=이삿짐센터 가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>36</td>
+            <td><strong>내차팔기</strong></td>
+            <td>0</td>
+            <td>393,666</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=내차팔기" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>37</td>
+            <td><strong>재활전문병원</strong></td>
+            <td>740</td>
+            <td>482,643</td>
+            <td>652.22</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=재활전문병원" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>38</td>
+            <td><strong>ice</strong></td>
+            <td>0</td>
+            <td>1,028,478</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=ice" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>39</td>
+            <td><strong>ps</strong></td>
+            <td>0</td>
+            <td>3,191,336</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=ps" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        </tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+        <div class="related-card">
+            <h4>김정규 회장 파기환송</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>차승원X추성훈 차가네</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>축구사랑 나눔재단 신영록 유연수</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>AdsenseFarm</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>황정음 전속계약 해지</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>방첩사 해체 권고</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>방첩사 해체 수순</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>신영대 당선 무효</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>김지민 갑질 폭로</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>에버턴 대 울브스</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('keywordTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const headers = table.querySelectorAll('th');
+            const currentOrder = table.dataset.sortOrder;
+            const currentColumn = table.dataset.sortColumn;
+            let newOrder = 'asc';
+            if (currentColumn == columnIndex && currentOrder === 'asc') { newOrder = 'desc'; }
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+                if (!isNaN(aNum) && !isNaN(bNum)) { return newOrder === 'asc' ? aNum - bNum : bNum - aNum; }
+                return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            });
+            rows.forEach(row => tbody.appendChild(row));
+            table.dataset.sortOrder = newOrder;
+            table.dataset.sortColumn = columnIndex;
+            headers.forEach((h, i) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) { h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc'); }
+            });
+        }
+    </script>
+</body>
+</html>
