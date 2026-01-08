@@ -207,6 +207,31 @@
                 grid-template-columns: 1fr;
             }
         }
+
+                /* SNS 공유 버튼 */
+        .share-buttons {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .share-buttons a {
+            font-size: 1.5rem;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .share-buttons a:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+
     </style>
     <script>
         function sortTable(columnIndex) {
@@ -278,8 +303,21 @@
 
 
 <body>
-    <header class="header">
-        </header>
+        <header class="header">
+        <h1>🎯 뉴스 키워드 인사이트 Pro</h1>
+        <p>카테고리별 <strong>고단가 블로그 키워드</strong> 분석</p>
+        <small>📅 {{update_time}} 업데이트</small>
+        
+        <!-- SNS 공유 & 홈화면 저장 -->
+        <div class="share-buttons">
+            <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡 공유">💬</a>
+            <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북 공유">📘</a>
+            <a href="javascript:void(0)" onclick="shareTwitter()" title="트위터 공유">🐦</a>
+            <a href="javascript:void(0)" onclick="shareThreads()" title="스레드 공유">🧵</a>
+            <a href="javascript:void(0)" onclick="copyLink()" title="링크 복사">🔗</a>
+            <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈화면 저장">📲</a>
+        </div>
+    </header>
 
 <!-- 상단 광고 -->
 <div style="text-align:center; margin: 20px auto; max-width: 728px;">
@@ -292,12 +330,8 @@
 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
-        <h1>🎯 뉴스 키워드 인사이트 Pro</h1>
-        <p>카테고리별 <strong>고단가 블로그 키워드</strong> 분석</p>
-        <small>📅 {{update_time}} 업데이트</small>
-    </header>
-
     <nav class="nav">
+
         {{nav_links}}
     </nav>
 
@@ -323,6 +357,54 @@
     <footer class="footer">
         <p>🤖 Powered by GPT-4o-mini & Naver API</p>
     </footer>
+
+    <script>
+        // 카카오톡 공유
+        function shareKakao() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://story.kakao.com/share?url=${url}`, '_blank', 'width=600,height=400');
+        }
+        
+        // 페이스북 공유
+        function shareFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+        }
+        
+        // 트위터 공유
+        function shareTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스키워드프로');
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+        }
+        
+        // 스레드 공유
+        function shareThreads() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스키워드프로 ' + window.location.href);
+            window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank', 'width=600,height=400');
+        }
+        
+        // 링크 복사
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('링크가 복사되었습니다!');
+            });
+        }
+        
+        // 홈화면 저장 안내
+        function addToHomeScreen() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (/iphone|ipad|ipod/.test(userAgent)) {
+                alert('Safari 하단의 공유 버튼 → "홈 화면에 추가"를 눌러주세요!');
+            } else if (/android/.test(userAgent)) {
+                alert('브라우저 메뉴(⋮) → "홈 화면에 추가"를 눌러주세요!');
+            } else {
+                alert('브라우저 메뉴에서 "홈 화면에 추가" 또는 "바로가기 만들기"를 선택해주세요!');
+            }
+        }
+    </script>
+
 </body>
 
 </html>
