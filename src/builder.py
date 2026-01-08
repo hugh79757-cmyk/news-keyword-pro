@@ -136,6 +136,15 @@ def generate_nav_links(current_category=None, is_archive=False):
     """네비게이션 링크 생성"""
     prefix = "../" if is_archive else ""
     
+    # 아카이브 파일은 단순화된 네비게이션
+    if is_archive:
+        nav = f'<a href="{prefix}index.html" class="nav-btn">🏠 홈</a>'
+        nav += f'<a href="{prefix}archive.html" class="nav-btn">🗂️ 아카이브</a>'
+        nav += f'<a href="{prefix}manual-archive.html" class="nav-btn">📋 수동아카이브</a>'
+        nav += '<a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>'
+        return nav
+    
+    # 일반 페이지는 전체 네비게이션
     nav = f'<a href="{prefix}index.html" class="nav-btn">🏠 홈</a>'
     
     for cat_id, cat_info in NEWS_CATEGORIES.items():
