@@ -2,6 +2,9 @@
 <html lang="ko">
 
 <head>
+        <!-- PWA 설정 -->
+    <link rel="manifest" href="manifest.json">
+
     <meta name="google-site-verification" content="gWEAZRdroAJvrxbYNgysEL8U7Oq7uIPjKfI6sZutBLs" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -338,13 +341,33 @@
         
                 <!-- SNS 공유 & 홈화면 저장 -->
         <div class="share-buttons">
-            <a href="https://buymeacoffee.com/newskeywordpro" target="_blank" title="커피 한 잔 사주기">☕</a>
-            <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡 공유">💬</a>
-            <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북 공유">📘</a>
-            <a href="javascript:void(0)" onclick="shareTwitter()" title="트위터 공유">🐦</a>
-            <a href="javascript:void(0)" onclick="shareThreads()" title="스레드 공유">🧵</a>
-            <a href="javascript:void(0)" onclick="copyLink()" title="링크 복사">🔗</a>
-            <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈화면 저장">📲</a>
+            <a href="https://buymeacoffee.com/newskeywordpro" target="_blank" title="커피 한 잔 사주기" style="background:#FFDD00;">
+                <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="coffee" style="width:24px;height:24px;">
+            </a>
+            <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡 공유" style="background:#FEE500;">
+                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="kakao" style="width:24px;height:24px;">
+            </a>
+            <a href="javascript:void(0)" onclick="shareNaver()" title="네이버 블로그 공유" style="background:#03C75A;">
+                <img src="https://logoproject.naver.com/img/img_story.png" alt="naver" style="width:24px;height:24px;filter:brightness(10);">
+            </a>
+            <a href="javascript:void(0)" onclick="shareLine()" title="라인 공유" style="background:#06C755;">
+                <img src="https://scdn.line-apps.com/n/line_add_friends/btn/share.png" alt="line" style="width:24px;height:24px;">
+            </a>
+            <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북 공유" style="background:#1877F2;">
+                <svg style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareTwitter()" title="X(트위터) 공유" style="background:#000000;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareThreads()" title="스레드 공유" style="background:#000000;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.264 1.332-3.046.88-.744 2.107-1.158 3.449-1.226l.018-.001c.96-.044 1.856.075 2.664.345.022-.702-.019-1.36-.127-1.96l2.083-.39c.14.703.209 1.47.209 2.29 0 .052 0 .103-.002.154 1.057.568 1.88 1.371 2.397 2.378.747 1.453.896 3.577-.65 5.588-1.976 2.568-5.263 2.617-5.34 2.617zM12.533 13.5l-.013.001c-.93.049-1.644.282-2.128.691-.456.386-.67.87-.638 1.44.032.58.328 1.063.834 1.392.545.354 1.32.52 2.177.473 1.14-.061 1.94-.478 2.454-1.274.471-.729.714-1.755.73-3.088-.69-.164-1.444-.236-2.243-.205-.395.018-.787.078-1.173.157z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="copyLink()" title="링크 복사" style="background:#6B7280;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M13.723 18.654l-3.61 3.609c-2.316 2.315-6.063 2.315-8.378 0-2.315-2.316-2.315-6.062 0-8.377l3.61-3.61c.147-.146.34-.22.53-.22.19 0 .384.074.53.22.293.293.293.767 0 1.06l-3.61 3.61c-1.73 1.73-1.73 4.544 0 6.274s4.544 1.73 6.274 0l3.61-3.61c.293-.293.767-.293 1.06 0 .293.294.293.768 0 1.06l-.016.017zm-1.446-5.932c.293-.293.293-.767 0-1.06-.293-.293-.767-.293-1.06 0l-3.88 3.88c-.293.292-.293.767 0 1.06.147.146.34.22.53.22.19 0 .384-.074.53-.22l3.88-3.88zm7.958-10.957c-2.316-2.315-6.063-2.315-8.378 0l-3.61 3.61c-.293.293-.293.767 0 1.06.147.146.34.22.53.22.19 0 .384-.074.53-.22l3.61-3.61c1.73-1.73 4.544-1.73 6.274 0s1.73 4.544 0 6.274l-3.61 3.61c-.293.293-.293.767 0 1.06.147.146.34.22.53.22.19 0 .384-.074.53-.22l3.61-3.61c2.315-2.316 2.315-6.063-.016-8.378z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈화면 저장" style="background:#8B5CF6;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.09 5.1 7.64 12 4.18zM4 8.82l7 3.5v7.86l-7-3.5V8.82zm9 11.36v-7.86l7-3.5v7.86l-7 3.5z"/></svg>
+            </a>
         </div>
 
     </header>
@@ -392,7 +415,28 @@
         // 카카오톡 공유
         function shareKakao() {
             const url = encodeURIComponent(window.location.href);
-            window.open(`https://story.kakao.com/share?url=${url}`, '_blank', 'width=600,height=400');
+            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스 키워드 인사이트 Pro');
+            window.open(`https://sharer.kakao.com/talk/friends/picker/link?app_key=javascript_key&request_url=${url}`, '_blank', 'width=600,height=400');
+            // 대체 방법: 카카오톡 공유하기
+            if(navigator.share) {
+                navigator.share({title: '뉴스 키워드 인사이트 Pro', url: window.location.href});
+            } else {
+                window.open(`https://story.kakao.com/share?url=${url}`, '_blank', 'width=600,height=400');
+            }
+        }
+        
+        // 네이버 블로그 공유
+        function shareNaver() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스 키워드 인사이트 Pro');
+            window.open(`https://share.naver.com/web/shareView?url=${url}&title=${title}`, '_blank', 'width=600,height=400');
+        }
+        
+        // 라인 공유
+        function shareLine() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스 키워드 인사이트 Pro');
+            window.open(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
         }
         
         // 페이스북 공유
@@ -401,17 +445,16 @@
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
         }
         
-        // 트위터 공유
+        // 트위터(X) 공유
         function shareTwitter() {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스키워드프로');
+            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스 키워드 인사이트 Pro');
             window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
         }
         
         // 스레드 공유
         function shareThreads() {
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스키워드프로 ' + window.location.href);
+            const text = encodeURIComponent('블로그 상위노출 키워드 찾기 - 뉴스 키워드 인사이트 Pro ' + window.location.href);
             window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank', 'width=600,height=400');
         }
         
@@ -432,6 +475,15 @@
             } else {
                 alert('브라우저 메뉴에서 "홈 화면에 추가" 또는 "바로가기 만들기"를 선택해주세요!');
             }
+        }
+    </script>
+
+    <!-- PWA Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('SW 등록 완료'))
+                .catch(err => console.log('SW 등록 실패:', err));
         }
     </script>
 
