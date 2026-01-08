@@ -279,7 +279,7 @@ def save_manual_archive(title_keywords, results, related_data):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔍 {title_text} - 수동분석</title>
+    <title>🔍 {title_hash} - 수동분석</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {{ --primary: #1e3a8a; --green: #10b981; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }}
@@ -313,7 +313,7 @@ def save_manual_archive(title_keywords, results, related_data):
 </head>
 <body>
     <header class="header">
-        <h1>🔍 {title_text}</h1>
+        <h1>🔍 {title_hash}</h1>
         <p>수동 키워드 분석 결과</p>
         <small>📅 {update_time}</small>
     </header>
