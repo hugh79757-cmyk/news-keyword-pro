@@ -2,7 +2,8 @@
   "name": "뉴스 키워드 인사이트 Pro",
   "short_name": "키워드Pro",
   "description": "블로그 상위노출 황금 키워드 분석 도구",
-  "start_url": "/",
+  "start_url": "/index.html",
+  "id": "/",
   "display": "standalone",
   "background_color": "#1e3a8a",
   "theme_color": "#1e3a8a",
@@ -10,9 +11,15 @@
   "icons": [
     {
       "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ]
 }
