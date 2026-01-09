@@ -75,6 +75,8 @@ def main():
     builder.build_archive_page()
     builder.build_manual_archive_page()
     
+    builder.copy_static_files() 
+    
     # 완료 요약
     print(f"\n{'='*60}")
     print("✅ 모든 작업 완료!")
@@ -92,3 +94,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

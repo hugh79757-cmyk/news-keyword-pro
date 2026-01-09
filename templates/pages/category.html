@@ -1,0 +1,30 @@
+<section class="card">
+  <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+  <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+    포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+  </p>
+
+  <table class="keyword-table">
+    <thead>
+      <tr>
+        <th>순위</th>
+        <th>키워드</th>
+        <th>월간검색량</th>
+        <th>블로그</th>
+        <th>포화도</th>
+        <th>난이도</th>
+        <th>검색</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{keyword_rows}}
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>🔗 연관 검색어</h2>
+  <div class="related-grid">
+    {{related_cards}}
+  </div>
+</section>
