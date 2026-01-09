@@ -1,5 +1,4 @@
 requests==2.31.0
-soup = BeautifulSoup(html, "html.parser")
 beautifulsoup4==4.12.3
 python-dotenv==1.0.1
 anthropic==0.42.0
