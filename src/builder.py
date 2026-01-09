@@ -324,7 +324,6 @@ def build_archive_page():
                 if idx % 5 == 0:
                     file_list += ad_code
 
-        # pagination HTML 생성
         pagination = '<div class="pagination">'
 
         if page > 1:
@@ -368,6 +367,7 @@ def build_archive_page():
             f.write(html)
 
     print(f"    ✅ 아카이브 생성 완료 ({total_files}개, {total_pages}페이지)")
+
 
 def copy_static_files():
     output_dir = BASE_DIR / "output"
