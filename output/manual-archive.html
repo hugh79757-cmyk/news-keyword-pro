@@ -145,6 +145,84 @@
   text-align:center;
   margin-bottom:2rem;
 }
+
+/* === 공통 카드/테이블 (카테고리/메인 공통 확장) === */
+.card{
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  border: 1px solid var(--border);
+}
+.card h2{
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.keyword-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.keyword-table th, .keyword-table td{
+  border:1px solid var(--border);
+  padding:12px 8px;
+  text-align:center;
+}
+.keyword-table th{
+  background: var(--primary);
+  color:#fff;
+  cursor:pointer;
+  user-select:none;
+}
+.keyword-table tr:nth-child(even){ background:#f9fafb; }
+.keyword-table tr:hover{ background:#f0f4ff; }
+.keyword-table td:nth-child(2){ text-align:left; }
+
+.analyze-btn{
+  display:inline-block;
+  padding:4px 10px;
+  background: var(--green);
+  color:#fff;
+  border-radius:4px;
+  text-decoration:none;
+  font-size:13px;
+}
+.analyze-btn:hover{ background:#059669; }
+
+.related-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:16px;
+}
+.related-card{
+  background:#f8f9fa;
+  border-radius:8px;
+  padding:16px;
+  border:1px solid var(--border);
+}
+.related-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid #dee2e6;
+}
+.related-list{ list-style:none; }
+.related-list li{ padding:4px 0; }
+.related-list a{ color:var(--text); text-decoration:none; }
+.related-list a:hover{ color:var(--primary-light); }
+.no-data{ color:#adb5bd; font-style:italic; }
+
+@media (max-width:768px){
+  .keyword-table{ font-size:12px; }
+  .keyword-table th, .keyword-table td{ padding:8px 4px; }
+  .related-grid{ grid-template-columns:1fr; }
+}
+
 .count-box strong{ font-size:1.5rem; color: var(--primary); }
 
   </style>
@@ -156,7 +234,7 @@
   <header class="header">
     <h1>📋 수동 분석 아카이브</h1>
     <p>직접 분석한 키워드 리포트</p>
-    <small>📅 2026년 01월 09일 21시 13분 업데이트</small>
+    <small>📅 2026년 01월 10일 08시 10분 업데이트</small>
 
     <div class="share-buttons">
   <a href="https://buymeacoffee.com/infohotinfo" target="_blank" title="커피 후원" style="background:#FFDD00;">
@@ -217,795 +295,16 @@
   </header>
 
   <nav class="nav">
-    <a href="/" class="nav-btn">🏠 홈</a><a href="../archive.html" class="nav-btn">🗂️ 아카이브</a><a href="../manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    <a href="/" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
   </nav>
 
   <main class="container">
     <div class="count-box">
-  <strong>87</strong>개의 수동 분석 결과가 저장되어 있습니다.
+  <strong>0</strong>개의 수동 분석 결과가 저장되어 있습니다.
 </div>
 
 <ul class="archive-list">
   
-        <li>
-          <a href="archive/2026-01-09_12-59_manual_19cfa8f5.html">
-            <span class="archive-date">📅 2026년 01월 09일 12:59</span>
-            <span class="archive-category">🔍 19cfa8f5</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-09_01-33_manual_e4fb34fe.html">
-            <span class="archive-date">📅 2026년 01월 09일 01:33</span>
-            <span class="archive-category">🔍 e4fb34fe</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-09_01-32_manual_d72dfcf0.html">
-            <span class="archive-date">📅 2026년 01월 09일 01:32</span>
-            <span class="archive-category">🔍 d72dfcf0</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_20-40_manual_273f9274.html">
-            <span class="archive-date">📅 2026년 01월 08일 20:40</span>
-            <span class="archive-category">🔍 273f9274</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_20-38_manual_273f9274.html">
-            <span class="archive-date">📅 2026년 01월 08일 20:38</span>
-            <span class="archive-category">🔍 273f9274</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-08_19-08_manual_273f9274.html">
-            <span class="archive-date">📅 2026년 01월 08일 19:08</span>
-            <span class="archive-category">🔍 273f9274</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_18-56_manual_56d5bf72.html">
-            <span class="archive-date">📅 2026년 01월 08일 18:56</span>
-            <span class="archive-category">🔍 56d5bf72</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_17-07_manual_삼성전자 회장 누구.html">
-            <span class="archive-date">📅 2026년 01월 08일 17:07</span>
-            <span class="archive-category">🔍 삼성전자 회장 누구</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_16-57_manual_삼성전자 1분기 실적예상.html">
-            <span class="archive-date">📅 2026년 01월 08일 16:57</span>
-            <span class="archive-category">🔍 삼성전자 1분기 실적예상</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_16-53_manual_삼성전자 배당금.html">
-            <span class="archive-date">📅 2026년 01월 08일 16:53</span>
-            <span class="archive-category">🔍 삼성전자 배당금</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-08_16-44_manual_삼성전자 배당금.html">
-            <span class="archive-date">📅 2026년 01월 08일 16:44</span>
-            <span class="archive-category">🔍 삼성전자 배당금</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-08_15-56_manual_김광규 안유진 탁재훈 신정환.html">
-            <span class="archive-date">📅 2026년 01월 08일 15:56</span>
-            <span class="archive-category">🔍 김광규 안유진 탁재훈 신정환</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_23-25_manual_이혜훈 프로필.html">
-            <span class="archive-date">📅 2026년 01월 06일 23:25</span>
-            <span class="archive-category">🔍 이혜훈 프로필</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_23-23_manual_비트코인 청년 주택청약.html">
-            <span class="archive-date">📅 2026년 01월 06일 23:23</span>
-            <span class="archive-category">🔍 비트코인 청년 주택청약</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_23-18_manual_삼성전자 4분기 실적 비트코인 10만달러.html">
-            <span class="archive-date">📅 2026년 01월 06일 23:18</span>
-            <span class="archive-category">🔍 삼성전자 4분기 실적 비트코인 10만달러</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-06_23-17_manual_파킹통장금리비교후기.html">
-            <span class="archive-date">📅 2026년 01월 06일 23:17</span>
-            <span class="archive-category">🔍 파킹통장금리비교후기</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_23-17_manual_정기예금금리비교.html">
-            <span class="archive-date">📅 2026년 01월 06일 23:17</span>
-            <span class="archive-category">🔍 정기예금금리비교</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_18-22_manual_진데님 비보 이해인 기자회견.html">
-            <span class="archive-date">📅 2026년 01월 06일 18:22</span>
-            <span class="archive-category">🔍 진데님 비보 이해인 기자회견</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_09-34_manual_청년문화패스 주택담보대출계산기.html">
-            <span class="archive-date">📅 2026년 01월 06일 09:34</span>
-            <span class="archive-category">🔍 청년문화패스 주택담보대출계산기</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_01-49_manual_청년문화패스.html">
-            <span class="archive-date">📅 2026년 01월 06일 01:49</span>
-            <span class="archive-category">🔍 청년문화패스</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-06_01-39_manual_청년복지포인트.html">
-            <span class="archive-date">📅 2026년 01월 06일 01:39</span>
-            <span class="archive-category">🔍 청년복지포인트</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_01-37_manual_청년복지포인트 건강보험료 수능 디데이 위젯 설정.html">
-            <span class="archive-date">📅 2026년 01월 06일 01:37</span>
-            <span class="archive-category">🔍 청년복지포인트 건강보험료 수능 디데이 위젯 설정</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_01-36_manual_온누리상품권 환급 신청방법.html">
-            <span class="archive-date">📅 2026년 01월 06일 01:36</span>
-            <span class="archive-category">🔍 온누리상품권 환급 신청방법</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_01-35_manual_모성보호시간.html">
-            <span class="archive-date">📅 2026년 01월 06일 01:35</span>
-            <span class="archive-category">🔍 모성보호시간</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-06_00-23_manual_갤럭시워치8 듀퐁폰.html">
-            <span class="archive-date">📅 2026년 01월 06일 00:23</span>
-            <span class="archive-category">🔍 갤럭시워치8 듀퐁폰</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_19-46_manual_태국 우돈타니.html">
-            <span class="archive-date">📅 2026년 01월 05일 19:46</span>
-            <span class="archive-category">🔍 태국 우돈타니</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_19-45_manual_태국여행카드.html">
-            <span class="archive-date">📅 2026년 01월 05일 19:45</span>
-            <span class="archive-category">🔍 태국여행카드</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_19-45_manual_태국여행.html">
-            <span class="archive-date">📅 2026년 01월 05일 19:45</span>
-            <span class="archive-category">🔍 태국여행</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_16-38_manual_원익ips.html">
-            <span class="archive-date">📅 2026년 01월 05일 16:38</span>
-            <span class="archive-category">🔍 원익ips</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_16-32_manual_테스 피에스케이 원익 IPS.html">
-            <span class="archive-date">📅 2026년 01월 05일 16:32</span>
-            <span class="archive-category">🔍 테스 피에스케이 원익 IPS</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_15-59_manual_이재명 국빈방문.html">
-            <span class="archive-date">📅 2026년 01월 05일 15:59</span>
-            <span class="archive-category">🔍 이재명 국빈방문</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_15-39_manual_피자지수.html">
-            <span class="archive-date">📅 2026년 01월 05일 15:39</span>
-            <span class="archive-category">🔍 피자지수</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_15-07_manual_피자지수.html">
-            <span class="archive-date">📅 2026년 01월 05일 15:07</span>
-            <span class="archive-category">🔍 피자지수</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_15-01_manual_피자지수.html">
-            <span class="archive-date">📅 2026년 01월 05일 15:01</span>
-            <span class="archive-category">🔍 피자지수</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_14-54_manual_그린랜드 트럼프.html">
-            <span class="archive-date">📅 2026년 01월 05일 14:54</span>
-            <span class="archive-category">🔍 그린랜드 트럼프</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_14-51_manual_그린랜드 트럼프.html">
-            <span class="archive-date">📅 2026년 01월 05일 14:51</span>
-            <span class="archive-category">🔍 그린랜드 트럼프</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_14-09_manual_피자지수.html">
-            <span class="archive-date">📅 2026년 01월 05일 14:09</span>
-            <span class="archive-category">🔍 피자지수</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-52_manual_sk하이닉스 sk하이닉스 주가.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:52</span>
-            <span class="archive-category">🔍 sk하이닉스 sk하이닉스 주가</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-50_manual_자녀장려금.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:50</span>
-            <span class="archive-category">🔍 자녀장려금</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-50_manual_근로장려금.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:50</span>
-            <span class="archive-category">🔍 근로장려금</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_12-49_manual_아포스티유.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:49</span>
-            <span class="archive-category">🔍 아포스티유</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-48_manual_아포스티유 인증 소요기간.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:48</span>
-            <span class="archive-category">🔍 아포스티유 인증 소요기간</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-42_manual_태국 dtv비자.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:42</span>
-            <span class="archive-category">🔍 태국 dtv비자</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-27_manual_태국 dtv비자.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:27</span>
-            <span class="archive-category">🔍 태국 dtv비자</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-26_manual_dtv비자.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:26</span>
-            <span class="archive-category">🔍 dtv비자</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_12-25_manual_임영웅 그린란드.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:25</span>
-            <span class="archive-category">🔍 임영웅 그린란드</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-22_manual_국민은행.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:22</span>
-            <span class="archive-category">🔍 국민은행</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-22_manual_고객센터.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:22</span>
-            <span class="archive-category">🔍 고객센터</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-21_manual_임영웅.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:21</span>
-            <span class="archive-category">🔍 임영웅</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-21_manual_김광석.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:21</span>
-            <span class="archive-category">🔍 김광석</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_12-20_manual_모두의 카드.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:20</span>
-            <span class="archive-category">🔍 모두의 카드</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-19_manual_조루증 치료.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:19</span>
-            <span class="archive-category">🔍 조루증 치료</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-15_manual_위버스 개인정보 유출 안성기 별세.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:15</span>
-            <span class="archive-category">🔍 위버스 개인정보 유출 안성기 별세</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-13_manual_중고차.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:13</span>
-            <span class="archive-category">🔍 중고차</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-12_manual_날씨 6시 내고향.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:12</span>
-            <span class="archive-category">🔍 날씨 6시 내고향</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_12-09_manual_계절별날씨	15	212051	1413673		 날씨예보.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:09</span>
-            <span class="archive-category">🔍 계절별날씨	15	212051	1413673		 날씨예보</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-06_manual_날씨.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:06</span>
-            <span class="archive-category">🔍 날씨</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-06_manual_계절별날씨	15	212051	1413673		 날씨예보.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:06</span>
-            <span class="archive-category">🔍 계절별날씨	15	212051	1413673		 날씨예보</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-06_manual_1월 5일.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:06</span>
-            <span class="archive-category">🔍 1월 5일</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_12-05_manual_6시내고향.html">
-            <span class="archive-date">📅 2026년 01월 05일 12:05</span>
-            <span class="archive-category">🔍 6시내고향</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_11-59_manual_카드포인트조회하기.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:59</span>
-            <span class="archive-category">🔍 카드포인트조회하기</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-59_manual_카드포인트소멸.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:59</span>
-            <span class="archive-category">🔍 카드포인트소멸</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-59_manual_시내고향.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:59</span>
-            <span class="archive-category">🔍 시내고향</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-58_manual_보험조회하기 연금 조회하기.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:58</span>
-            <span class="archive-category">🔍 보험조회하기 연금 조회하기</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-56_manual_조회하기.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:56</span>
-            <span class="archive-category">🔍 조회하기</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_11-56_manual_내보험조회하기 내 연금 조회하기.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:56</span>
-            <span class="archive-category">🔍 내보험조회하기 내 연금 조회하기</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-55_manual_국세청홈텍스.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:55</span>
-            <span class="archive-category">🔍 국세청홈텍스</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-54_manual_국세청.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:54</span>
-            <span class="archive-category">🔍 국세청</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-52_manual_근로장려금.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:52</span>
-            <span class="archive-category">🔍 근로장려금</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-51_manual_상생페이백 신청하기 근로장려금신청하기.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:51</span>
-            <span class="archive-category">🔍 상생페이백 신청하기 근로장려금신청하기</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_11-50_manual_신청하기.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:50</span>
-            <span class="archive-category">🔍 신청하기</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-48_manual_빡차중고차.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:48</span>
-            <span class="archive-category">🔍 빡차중고차</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-47_manual_빡차중고차.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:47</span>
-            <span class="archive-category">🔍 빡차중고차</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-44_manual_빽카 중고차.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:44</span>
-            <span class="archive-category">🔍 빽카 중고차</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-44_manual_빡차중고차.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:44</span>
-            <span class="archive-category">🔍 빡차중고차</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_11-43_manual_빡카 중고차.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:43</span>
-            <span class="archive-category">🔍 빡카 중고차</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-42_manual_그린란드.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:42</span>
-            <span class="archive-category">🔍 그린란드</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-41_manual_쿠팡 블랙리스트.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:41</span>
-            <span class="archive-category">🔍 쿠팡 블랙리스트</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-35_manual_대장암.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:35</span>
-            <span class="archive-category">🔍 대장암</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-34_manual_대장암초기증상.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:34</span>
-            <span class="archive-category">🔍 대장암초기증상</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_11-32_manual_그린란드.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:32</span>
-            <span class="archive-category">🔍 그린란드</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-26_manual_쿠팡 블랙리스트 마두로 경호팀 사망자.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:26</span>
-            <span class="archive-category">🔍 쿠팡 블랙리스트 마두로 경호팀 사망자</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-25_manual_암보험비교사이트.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:25</span>
-            <span class="archive-category">🔍 암보험비교사이트</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-22_manual_암보험비교사이트.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:22</span>
-            <span class="archive-category">🔍 암보험비교사이트</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_11-19_manual_암보험비교사이트.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:19</span>
-            <span class="archive-category">🔍 암보험비교사이트</span>
-          </a>
-        </li>
-        
-    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6677996696534146"
-             data-ad-slot="4514938349"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </li>
-    
-        <li>
-          <a href="archive/2026-01-05_11-11_manual_암보험비교사이트.html">
-            <span class="archive-date">📅 2026년 01월 05일 11:11</span>
-            <span class="archive-category">🔍 암보험비교사이트</span>
-          </a>
-        </li>
-        
-        <li>
-          <a href="archive/2026-01-05_10-42_manual_암보험비교사이트.html">
-            <span class="archive-date">📅 2026년 01월 05일 10:42</span>
-            <span class="archive-category">🔍 암보험비교사이트</span>
-          </a>
-        </li>
-        
 </ul>
 
   </main>
@@ -1083,6 +382,14 @@
     } else {
       alert('Ctrl+D로 북마크 추가하세요!');
     }
+  }
+</script>
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('SW 등록 완료'))
+      .catch(err => console.log('SW 등록 실패:', err));
   }
 </script>
 
