@@ -309,6 +309,9 @@ def save_manual_archive(title_keywords, results, related_data):
         .related-card ul {{ list-style: none; }}
         .related-card a {{ color: var(--text); text-decoration: none; }}
         .footer {{ background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }}
+        .share-buttons {{ display: grid; grid-template-columns: repeat(5, 1fr); max-width: 280px; margin: 1rem auto 0; gap: 10px; }}
+        .share-buttons a {{ width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s; }}
+        .share-buttons a:hover {{ transform: scale(1.1); opacity: 0.9; }}
     </style>
 </head>
 <body>
@@ -316,9 +319,39 @@ def save_manual_archive(title_keywords, results, related_data):
         <h1>🔍 {title_hash}</h1>
         <p>수동 키워드 분석 결과</p>
         <small>📅 {update_time}</small>
+        <div class="share-buttons">
+            <a href="https://buymeacoffee.com/infohotinfo" target="_blank" title="커피 후원" style="background:#FFDD00;">
+                <svg style="width:22px;height:22px;" viewBox="0 0 24 24"><path fill="#000" d="M20 3H4v10a4 4 0 004 4h6a4 4 0 004-4v-3h2a2 2 0 002-2V5a2 2 0 00-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡" style="background:#FEE500;">
+                <svg style="width:24px;height:24px;" viewBox="0 0 24 24"><path fill="#000" d="M12 3c-5.52 0-10 3.59-10 8 0 2.84 1.89 5.33 4.73 6.73-.21.78-.77 2.82-.88 3.26-.14.54.2.53.42.39.17-.12 2.69-1.82 3.78-2.57.62.09 1.27.14 1.95.14 5.52 0 10-3.59 10-8s-4.48-8-10-8z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareNaver()" title="네이버" style="background:#03C75A;">
+                <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareLine()" title="라인" style="background:#06C755;">
+                <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24"><path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북" style="background:#1877F2;">
+                <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareTwitter()" title="X" style="background:#000;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareThreads()" title="스레드" style="background:#000;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.88-.73 2.088-1.146 3.396-1.324 1.242-.168 2.463-.102 3.631.196.034-1.165-.06-2.057-.393-2.73-.363-.73-1.013-1.17-1.93-1.323-.697-.116-1.432-.053-2.073.178l-.567-1.905c.93-.333 1.98-.44 2.964-.306 1.532.207 2.71.92 3.4 2.06.513.85.74 1.9.758 3.343.018 1.524-.214 2.685-.713 3.584-.663 1.193-1.69 1.975-3.04 2.323-.91.234-1.957.23-2.992-.012.044.453.223.847.535 1.148.51.494 1.3.732 2.288.692 1.188-.06 2.098-.467 2.709-1.21.64-.779.998-1.925 1.066-3.407l.025-.542 2.106.078-.025.585c-.097 2.14-.71 3.891-1.82 5.198C18.647 23.078 16.528 23.98 13.7 24h-.007z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="copyLink()" title="링크복사" style="background:#6B7280;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M7.024 3.75c0-.966.784-1.75 1.75-1.75H20.25c.966 0 1.75.784 1.75 1.75v11.498a1.75 1.75 0 01-1.75 1.75H8.774a1.75 1.75 0 01-1.75-1.75V3.75zm1.75-.25a.25.25 0 00-.25.25v11.498c0 .139.112.25.25.25H20.25a.25.25 0 00.25-.25V3.75a.25.25 0 00-.25-.25H8.774z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈화면 추가" style="background:#3B82F6;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            </a>
+        </div>
     </header>
     <nav class="nav-buttons">
         <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">🗂️ 자동아카이브</a>
         <a href="https://8.informationhot.kr/manual-archive.html" class="nav-btn">📁 수동아카이브</a>
         <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
     </nav>
@@ -374,6 +407,47 @@ def save_manual_archive(title_keywords, results, related_data):
                 if (i === columnIndex) {{ h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc'); }}
             }});
         }}
+    </script>
+    <script>
+        function shareKakao() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = 'kakaolink://send?text=' + text + '&url=' + url;
+                setTimeout(() => { window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + decodeURIComponent(url), '_blank'); }, 1000);
+            } else {
+                window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + decodeURIComponent(url), '_blank', 'width=600,height=400');
+            }
+        }
+        function shareNaver() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open('https://share.naver.com/web/shareView?url=' + url + '&title=' + title, '_blank', 'width=600,height=400');
+        }
+        function shareLine() {
+            const url = encodeURIComponent(window.location.href);
+            window.open('https://social-plugins.line.me/lineit/share?url=' + url, '_blank', 'width=600,height=400');
+        }
+        function shareFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
+        }
+        function shareTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=600,height=400');
+        }
+        function shareThreads() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open('https://www.threads.net/intent/post?text=' + text + ' ' + url, '_blank', 'width=600,height=400');
+        }
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => { alert('링크가 복사되었습니다!'); });
+        }
+        function addToHomeScreen() {
+            alert('브라우저 메뉴에서 "홈 화면에 추가"를 선택하세요!\n\niPhone: 공유 버튼 → 홈 화면에 추가\nAndroid: 메뉴 → 홈 화면에 추가');
+        }
     </script>
 </body>
 </html>"""
@@ -491,6 +565,9 @@ def update_manual_archive_list():
         a {{ color: var(--primary); text-decoration: none; }}
         a:hover {{ text-decoration: underline; }}
         .footer {{ background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }}
+        .share-buttons {{ display: grid; grid-template-columns: repeat(5, 1fr); max-width: 280px; margin: 1rem auto 0; gap: 10px; }}
+        .share-buttons a {{ width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s; }}
+        .share-buttons a:hover {{ transform: scale(1.1); opacity: 0.9; }}
     </style>
 </head>
 <body>
