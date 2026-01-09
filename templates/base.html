@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{page_title}}</title>
+
+  {{meta_tags}}
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* === 공통 CSS (지금 너 코드에서 공통만 여기로 모으기) === */
+    :root{
+      --primary:#1e3a8a;
+      --primary-light:#3b82f6;
+      --gold:#f59e0b;
+      --green:#10b981;
+      --red:#ef4444;
+      --bg:#f0f4ff;
+      --card-bg:#ffffff;
+      --text:#1f2937;
+      --text-light:#6b7280;
+      --border:#e5e7eb;
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:'Noto Sans KR', sans-serif;
+      background:linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+      min-height:100vh;
+      color:var(--text);
+      line-height:1.7;
+    }
+    .header{
+      background:linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+      padding:2rem;
+      text-align:center;
+      color:#fff;
+    }
+    .header h1{ font-size:2rem; margin-bottom:.5rem; }
+    .header p{ opacity:.9; }
+    .header small{
+      display:inline-block;
+      margin-top:.5rem;
+      background:rgba(255,255,255,.15);
+      padding:4px 12px;
+      border-radius:20px;
+      font-size:.85rem;
+    }
+
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      padding:1rem;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+    }
+    .nav-btn{
+      padding:8px 16px;
+      border-radius:20px;
+      text-decoration:none;
+      color:var(--text);
+      background:var(--bg);
+      font-size:.9rem;
+      transition:all .2s;
+    }
+    .nav-btn:hover, .nav-btn.active{ background:var(--primary); color:#fff; }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:2rem 1rem;
+    }
+
+    .footer{
+      background:var(--primary);
+      color:#fff;
+      text-align:center;
+      padding:1.5rem;
+      margin-top:3rem;
+    }
+    .footer p{ opacity:.8; font-size:.85rem; }
+
+    /* === 공유버튼 공통 CSS(중요!) === */
+    .share-buttons{
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(5, 52px);
+      gap: 10px;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .share-buttons a{
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    .share-buttons a:hover{
+      transform: scale(1.08);
+      opacity: 0.92;
+    }
+    .share-buttons a svg{
+      width: 24px !important;
+      height: 24px !important;
+      display: block;
+    }
+    @media (max-width: 420px){
+      .share-buttons{ grid-template-columns: repeat(4, 52px); }
+    }
+    .archive-list { list-style: none; padding-left: 0; margin-top: 12px; }
+.archive-list li{
+  background: var(--card-bg);
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.archive-list li:hover{
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+}
+.archive-list a{
+  display:flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  color: var(--text);
+  text-decoration: none;
+}
+.archive-date { color: var(--text-light); }
+.archive-category { color: var(--primary); font-weight: 500; }
+.count-box{
+  background:#fffbeb;
+  border:2px solid var(--gold);
+  padding:1rem;
+  border-radius:12px;
+  text-align:center;
+  margin-bottom:2rem;
+}
+.count-box strong{ font-size:1.5rem; color: var(--primary); }
+
+  </style>
+
+  {{head_extra}}
+</head>
+
+<body>
+  <header class="header">
+    <h1>{{header_title}}</h1>
+    <p>{{header_subtitle}}</p>
+    <small>📅 {{update_time}} 업데이트</small>
+
+    {{share_buttons}}
+  </header>
+
+  <nav class="nav">
+    {{nav_links}}
+  </nav>
+
+  <main class="container">
+    {{content}}
+  </main>
+
+  <footer class="footer">
+    <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+  </footer>
+
+  {{share_js}}
+  {{body_extra}}
+</body>
+</html>

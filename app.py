@@ -409,45 +409,40 @@ def save_manual_archive(title_keywords, results, related_data):
         }}
     </script>
     <script>
-        function shareKakao() {
+        function shareKakao() {{
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent(document.title);
-            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                window.location.href = 'kakaolink://send?text=' + text + '&url=' + url;
-                setTimeout(() => { window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + decodeURIComponent(url), '_blank'); }, 1000);
-            } else {
-                window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + decodeURIComponent(url), '_blank', 'width=600,height=400');
-            }
-        }
-        function shareNaver() {
+            window.open('https://story.kakao.com/share?url=' + url, '_blank', 'width=600,height=400');
+        }}
+        function shareNaver() {{
             const url = encodeURIComponent(window.location.href);
             const title = encodeURIComponent(document.title);
             window.open('https://share.naver.com/web/shareView?url=' + url + '&title=' + title, '_blank', 'width=600,height=400');
-        }
-        function shareLine() {
+        }}
+        function shareLine() {{
             const url = encodeURIComponent(window.location.href);
             window.open('https://social-plugins.line.me/lineit/share?url=' + url, '_blank', 'width=600,height=400');
-        }
-        function shareFacebook() {
+        }}
+        function shareFacebook() {{
             const url = encodeURIComponent(window.location.href);
             window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
-        }
-        function shareTwitter() {
+        }}
+        function shareTwitter() {{
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent(document.title);
             window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=600,height=400');
-        }
-        function shareThreads() {
+        }}
+        function shareThreads() {{
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent(document.title);
             window.open('https://www.threads.net/intent/post?text=' + text + ' ' + url, '_blank', 'width=600,height=400');
-        }
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href).then(() => { alert('링크가 복사되었습니다!'); });
-        }
-        function addToHomeScreen() {
+        }}
+        function copyLink() {{
+            navigator.clipboard.writeText(window.location.href).then(() => {{ alert('링크가 복사되었습니다!'); }});
+        }}
+        function addToHomeScreen() {{
             alert('브라우저 메뉴에서 "홈 화면에 추가"를 선택하세요!\n\niPhone: 공유 버튼 → 홈 화면에 추가\nAndroid: 메뉴 → 홈 화면에 추가');
-        }
+        }}
     </script>
 </body>
 </html>"""
