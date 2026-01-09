@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 273f9274 - 수동분석</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e3a8a; --green: #10b981; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .nav-buttons { display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .nav-btn { padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }
+        .nav-btn:hover { background: #1e40af; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .keyword-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .keyword-table th, .keyword-table td { border: 1px solid var(--border); padding: 12px 8px; text-align: center; }
+        .keyword-table th { background: var(--primary); color: white; cursor: pointer; user-select: none; }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th::after { content: ' ↕'; opacity: 0.5; }
+        .keyword-table th.sort-asc::after { content: ' ↑'; opacity: 1; }
+        .keyword-table th.sort-desc::after { content: ' ↓'; opacity: 1; }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        .search-link { display: inline-block; padding: 4px 10px; background: var(--green); color: white; border-radius: 4px; text-decoration: none; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+        .related-card { background: #f8f9fa; border-radius: 8px; padding: 1rem; border: 1px solid var(--border); }
+        .related-card h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .related-card ul { list-style: none; }
+        .related-card a { color: var(--text); text-decoration: none; }
+        .footer { background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🔍 273f9274</h1>
+        <p>수동 키워드 분석 결과</p>
+        <small>📅 2026년 01월 08일 19시 08분</small>
+    </header>
+    <nav class="nav-buttons">
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/manual-archive.html" class="nav-btn">📁 수동아카이브</a>
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <h2>📊 분석 결과 (38개 키워드)</h2>
+            <table class="keyword-table" id="keywordTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <tr>
+            <td>1</td>
+            <td><strong>차승원X추성훈 차가네</strong></td>
+            <td>0</td>
+            <td>15</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=차승원X추성훈 차가네" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>경남FC 김준호 영입</strong></td>
+            <td>10</td>
+            <td>18</td>
+            <td>1.8</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=경남FC 김준호 영입" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>장재원 무기징역 구형</strong></td>
+            <td>0</td>
+            <td>27</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=장재원 무기징역 구형" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>손종원 재벌 투샷</strong></td>
+            <td>10</td>
+            <td>37</td>
+            <td>3.7</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=손종원 재벌 투샷" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>신영대 의원직 상실</strong></td>
+            <td>0</td>
+            <td>81</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=신영대 의원직 상실" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>크로스허브 최고 혁신상</strong></td>
+            <td>0</td>
+            <td>110</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=크로스허브 최고 혁신상" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>디즈니 라푼젤 캐스팅</strong></td>
+            <td>0</td>
+            <td>125</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=디즈니 라푼젤 캐스팅" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>에버턴 대 울브스</strong></td>
+            <td>0</td>
+            <td>172</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에버턴 대 울브스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>기안84 북극 마라톤</strong></td>
+            <td>0</td>
+            <td>261</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=기안84 북극 마라톤" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>FC서울 주장단</strong></td>
+            <td>0</td>
+            <td>270</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=FC서울 주장단" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>정원오 구청장 지지율</strong></td>
+            <td>0</td>
+            <td>365</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=정원오 구청장 지지율" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>구혜선 카이스트 석사 졸업</strong></td>
+            <td>10</td>
+            <td>402</td>
+            <td>40.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=구혜선 카이스트 석사 졸업" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>화성시 출생아 1위</strong></td>
+            <td>0</td>
+            <td>413</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=화성시 출생아 1위" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>김상수 롯데 잔류</strong></td>
+            <td>0</td>
+            <td>724</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=김상수 롯데 잔류" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>故안성기 정우성</strong></td>
+            <td>0</td>
+            <td>857</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=故안성기 정우성" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>퇴직연금 기금화</strong></td>
+            <td>0</td>
+            <td>1,052</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=퇴직연금 기금화" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>구혜선 카이스트</strong></td>
+            <td>470</td>
+            <td>1,219</td>
+            <td>2.59</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=구혜선 카이스트" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>이춘석 차명거래 의혹</strong></td>
+            <td>0</td>
+            <td>1,399</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=이춘석 차명거래 의혹" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>번리 대 맨유</strong></td>
+            <td>0</td>
+            <td>2,499</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=번리 대 맨유" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>이정후 최강야구</strong></td>
+            <td>0</td>
+            <td>2,662</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=이정후 최강야구" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>전북 박지수</strong></td>
+            <td>0</td>
+            <td>2,842</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=전북 박지수" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>본머스 대 토트넘</strong></td>
+            <td>0</td>
+            <td>3,107</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=본머스 대 토트넘" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>이병진</strong></td>
+            <td>0</td>
+            <td>15,599</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=이병진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td><strong>광주 전남 행정통합</strong></td>
+            <td>10,310</td>
+            <td>19,195</td>
+            <td>1.86</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=광주 전남 행정통합" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td><strong>롤 로그인</strong></td>
+            <td>0</td>
+            <td>29,627</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=롤 로그인" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>26</td>
+            <td><strong>손흥민 올해의 팀</strong></td>
+            <td>10</td>
+            <td>31,373</td>
+            <td>3137.3</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=손흥민 올해의 팀" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>27</td>
+            <td><strong>게임학원 수강료</strong></td>
+            <td>0</td>
+            <td>52,617</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=게임학원 수강료" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>28</td>
+            <td><strong>riot</strong></td>
+            <td>0</td>
+            <td>52,728</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=riot" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>29</td>
+            <td><strong>라이엇</strong></td>
+            <td>0</td>
+            <td>83,219</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=라이엇" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>30</td>
+            <td><strong>창업 카테고리</strong></td>
+            <td>0</td>
+            <td>99,242</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=창업 카테고리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>31</td>
+            <td><strong>경매 전문 변호사</strong></td>
+            <td>220</td>
+            <td>146,738</td>
+            <td>666.99</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=경매 전문 변호사" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>32</td>
+            <td><strong>노안 증상</strong></td>
+            <td>3,900</td>
+            <td>164,072</td>
+            <td>42.07</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=노안 증상" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>33</td>
+            <td><strong>내차팔기 현금지급</strong></td>
+            <td>0</td>
+            <td>183,197</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=내차팔기 현금지급" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>34</td>
+            <td><strong>식당 창업 준비</strong></td>
+            <td>20</td>
+            <td>196,482</td>
+            <td>9824.1</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=식당 창업 준비" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>35</td>
+            <td><strong>유품 정리 비용</strong></td>
+            <td>920</td>
+            <td>255,598</td>
+            <td>277.82</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=유품 정리 비용" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>36</td>
+            <td><strong>이삿짐센터 가격비교</strong></td>
+            <td>0</td>
+            <td>372,202</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=이삿짐센터 가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>37</td>
+            <td><strong>형사변호사 재판상담</strong></td>
+            <td>0</td>
+            <td>490,798</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=형사변호사 재판상담" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>38</td>
+            <td><strong>개인회생 비용</strong></td>
+            <td>0</td>
+            <td>1,165,819</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=개인회생 비용" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        </tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+        <div class="related-card">
+            <h4>차승원X추성훈 차가네</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>경남FC 김준호 영입</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>장재원 무기징역 구형</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>손종원 재벌 투샷</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>신영대 의원직 상실</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>크로스허브 최고 혁신상</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>디즈니 라푼젤 캐스팅</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>에버턴 대 울브스</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>기안84 북극 마라톤</h4>
+            <ul><li><a href="https://search.naver.com/search.naver?query=기안84 북극 마라톤" target="_blank">기안84 북극 마라톤</a></li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>FC서울 주장단</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('keywordTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const headers = table.querySelectorAll('th');
+            const currentOrder = table.dataset.sortOrder;
+            const currentColumn = table.dataset.sortColumn;
+            let newOrder = 'asc';
+            if (currentColumn == columnIndex && currentOrder === 'asc') { newOrder = 'desc'; }
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+                if (!isNaN(aNum) && !isNaN(bNum)) { return newOrder === 'asc' ? aNum - bNum : bNum - aNum; }
+                return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            });
+            rows.forEach(row => tbody.appendChild(row));
+            table.dataset.sortOrder = newOrder;
+            table.dataset.sortColumn = columnIndex;
+            headers.forEach((h, i) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) { h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc'); }
+            });
+        }
+    </script>
+</body>
+</html>
