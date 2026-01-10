@@ -50,6 +50,36 @@ def generate_nav_links(current_category=None, is_archive_detail=False):
     
     return nav
 
+def generate_summary_cards(all_results, is_archive_detail=False):
+    """메인 페이지용 카테고리 요약 카드 생성"""
+    prefix = "../" if is_archive_detail else ""
+    
+    summary_cards = ""
+    for cat_id, results in all_results.items():
+        if not results:
+            continue
+        cat_info = NEWS_CATEGORIES[cat_id]
+        filtered = [r for r in results if r.get("saturation", 999) <= SATURATION_THRESHOLD]
+        top_keywords = filtered[:3]
+        if not top_keywords:
+            continue
+        
+        keywords_preview = ", ".join([r["keyword"] for r in top_keywords])
+        summary_cards += f"""
+        <div class="summary-card">
+          <div class="summary-header">
+            <span class="summary-icon">{cat_info['icon']}</span>
+            <h3>{cat_info['name']}</h3>
+          </div>
+          <p class="summary-keywords">{keywords_preview}</p>
+          <div class="summary-footer">
+            <span>{len(filtered)}개 키워드</span>
+            <a href="{prefix}{cat_info['output']}" class="view-btn">자세히 보기 →</a>
+          </div>
+        </div>
+        """
+    return summary_cards
+
 def build_category_page(category_id, category_info, keyword_results, related_data=None):
     kst = timezone(timedelta(hours=9))
     now = datetime.now(kst)
@@ -170,33 +200,12 @@ def build_index_page(all_results):
     kst = timezone(timedelta(hours=9))
     now = datetime.now(kst)
     update_time = now.strftime("%Y년 %m월 %d일 %H시 %M분")
-    
-    summary_cards = ""
-    for cat_id, results in all_results.items():
-        if not results:
-            continue
-        cat_info = NEWS_CATEGORIES[cat_id]
-        filtered = [r for r in results if r["saturation"] <= SATURATION_THRESHOLD]
-        top_keywords = filtered[:3]
-        if not top_keywords:
-            continue
-        
-        keywords_preview = ", ".join([r["keyword"] for r in top_keywords])
-        summary_cards += f"""
-        <div class="summary-card">
-          <div class="summary-header">
-            <span class="summary-icon">{cat_info['icon']}</span>
-            <h3>{cat_info['name']}</h3>
-          </div>
-          <p class="summary-keywords">{keywords_preview}</p>
-          <div class="summary-footer">
-            <span>{len(filtered)}개 키워드</span>
-            <a href="{cat_info['output']}" class="view-btn">자세히 보기 →</a>
-          </div>
-        </div>
-        """
+    date_prefix = now.strftime("%Y-%m-%d_%H-%M")
     
     share_buttons, share_js = load_partials()
+    
+    # 메인 페이지용 (루트)
+    summary_cards = generate_summary_cards(all_results, is_archive_detail=False)
     
     context = {
         "page_title": "뉴스 키워드 인사이트 Pro - 블로그 상위노출 키워드 분석",
@@ -217,15 +226,32 @@ def build_index_page(all_results):
     output_path = BASE_DIR / "output" / "index.html"
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
+    
+    # 아카이브용 index 페이지 생성
+    archive_dir = BASE_DIR / "output" / "archive"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    
+    archive_summary_cards = generate_summary_cards(all_results, is_archive_detail=True)
+    
+    archive_context = dict(context)
+    archive_context["nav_links"] = generate_nav_links(is_archive_detail=True)
+    archive_context["summary_cards"] = archive_summary_cards
+    
+    archive_html = render_page("templates/pages/index.html", archive_context)
+    
+    archive_index_path = archive_dir / f"{date_prefix}_index.html"
+    with open(archive_index_path, "w", encoding="utf-8") as f:
+        f.write(archive_html)
+    
     print("    ✅ output/index.html 생성 완료")
 
 def build_archive_page():
     archive_dir = BASE_DIR / "output" / "archive"
     archive_dir.mkdir(parents=True, exist_ok=True)
     
-    # manual 파일 제외
+    # manual 파일과 index 파일 제외
     files = sorted(
-        [p.name for p in archive_dir.glob("*.html") if "_manual_" not in p.name], 
+        [p.name for p in archive_dir.glob("*.html") if "_manual_" not in p.name and "_index" not in p.name], 
         reverse=True
     )
     
