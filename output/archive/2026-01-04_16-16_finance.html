@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 금융 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <h1>💰 금융 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 42개</p>
+        <small>📅 2026년 01월 04일 03시 36분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn active">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">📚 아카이브</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>환율조회</strong></td>
+            <td>988,000</td>
+            <td>15,274</td>
+            <td>0.02</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=환율조회" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>대출계산기</strong></td>
+            <td>489,600</td>
+            <td>8,216</td>
+            <td>0.02</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=대출계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>대출이자계산기</strong></td>
+            <td>362,100</td>
+            <td>5,866</td>
+            <td>0.02</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=대출이자계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>코덱스200</strong></td>
+            <td>105,400</td>
+            <td>3,911</td>
+            <td>0.04</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=코덱스200" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>에스피지주가</strong></td>
+            <td>329,000</td>
+            <td>17,017</td>
+            <td>0.05</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에스피지주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>적금계산기</strong></td>
+            <td>248,200</td>
+            <td>23,381</td>
+            <td>0.09</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=적금계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>예금이자계산기</strong></td>
+            <td>145,800</td>
+            <td>15,626</td>
+            <td>0.11</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=예금이자계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>환율</strong></td>
+            <td>24,052,700</td>
+            <td>3,267,560</td>
+            <td>0.14</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=환율" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>종합주가지수</strong></td>
+            <td>335,000</td>
+            <td>50,830</td>
+            <td>0.15</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=종합주가지수" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>에이피알주가</strong></td>
+            <td>145,730</td>
+            <td>25,790</td>
+            <td>0.18</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에이피알주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>주식시세</strong></td>
+            <td>562,300</td>
+            <td>114,354</td>
+            <td>0.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=주식시세" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>유로환율</strong></td>
+            <td>1,003,100</td>
+            <td>206,587</td>
+            <td>0.21</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=유로환율" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>HLB</strong></td>
+            <td>556,300</td>
+            <td>118,009</td>
+            <td>0.21</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=HLB" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>이자계산기</strong></td>
+            <td>325,600</td>
+            <td>72,019</td>
+            <td>0.22</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=이자계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>레인보우로보틱스주가</strong></td>
+            <td>198,300</td>
+            <td>44,597</td>
+            <td>0.22</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=레인보우로보틱스주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>루닛주가</strong></td>
+            <td>96,390</td>
+            <td>23,567</td>
+            <td>0.24</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=루닛주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>신성델타테크주가</strong></td>
+            <td>82,080</td>
+            <td>19,899</td>
+            <td>0.24</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=신성델타테크주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>달러환율</strong></td>
+            <td>5,217,700</td>
+            <td>1,313,395</td>
+            <td>0.25</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=달러환율" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>청년도약계좌</strong></td>
+            <td>280,600</td>
+            <td>81,534</td>
+            <td>0.29</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=청년도약계좌" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>에이치엘비주가</strong></td>
+            <td>76,700</td>
+            <td>23,480</td>
+            <td>0.31</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에이치엘비주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>SOXL주가</strong></td>
+            <td>68,560</td>
+            <td>21,325</td>
+            <td>0.31</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=SOXL주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>하이브주가</strong></td>
+            <td>208,700</td>
+            <td>73,030</td>
+            <td>0.35</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=하이브주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>천보주가</strong></td>
+            <td>65,660</td>
+            <td>23,389</td>
+            <td>0.36</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=천보주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td><strong>에코프로비엠주가</strong></td>
+            <td>289,100</td>
+            <td>105,876</td>
+            <td>0.37</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=에코프로비엠주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td><strong>하나카드</strong></td>
+            <td>437,100</td>
+            <td>170,252</td>
+            <td>0.39</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=하나카드" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>26</td>
+            <td><strong>현대차주가</strong></td>
+            <td>874,300</td>
+            <td>370,644</td>
+            <td>0.42</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=현대차주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>27</td>
+            <td><strong>테슬라주가</strong></td>
+            <td>1,215,000</td>
+            <td>529,545</td>
+            <td>0.44</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=테슬라주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>28</td>
+            <td><strong>IRP계좌개설</strong></td>
+            <td>79,500</td>
+            <td>38,392</td>
+            <td>0.48</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=IRP계좌개설" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>29</td>
+            <td><strong>파킹통장</strong></td>
+            <td>187,300</td>
+            <td>95,856</td>
+            <td>0.51</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=파킹통장" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>30</td>
+            <td><strong>일본환율</strong></td>
+            <td>1,278,500</td>
+            <td>660,878</td>
+            <td>0.52</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=일본환율" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>31</td>
+            <td><strong>엘앤에프주가</strong></td>
+            <td>128,020</td>
+            <td>66,990</td>
+            <td>0.52</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=엘앤에프주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>32</td>
+            <td><strong>CMA통장</strong></td>
+            <td>66,580</td>
+            <td>36,333</td>
+            <td>0.55</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=CMA통장" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>33</td>
+            <td><strong>대우건설주가</strong></td>
+            <td>69,050</td>
+            <td>39,228</td>
+            <td>0.57</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=대우건설주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>34</td>
+            <td><strong>삼성바이오로직스주가</strong></td>
+            <td>145,620</td>
+            <td>87,871</td>
+            <td>0.6</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=삼성바이오로직스주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>35</td>
+            <td><strong>미국증시</strong></td>
+            <td>2,654,200</td>
+            <td>1,732,173</td>
+            <td>0.65</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=미국증시" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>36</td>
+            <td><strong>미증시</strong></td>
+            <td>134,070</td>
+            <td>98,370</td>
+            <td>0.73</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=미증시" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>37</td>
+            <td><strong>현대해상</strong></td>
+            <td>553,500</td>
+            <td>419,916</td>
+            <td>0.76</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=현대해상" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>38</td>
+            <td><strong>신한은행</strong></td>
+            <td>1,317,400</td>
+            <td>1,047,269</td>
+            <td>0.79</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=신한은행" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>39</td>
+            <td><strong>KODEX200</strong></td>
+            <td>96,500</td>
+            <td>77,178</td>
+            <td>0.8</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=KODEX200" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>40</td>
+            <td><strong>금리계산기</strong></td>
+            <td>66,300</td>
+            <td>58,252</td>
+            <td>0.88</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=금리계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>41</td>
+            <td><strong>나스닥</strong></td>
+            <td>1,313,000</td>
+            <td>1,304,870</td>
+            <td>0.99</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=나스닥" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>42</td>
+            <td><strong>카카오뱅크주가</strong></td>
+            <td>88,340</td>
+            <td>88,587</td>
+            <td>1.0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=카카오뱅크주가" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>환율조회</strong>
+                    <a href="https://search.naver.com/search.naver?query=환율조회" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=환율조회" target="_blank">환율조회</a></li><li><a href="https://search.naver.com/search.naver?query=환율조회실시간" target="_blank">환율조회실시간</a></li><li><a href="https://search.naver.com/search.naver?query=미국환율 조회" target="_blank">미국환율 조회</a></li><li><a href="https://search.naver.com/search.naver?query=달러환율조회" target="_blank">달러환율조회</a></li><li><a href="https://search.naver.com/search.naver?query=유로환율조회" target="_blank">유로환율조회</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>대출계산기</strong>
+                    <a href="https://search.naver.com/search.naver?query=대출계산기" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=대출계산기" target="_blank">대출계산기</a></li><li><a href="https://search.naver.com/search.naver?query=대출계산기 이자계산기" target="_blank">대출계산기 이자계산기</a></li><li><a href="https://search.naver.com/search.naver?query=대출계산기 이자" target="_blank">대출계산기 이자</a></li><li><a href="https://search.naver.com/search.naver?query=대출계산기 체증식" target="_blank">대출계산기 체증식</a></li><li><a href="https://search.naver.com/search.naver?query=주택담보대출계산기" target="_blank">주택담보대출계산기</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>대출이자계산기</strong>
+                    <a href="https://search.naver.com/search.naver?query=대출이자계산기" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=대출이자계산기" target="_blank">대출이자계산기</a></li><li><a href="https://search.naver.com/search.naver?query=대출이자계산기 체증식" target="_blank">대출이자계산기 체증식</a></li><li><a href="https://search.naver.com/search.naver?query=대출이자계산기 원금 이자" target="_blank">대출이자계산기 원금 이자</a></li><li><a href="https://search.naver.com/search.naver?query=대출이자계산기 이자" target="_blank">대출이자계산기 이자</a></li><li><a href="https://search.naver.com/search.naver?query=대출이자계산기 거치" target="_blank">대출이자계산기 거치</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>코덱스200</strong>
+                    <a href="https://search.naver.com/search.naver?query=코덱스200" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=코덱스200" target="_blank">코덱스200</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200타겟위클리" target="_blank">코덱스200타겟위클리</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200미국채혼합" target="_blank">코덱스200미국채혼합</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200 배당금" target="_blank">코덱스200 배당금</a></li><li><a href="https://search.naver.com/search.naver?query=코덱스200tr" target="_blank">코덱스200tr</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>에스피지주가</strong>
+                    <a href="https://search.naver.com/search.naver?query=에스피지주가" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에스피지주가배당" target="_blank">에스피지주가배당</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가" target="_blank">에스피지 주가</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 전망" target="_blank">에스피지 주가 전망</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 목표가" target="_blank">에스피지 주가 목표가</a></li><li><a href="https://search.naver.com/search.naver?query=에스피지 주가 목표" target="_blank">에스피지 주가 목표</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>적금계산기</strong>
+                    <a href="https://search.naver.com/search.naver?query=적금계산기" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=적금계산기" target="_blank">적금계산기</a></li><li><a href="https://search.naver.com/search.naver?query=적금계산기 이율" target="_blank">적금계산기 이율</a></li><li><a href="https://search.naver.com/search.naver?query=적금계산기 1년" target="_blank">적금계산기 1년</a></li><li><a href="https://search.naver.com/search.naver?query=적금계산기 일복리" target="_blank">적금계산기 일복리</a></li><li><a href="https://search.naver.com/search.naver?query=적금계산기 방법" target="_blank">적금계산기 방법</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>예금이자계산기</strong>
+                    <a href="https://search.naver.com/search.naver?query=예금이자계산기" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=예금이자계산기" target="_blank">예금이자계산기</a></li><li><a href="https://search.naver.com/search.naver?query=예금이자계산기 농협" target="_blank">예금이자계산기 농협</a></li><li><a href="https://search.naver.com/search.naver?query=예금이자계산기 월" target="_blank">예금이자계산기 월</a></li><li><a href="https://search.naver.com/search.naver?query=예금이자계산기 금리" target="_blank">예금이자계산기 금리</a></li><li><a href="https://search.naver.com/search.naver?query=예금이자계산기 연복리" target="_blank">예금이자계산기 연복리</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>환율</strong>
+                    <a href="https://search.naver.com/search.naver?query=환율" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=환율" target="_blank">환율</a></li><li><a href="https://search.naver.com/search.naver?query=환율계산기" target="_blank">환율계산기</a></li><li><a href="https://search.naver.com/search.naver?query=환율 달러" target="_blank">환율 달러</a></li><li><a href="https://search.naver.com/search.naver?query=환율조회" target="_blank">환율조회</a></li><li><a href="https://search.naver.com/search.naver?query=환율 전망" target="_blank">환율 전망</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>종합주가지수</strong>
+                    <a href="https://search.naver.com/search.naver?query=종합주가지수" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=종합주가지수" target="_blank">종합주가지수</a></li><li><a href="https://search.naver.com/search.naver?query=종합주가지수 실시간" target="_blank">종합주가지수 실시간</a></li><li><a href="https://search.naver.com/search.naver?query=종합주가지수 오늘" target="_blank">종합주가지수 오늘</a></li><li><a href="https://search.naver.com/search.naver?query=종합주가지수 주가" target="_blank">종합주가지수 주가</a></li><li><a href="https://search.naver.com/search.naver?query=종합주가지수차트" target="_blank">종합주가지수차트</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>에이피알주가</strong>
+                    <a href="https://search.naver.com/search.naver?query=에이피알주가" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에이피알주가가격" target="_blank">에이피알주가가격</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가" target="_blank">에이피알 주가</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가전망" target="_blank">에이피알 주가전망</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가 목표가" target="_blank">에이피알 주가 목표가</a></li><li><a href="https://search.naver.com/search.naver?query=에이피알 주가 분석" target="_blank">에이피알 주가 분석</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>

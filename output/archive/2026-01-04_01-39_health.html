@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💊 건강/의료 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>💊 건강/의료 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 14개</p>
+        <small>📅 2026년 01월 04일 01시 26분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn active">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">📚 아카이브</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.5 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움)
+            </p>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>키워드</th>
+                        <th>월간검색량</th>
+                        <th>블로그문서수</th>
+                        <th>포화도</th>
+                        <th>난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>엘지화학</strong></td>
+            <td>135,080</td>
+            <td>14,196</td>
+            <td>0.11</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=엘지화학" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>로게인폼</strong></td>
+            <td>38,140</td>
+            <td>5,843</td>
+            <td>0.15</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=로게인폼" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>콘드로이친1200</strong></td>
+            <td>70,230</td>
+            <td>15,473</td>
+            <td>0.22</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>에스로반연고</strong></td>
+            <td>46,270</td>
+            <td>16,132</td>
+            <td>0.35</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=에스로반연고" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>대한간호협회</strong></td>
+            <td>51,800</td>
+            <td>18,650</td>
+            <td>0.36</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>미주신경성실신</strong></td>
+            <td>47,040</td>
+            <td>17,936</td>
+            <td>0.38</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=미주신경성실신" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>위고비</strong></td>
+            <td>201,500</td>
+            <td>99,076</td>
+            <td>0.49</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=위고비" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>병원동행매니저</strong></td>
+            <td>51,740</td>
+            <td>25,268</td>
+            <td>0.49</td>
+            <td>🟢 매우쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=병원동행매니저" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>미녹시딜</strong></td>
+            <td>93,800</td>
+            <td>59,489</td>
+            <td>0.63</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=미녹시딜" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>노보노디스크</strong></td>
+            <td>67,900</td>
+            <td>48,177</td>
+            <td>0.71</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=노보노디스크" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>왼쪽아랫배통증</strong></td>
+            <td>50,410</td>
+            <td>44,137</td>
+            <td>0.88</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=왼쪽아랫배통증" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>췌장암초기증상</strong></td>
+            <td>45,980</td>
+            <td>42,137</td>
+            <td>0.92</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=췌장암초기증상" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>부천대</strong></td>
+            <td>68,100</td>
+            <td>65,533</td>
+            <td>0.96</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=부천대" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>노로바이러스</strong></td>
+            <td>144,100</td>
+            <td>143,630</td>
+            <td>1.0</td>
+            <td>🟡 쉬움</td>
+            <td><a href="https://search.naver.com/search.naver?query=노로바이러스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>엘지화학</strong>
+                    <a href="https://search.naver.com/search.naver?query=엘지화학" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=엘지화학" target="_blank">엘지화학</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 주가" target="_blank">엘지화학 주가</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학우" target="_blank">엘지화학우</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 구조조정" target="_blank">엘지화학 구조조정</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 희망퇴직" target="_blank">엘지화학 희망퇴직</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 배당금" target="_blank">엘지화학 배당금</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 연봉" target="_blank">엘지화학 연봉</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 채용" target="_blank">엘지화학 채용</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학 성과급" target="_blank">엘지화학 성과급</a></li><li><a href="https://search.naver.com/search.naver?query=엘지화학우 주가" target="_blank">엘지화학우 주가</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>로게인폼</strong>
+                    <a href="https://search.naver.com/search.naver?query=로게인폼" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=로게인폼" target="_blank">로게인폼</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 가격" target="_blank">로게인폼 가격</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 여성" target="_blank">로게인폼 여성</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 직구" target="_blank">로게인폼 직구</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 바르는법" target="_blank">로게인폼 바르는법</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 후기" target="_blank">로게인폼 후기</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 약국" target="_blank">로게인폼 약국</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 부작용" target="_blank">로게인폼 부작용</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 도포기" target="_blank">로게인폼 도포기</a></li><li><a href="https://search.naver.com/search.naver?query=로게인폼 카피약" target="_blank">로게인폼 카피약</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>콘드로이친1200</strong>
+                    <a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200" target="_blank">콘드로이친1200</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200효능" target="_blank">콘드로이친1200효능</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200부작용" target="_blank">콘드로이친1200부작용</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200가격" target="_blank">콘드로이친1200가격</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200 지성" target="_blank">콘드로이친1200 지성</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200 맥스" target="_blank">콘드로이친1200 맥스</a></li><li><a href="https://search.naver.com/search.naver?query=콘드로이친1200 상어연골" target="_blank">콘드로이친1200 상어연골</a></li><li><a href="https://search.naver.com/search.naver?query=뉴센트리 콘드로이친 1200 MBP" target="_blank">뉴센트리 콘드로이친 1200 MBP</a></li><li><a href="https://search.naver.com/search.naver?query=파워콘드로이친1200" target="_blank">파워콘드로이친1200</a></li><li><a href="https://search.naver.com/search.naver?query=맥스콘드로이친1200" target="_blank">맥스콘드로이친1200</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>에스로반연고</strong>
+                    <a href="https://search.naver.com/search.naver?query=에스로반연고" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=에스로반 연고" target="_blank">에스로반 연고</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 효능" target="_blank">에스로반 연고 효능</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 가격" target="_blank">에스로반 연고 가격</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 약국" target="_blank">에스로반 연고 약국</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 상처" target="_blank">에스로반 연고 상처</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 여드름" target="_blank">에스로반 연고 여드름</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 처방" target="_blank">에스로반 연고 처방</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 입술" target="_blank">에스로반 연고 입술</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 화상" target="_blank">에스로반 연고 화상</a></li><li><a href="https://search.naver.com/search.naver?query=에스로반 연고 모낭염" target="_blank">에스로반 연고 모낭염</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>대한간호협회</strong>
+                    <a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=대한간호협회 에듀센터" target="_blank">대한간호협회 에듀센터</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회" target="_blank">대한간호협회</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 면허신고" target="_blank">대한간호협회 면허신고</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 에듀" target="_blank">대한간호협회 에듀</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 보수교육" target="_blank">대한간호협회 보수교육</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회비" target="_blank">대한간호협회비</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 회비" target="_blank">대한간호협회 회비</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 모의고사" target="_blank">대한간호협회 모의고사</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 회원등록" target="_blank">대한간호협회 회원등록</a></li><li><a href="https://search.naver.com/search.naver?query=대한간호협회 문제집" target="_blank">대한간호협회 문제집</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by Claude AI & Naver API</p>
+    </footer>
+</body>
+</html>

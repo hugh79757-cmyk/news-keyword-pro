@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 IT/모바일 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <h1>📱 IT/모바일 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 19개</p>
+        <small>📅 2026년 01월 05일 20시 11분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn active">📱 IT/모바일</a><a href="policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+               <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그</th>
+                        <th onclick="sortTable(4)">뉴스</th>
+                        <th onclick="sortTable(5)">웹문서</th>
+                        <th onclick="sortTable(6)">포화도</th>
+                        <th onclick="sortTable(7)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>겔럭시S25</strong></td>
+            <td>28,340</td>
+            <td>601</td>
+            <td>2</td>
+            <td>295,604</td>
+            <td>0.02</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>챗지피티</strong></td>
+            <td>7,872,000</td>
+            <td>240,487</td>
+            <td>11,082</td>
+            <td>1,973,505</td>
+            <td>0.03</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>갤럭시S26</strong></td>
+            <td>310,800</td>
+            <td>11,572</td>
+            <td>2,596</td>
+            <td>870,838</td>
+            <td>0.04</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>챗GPT</strong></td>
+            <td>4,546,400</td>
+            <td>604,994</td>
+            <td>201,502</td>
+            <td>12,772,235</td>
+            <td>0.13</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=챗GPT" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>S26</strong></td>
+            <td>67,600</td>
+            <td>14,709</td>
+            <td>2,725</td>
+            <td>1,769,068</td>
+            <td>0.22</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=S26" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>삼성몰</strong></td>
+            <td>20,200</td>
+            <td>4,642</td>
+            <td>2,898</td>
+            <td>15,752</td>
+            <td>0.23</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=삼성몰" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>CHATGPT</strong></td>
+            <td>1,876,800</td>
+            <td>502,373</td>
+            <td>41,503</td>
+            <td>10,768,000</td>
+            <td>0.27</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=CHATGPT" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>삼세페</strong></td>
+            <td>24,470</td>
+            <td>6,785</td>
+            <td>810</td>
+            <td>58,500</td>
+            <td>0.28</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=삼세페" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>아이폰16E</strong></td>
+            <td>36,330</td>
+            <td>11,613</td>
+            <td>1,775</td>
+            <td>680,359</td>
+            <td>0.32</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=아이폰16E" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>구글</strong></td>
+            <td>19,087,100</td>
+            <td>7,568,676</td>
+            <td>2,064,507</td>
+            <td>78,896,684</td>
+            <td>0.4</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=구글" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>양지사다이어리</strong></td>
+            <td>18,360</td>
+            <td>7,618</td>
+            <td>684</td>
+            <td>321,025</td>
+            <td>0.41</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=양지사다이어리" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>갤럭시S25</strong></td>
+            <td>386,200</td>
+            <td>164,849</td>
+            <td>24,616</td>
+            <td>4,070,003</td>
+            <td>0.43</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>갤럭시S25울트라</strong></td>
+            <td>131,300</td>
+            <td>67,233</td>
+            <td>8,224</td>
+            <td>1,968,869</td>
+            <td>0.51</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25울트라" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>VMS</strong></td>
+            <td>79,900</td>
+            <td>42,204</td>
+            <td>24,681</td>
+            <td>4,031,314</td>
+            <td>0.53</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=VMS" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>갤럭시워치8</strong></td>
+            <td>159,500</td>
+            <td>102,289</td>
+            <td>30,739</td>
+            <td>2,880,404</td>
+            <td>0.64</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>갤럭시S25울트라케이스</strong></td>
+            <td>24,870</td>
+            <td>17,253</td>
+            <td>539</td>
+            <td>996,009</td>
+            <td>0.69</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25울트라케이스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>아이폰17</strong></td>
+            <td>528,700</td>
+            <td>397,663</td>
+            <td>68,272</td>
+            <td>33,407,186</td>
+            <td>0.75</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=아이폰17" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>갤럭시S25플러스</strong></td>
+            <td>43,050</td>
+            <td>38,700</td>
+            <td>6,663</td>
+            <td>1,545,150</td>
+            <td>0.9</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>S25울트라</strong></td>
+            <td>77,400</td>
+            <td>70,948</td>
+            <td>8,233</td>
+            <td>2,210,863</td>
+            <td>0.92</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=S25울트라" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>겔럭시S25</strong>
+                    <a href="https://search.naver.com/search.naver?query=겔럭시S25" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=겔럭시s25" target="_blank">겔럭시s25</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25 케이스" target="_blank">겔럭시s25 케이스</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25플러스" target="_blank">겔럭시s25플러스</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25fe" target="_blank">겔럭시s25fe</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25울트라재원" target="_blank">겔럭시s25울트라재원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>챗지피티</strong>
+                    <a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank">챗지피티</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 사주" target="_blank">챗지피티 사주</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 무료" target="_blank">챗지피티 무료</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 유료 가격" target="_blank">챗지피티 유료 가격</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 팩폭" target="_blank">챗지피티 팩폭</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>갤럭시S26</strong>
+                    <a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 출시일" target="_blank">갤럭시s26 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26울트라" target="_blank">갤럭시S26울트라</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank">갤럭시S26</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 디자인" target="_blank">갤럭시s26 디자인</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 가격" target="_blank">갤럭시s26 가격</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>챗GPT</strong>
+                    <a href="https://search.naver.com/search.naver?query=챗GPT" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗gpt" target="_blank">챗gpt</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 사주" target="_blank">챗gpt 사주</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 무료" target="_blank">챗gpt 무료</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 유료 가격" target="_blank">챗gpt 유료 가격</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 유료" target="_blank">챗gpt 유료</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>S26</strong>
+                    <a href="https://search.naver.com/search.naver?query=S26" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=s26" target="_blank">s26</a></li><li><a href="https://search.naver.com/search.naver?query=s26 출시일" target="_blank">s26 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=s26 사전예약" target="_blank">s26 사전예약</a></li><li><a href="https://search.naver.com/search.naver?query=s26 울트라" target="_blank">s26 울트라</a></li><li><a href="https://search.naver.com/search.naver?query=s26 디자인" target="_blank">s26 디자인</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>삼성몰</strong>
+                    <a href="https://search.naver.com/search.naver?query=삼성몰" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=삼성몰" target="_blank">삼성몰</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 스토어" target="_blank">삼성몰 스토어</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 임직원몰" target="_blank">삼성몰 임직원몰</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 핸드폰" target="_blank">삼성몰 핸드폰</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 할인" target="_blank">삼성몰 할인</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>CHATGPT</strong>
+                    <a href="https://search.naver.com/search.naver?query=CHATGPT" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=chatgpt" target="_blank">chatgpt</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt 무료" target="_blank">chatgpt 무료</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt 사주" target="_blank">chatgpt 사주</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt.com" target="_blank">chatgpt.com</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt 할인" target="_blank">chatgpt 할인</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>삼세페</strong>
+                    <a href="https://search.naver.com/search.naver?query=삼세페" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=삼세페" target="_blank">삼세페</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 기간 2026" target="_blank">삼세페 기간 2026</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 2026" target="_blank">삼세페 2026</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 갤럭시" target="_blank">삼세페 갤럭시</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 할인" target="_blank">삼세페 할인</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>아이폰16E</strong>
+                    <a href="https://search.naver.com/search.naver?query=아이폰16E" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=아이폰16e" target="_blank">아이폰16e</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 케이스" target="_blank">아이폰16e 케이스</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 자급제" target="_blank">아이폰16e 자급제</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 후기" target="_blank">아이폰16e 후기</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16E 카메라보호" target="_blank">아이폰16E 카메라보호</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>구글</strong>
+                    <a href="https://search.naver.com/search.naver?query=구글" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=구글" target="_blank">구글</a></li><li><a href="https://search.naver.com/search.naver?query=구글 제미나이" target="_blank">구글 제미나이</a></li><li><a href="https://search.naver.com/search.naver?query=구글 주가" target="_blank">구글 주가</a></li><li><a href="https://search.naver.com/search.naver?query=구글 번역기" target="_blank">구글 번역기</a></li><li><a href="https://search.naver.com/search.naver?query=구글usa" target="_blank">구글usa</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>

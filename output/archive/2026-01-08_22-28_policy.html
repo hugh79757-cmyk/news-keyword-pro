@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta name="google-site-verification" content="gWEAZRdroAJvrxbYNgysEL8U7Oq7uIPjKfI6sZutBLs" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ 정부정책 - 뉴스 키워드</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* SNS 공유 버튼 */
+        .share-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            max-width: 280px;
+            margin: 1rem auto 0;
+            gap: 10px;
+        }
+        .share-buttons a {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .share-buttons a:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+    </style>
+
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LC96P4MDYH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LC96P4MDYH');
+</script>
+
+
+</head>
+
+<body>
+    <header class="header">
+        <h1>🏛️ 정부정책 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 3개</p>
+        <small>📅 2026년 01월 08일 22시 28분 업데이트</small>
+        
+        <!-- SNS 공유 버튼 -->
+        <div class="share-buttons">
+            <a href="https://buymeacoffee.com/infohotinfo" target="_blank" title="커피 후원" style="background:#FFDD00;">
+                <svg style="width:22px;height:22px;" viewBox="0 0 24 24"><path fill="#000" d="M20 3H4v10a4 4 0 004 4h6a4 4 0 004-4v-3h2a2 2 0 002-2V5a2 2 0 00-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡" style="background:#FEE500;">
+                <svg style="width:24px;height:24px;" viewBox="0 0 24 24"><path fill="#000" d="M12 3c-5.52 0-10 3.59-10 8 0 2.84 1.89 5.33 4.73 6.73-.21.78-.77 2.82-.88 3.26-.14.54.2.53.42.39.17-.12 2.69-1.82 3.78-2.57.62.09 1.27.14 1.95.14 5.52 0 10-3.59 10-8s-4.48-8-10-8z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareNaver()" title="네이버" style="background:#03C75A;">
+                <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareLine()" title="라인" style="background:#06C755;">
+                <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북" style="background:#1877F2;">
+                <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareTwitter()" title="X" style="background:#000;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="shareThreads()" title="스레드" style="background:#000;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.88-.73 2.088-1.146 3.396-1.324 1.242-.168 2.463-.102 3.631.196.034-1.165-.06-2.057-.393-2.73-.363-.73-1.013-1.17-1.93-1.323-.697-.116-1.432-.053-2.073.178l-.567-1.905c.93-.333 1.98-.44 2.964-.306 1.532.207 2.71.92 3.4 2.06.513.85.74 1.9.758 3.343.018 1.524-.214 2.685-.713 3.584-.663 1.193-1.69 1.975-3.04 2.323-.91.234-1.957.23-2.992-.012.044.453.223.847.535 1.148.51.494 1.3.732 2.288.692 1.188-.06 2.098-.467 2.709-1.21.64-.779.998-1.925 1.066-3.407l.025-.542 2.106.078-.025.585c-.097 2.14-.71 3.891-1.82 5.198C18.647 23.078 16.528 23.98 13.7 24h-.007z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="copyLink()" title="링크복사" style="background:#6B7280;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M7.024 3.75c0-.966.784-1.75 1.75-1.75H20.25c.966 0 1.75.784 1.75 1.75v11.498a1.75 1.75 0 01-1.75 1.75H8.774a1.75 1.75 0 01-1.75-1.75V3.75zm1.75-.25a.25.25 0 00-.25.25v11.498c0 .139.112.25.25.25H20.25a.25.25 0 00.25-.25V3.75a.25.25 0 00-.25-.25H8.774z"/></svg>
+            </a>
+            <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈화면 추가" style="background:#3B82F6;">
+                <svg style="width:20px;height:20px;fill:white;" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1 15h2v-2h-2v2zm0-4h2V7h-2v6z"/></svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- 상단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <nav class="nav">
+        <a href="/" class="nav-btn">🏠 홈</a><a href="../archive.html" class="nav-btn">🗂️ 아카이브</a><a href="../manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>키워드</th>
+                        <th>월간검색량</th>
+                        <th>블로그</th>
+                        <th>포화도</th>
+                        <th>난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>빡차중고차</strong></td>
+            <td>11,030</td>
+            <td>635</td>
+            <td>0.06</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=빡차중고차" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>장애인활동지원사</strong></td>
+            <td>44,510</td>
+            <td>25,918</td>
+            <td>0.58</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=장애인활동지원사" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>소상공인정책자금</strong></td>
+            <td>293,800</td>
+            <td>274,655</td>
+            <td>0.93</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=소상공인정책자금" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>빡차중고차</strong>
+                    <a href="https://search.naver.com/search.naver?query=빡차중고차" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=빡차 중고차" target="_blank">빡차 중고차</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 할부" target="_blank">빡차 중고차 할부</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 구매" target="_blank">빡차 중고차 구매</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 구매 후기" target="_blank">빡차 중고차 구매 후기</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 매입" target="_blank">빡차 중고차 매입</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>장애인활동지원사</strong>
+                    <a href="https://search.naver.com/search.naver?query=장애인활동지원사" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사" target="_blank">장애인활동지원사</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 교육기관" target="_blank">장애인활동지원사 교육기관</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 자격증" target="_blank">장애인활동지원사 자격증</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 급여" target="_blank">장애인활동지원사 급여</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사업" target="_blank">장애인활동지원사업</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>소상공인정책자금</strong>
+                    <a href="https://search.naver.com/search.naver?query=소상공인정책자금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=소상공인정책자금사이트" target="_blank">소상공인정책자금사이트</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인정책자금대출" target="_blank">소상공인정책자금대출</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인정책자금 누리집" target="_blank">소상공인정책자금 누리집</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인정책자금지원센터" target="_blank">소상공인정책자금지원센터</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인 정책자금" target="_blank">소상공인 정책자금</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>경북교육청</strong>
+                    <a href="https://search.naver.com/search.naver?query=경북교육청" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=경북교육청" target="_blank">경북교육청</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청 채용" target="_blank">경북교육청 채용</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청 인사" target="_blank">경북교육청 인사</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청연수원" target="_blank">경북교육청연수원</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청과학원" target="_blank">경북교육청과학원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>내일채움공제</strong>
+                    <a href="https://search.naver.com/search.naver?query=내일채움공제" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=내일채움공제" target="_blank">내일채움공제</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 중도해지" target="_blank">내일채움공제 중도해지</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 3년" target="_blank">내일채움공제 3년</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 5년" target="_blank">내일채움공제 5년</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 홈페이지" target="_blank">내일채움공제 홈페이지</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>청년창업지원금</strong>
+                    <a href="https://search.naver.com/search.naver?query=청년창업지원금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=청년창업지원금" target="_blank">청년창업지원금</a></li><li><a href="https://search.naver.com/search.naver?query=청년창업지원금 조건" target="_blank">청년창업지원금 조건</a></li><li><a href="https://search.naver.com/search.naver?query=청년창업지원금 신청" target="_blank">청년창업지원금 신청</a></li><li><a href="https://search.naver.com/search.naver?query=청년창업지원금 요식업" target="_blank">청년창업지원금 요식업</a></li><li><a href="https://search.naver.com/search.naver?query=청년창업지원금 나이" target="_blank">청년창업지원금 나이</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>소상공인지원금</strong>
+                    <a href="https://search.naver.com/search.naver?query=소상공인지원금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=소상공인 지원금" target="_blank">소상공인 지원금</a></li><li><a href="https://search.naver.com/search.naver?query=2026년 소상공인 지원금" target="_blank">2026년 소상공인 지원금</a></li><li><a href="https://search.naver.com/search.naver?query=2026 소상공인 지원금" target="_blank">2026 소상공인 지원금</a></li><li><a href="https://search.naver.com/search.naver?query=26년 소상공인 지원금" target="_blank">26년 소상공인 지원금</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인 지원금 50만원" target="_blank">소상공인 지원금 50만원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>예비창업패키지</strong>
+                    <a href="https://search.naver.com/search.naver?query=예비창업패키지" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=예비창업패키지 2026" target="_blank">예비창업패키지 2026</a></li><li><a href="https://search.naver.com/search.naver?query=예비창업패키지" target="_blank">예비창업패키지</a></li><li><a href="https://search.naver.com/search.naver?query=예비창업패키지 후기" target="_blank">예비창업패키지 후기</a></li><li><a href="https://search.naver.com/search.naver?query=예비창업패키지 조건" target="_blank">예비창업패키지 조건</a></li><li><a href="https://search.naver.com/search.naver?query=예비창업패키지 사업계획서" target="_blank">예비창업패키지 사업계획서</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>K-STARTUP</strong>
+                    <a href="https://search.naver.com/search.naver?query=K-STARTUP" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=K-Startup" target="_blank">K-Startup</a></li><li><a href="https://search.naver.com/search.naver?query=k-startup 창업지원" target="_blank">k-startup 창업지원</a></li><li><a href="https://search.naver.com/search.naver?query=k-startup 누리집" target="_blank">k-startup 누리집</a></li><li><a href="https://search.naver.com/search.naver?query=k-startup 창업지원금" target="_blank">k-startup 창업지원금</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>중소기업청년지원금</strong>
+                    <a href="https://search.naver.com/search.naver?query=중소기업청년지원금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=중소기업청년지원금 3개월" target="_blank">중소기업청년지원금 3개월</a></li><li><a href="https://search.naver.com/search.naver?query=경기도 중소기업 청년 지원금" target="_blank">경기도 중소기업 청년 지원금</a></li><li><a href="https://search.naver.com/search.naver?query=중소기업 청년 지원금" target="_blank">중소기업 청년 지원금</a></li><li><a href="https://search.naver.com/search.naver?query=중소기업 청년 지원금 서울" target="_blank">중소기업 청년 지원금 서울</a></li><li><a href="https://search.naver.com/search.naver?query=중소기업 청년 지원금 부산" target="_blank">중소기업 청년 지원금 부산</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+
+    <!-- 하단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+
+            const headers = table.querySelectorAll('th');
+            const tbody = table.querySelector('tbody');
+
+            headers.forEach((header, index) => {
+                // 마지막 열(검색)은 정렬 제외
+                if (index === headers.length - 1) return;
+
+                header.addEventListener('click', function () {
+                    // 광고 행 제외 (colspan 있는 행 제외)
+                    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+                        return row.cells.length > 1 && !row.querySelector('[colspan]');
+                    });
+                    const isAsc = header.classList.contains('asc');
+
+                    headers.forEach(h => h.classList.remove('asc', 'desc'));
+                    header.classList.add(isAsc ? 'desc' : 'asc');
+
+                    rows.sort((a, b) => {
+                        if (!a.cells[index] || !b.cells[index]) return 0;
+                        
+                        let aVal = a.cells[index].textContent.trim();
+                        let bVal = b.cells[index].textContent.trim();
+
+                        const aNum = parseFloat(aVal.replace(/,/g, ''));
+                        const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return isAsc ? bNum - aNum : aNum - bNum;
+                        }
+
+                        return isAsc
+                            ? bVal.localeCompare(aVal, 'ko')
+                            : aVal.localeCompare(bVal, 'ko');
+                    });
+
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    </script>
+    <script>
+        function shareKakao() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = 'kakaolink://send?text=' + text + '&url=' + url;
+                setTimeout(() => {
+                    window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + decodeURIComponent(url), '_blank');
+                }, 1000);
+            } else {
+                window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + decodeURIComponent(url), '_blank', 'width=600,height=400');
+            }
+        }
+        function shareNaver() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open('https://share.naver.com/web/shareView?url=' + url + '&title=' + title, '_blank', 'width=600,height=400');
+        }
+        function shareTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=600,height=400');
+        }
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('링크가 복사되었습니다!');
+            });
+        }
+        function shareLine() {
+            const url = encodeURIComponent(window.location.href);
+            window.open('https://social-plugins.line.me/lineit/share?url=' + url, '_blank', 'width=600,height=400');
+        }
+        function shareFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
+        }
+        function shareThreads() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open('https://www.threads.net/intent/post?text=' + text + ' ' + url, '_blank', 'width=600,height=400');
+        }
+        function addToHomeScreen() {
+            alert('브라우저 메뉴에서 "홈 화면에 추가"를 선택하세요!\n\niPhone: 공유 버튼 → 홈 화면에 추가\nAndroid: 메뉴 → 홈 화면에 추가');
+        }
+    </script>
+</body>
+</html>

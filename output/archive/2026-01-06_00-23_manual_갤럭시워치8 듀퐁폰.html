@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 갤럭시워치8, 듀퐁폰 - 수동분석</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e3a8a; --green: #10b981; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .nav-buttons { display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .nav-btn { padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }
+        .nav-btn:hover { background: #1e40af; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .keyword-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .keyword-table th, .keyword-table td { border: 1px solid var(--border); padding: 12px 8px; text-align: center; }
+        .keyword-table th { background: var(--primary); color: white; cursor: pointer; user-select: none; }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th::after { content: ' ↕'; opacity: 0.5; }
+        .keyword-table th.sort-asc::after { content: ' ↑'; opacity: 1; }
+        .keyword-table th.sort-desc::after { content: ' ↓'; opacity: 1; }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        .search-link { display: inline-block; padding: 4px 10px; background: var(--green); color: white; border-radius: 4px; text-decoration: none; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+        .related-card { background: #f8f9fa; border-radius: 8px; padding: 1rem; border: 1px solid var(--border); }
+        .related-card h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .related-card ul { list-style: none; }
+        .related-card a { color: var(--text); text-decoration: none; }
+        .footer { background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🔍 갤럭시워치8, 듀퐁폰</h1>
+        <p>수동 키워드 분석 결과</p>
+        <small>📅 2026년 01월 06일 00시 23분</small>
+    </header>
+    <nav class="nav-buttons">
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <h2>📊 분석 결과 (18개 키워드)</h2>
+            <table class="keyword-table" id="keywordTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <tr>
+            <td>1</td>
+            <td><strong>듀퐁폰종류별특징</strong></td>
+            <td>10</td>
+            <td>13</td>
+            <td>1.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=듀퐁폰종류별특징" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>겔럭시S25기능정리</strong></td>
+            <td>10</td>
+            <td>64</td>
+            <td>6.4</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25기능정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>겔럭시S25가격비교</strong></td>
+            <td>75</td>
+            <td>224</td>
+            <td>2.99</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>듀퐁폰구매방법</strong></td>
+            <td>10</td>
+            <td>249</td>
+            <td>24.9</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=듀퐁폰구매방법" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>듀퐁폰가격비교</strong></td>
+            <td>10</td>
+            <td>335</td>
+            <td>33.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=듀퐁폰가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>겔럭시S25</strong></td>
+            <td>28,340</td>
+            <td>601</td>
+            <td>0.02</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>듀퐁폰</strong></td>
+            <td>8,010</td>
+            <td>1,434</td>
+            <td>0.18</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=듀퐁폰" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>겔럭시S25배터리수명</strong></td>
+            <td>10</td>
+            <td>6,725</td>
+            <td>672.5</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25배터리수명" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>겔럭시S25구매방법</strong></td>
+            <td>10</td>
+            <td>21,902</td>
+            <td>2190.2</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25구매방법" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>갤럭시S25플러스</strong></td>
+            <td>43,050</td>
+            <td>38,732</td>
+            <td>0.9</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>갤럭시S25플러스구매가이드</strong></td>
+            <td>10</td>
+            <td>39,132</td>
+            <td>3913.2</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스구매가이드" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>갤럭시S25플러스기능정리</strong></td>
+            <td>10</td>
+            <td>63,557</td>
+            <td>6355.7</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스기능정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>갤럭시워치8배터리수명</strong></td>
+            <td>45</td>
+            <td>79,275</td>
+            <td>1761.67</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8배터리수명" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>갤럭시워치8</strong></td>
+            <td>159,500</td>
+            <td>102,335</td>
+            <td>0.64</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>갤럭시S25플러스가격비교</strong></td>
+            <td>15</td>
+            <td>129,817</td>
+            <td>8654.47</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>갤럭시워치8기능정리</strong></td>
+            <td>10</td>
+            <td>137,421</td>
+            <td>13742.1</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8기능정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>갤럭시워치8가격비교</strong></td>
+            <td>70</td>
+            <td>212,806</td>
+            <td>3040.09</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>갤럭시워치8사용후기</strong></td>
+            <td>40</td>
+            <td>246,761</td>
+            <td>6169.02</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8사용후기" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        </tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+        <div class="related-card">
+            <h4>듀퐁폰종류별특징</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>겔럭시S25기능정리</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>겔럭시S25가격비교</h4>
+            <ul><li><a href="https://search.naver.com/search.naver?query=겔럭시s25가격비교" target="_blank">겔럭시s25가격비교</a></li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>듀퐁폰구매방법</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>듀퐁폰가격비교</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>겔럭시S25</h4>
+            <ul><li><a href="https://search.naver.com/search.naver?query=겔럭시s25" target="_blank">겔럭시s25</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25 케이스" target="_blank">겔럭시s25 케이스</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25플러스" target="_blank">겔럭시s25플러스</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25fe" target="_blank">겔럭시s25fe</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25울트라재원" target="_blank">겔럭시s25울트라재원</a></li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>듀퐁폰</h4>
+            <ul><li><a href="https://search.naver.com/search.naver?query=듀퐁폰" target="_blank">듀퐁폰</a></li><li><a href="https://search.naver.com/search.naver?query=듀퐁폰 금장" target="_blank">듀퐁폰 금장</a></li><li><a href="https://search.naver.com/search.naver?query=듀퐁폰 금" target="_blank">듀퐁폰 금</a></li><li><a href="https://search.naver.com/search.naver?query=듀퐁폰 골드에디션" target="_blank">듀퐁폰 골드에디션</a></li><li><a href="https://search.naver.com/search.naver?query=듀퐁폰 금장 가격" target="_blank">듀퐁폰 금장 가격</a></li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>겔럭시S25배터리수명</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>겔럭시S25구매방법</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>갤럭시S25플러스</h4>
+            <ul><li><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스" target="_blank">갤럭시S25플러스</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s25플러스 케이스" target="_blank">갤럭시s25플러스 케이스</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s25플러스 지갑케이스" target="_blank">갤럭시s25플러스 지갑케이스</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스 생폰" target="_blank">갤럭시S25플러스 생폰</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스 슬림" target="_blank">갤럭시S25플러스 슬림</a></li></ul>
+        </div>
+        </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('keywordTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const headers = table.querySelectorAll('th');
+            
+            const currentOrder = table.dataset.sortOrder;
+            const currentColumn = table.dataset.sortColumn;
+            
+            let newOrder = 'asc';
+            if (currentColumn == columnIndex && currentOrder === 'asc') {
+                newOrder = 'desc';
+            }
+            
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+                
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return newOrder === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+                
+                return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+            
+            table.dataset.sortOrder = newOrder;
+            table.dataset.sortColumn = columnIndex;
+            
+            headers.forEach((h, i) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

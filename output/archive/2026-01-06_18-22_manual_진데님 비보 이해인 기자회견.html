@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 진데님 비보, 이해인 기자회견 - 수동분석</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e3a8a; --green: #10b981; --bg: #f0f4ff; --card-bg: #ffffff; --text: #1f2937; --border: #e5e7eb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); line-height: 1.7; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); padding: 2rem; text-align: center; color: white; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .nav-buttons { display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .nav-btn { padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }
+        .nav-btn:hover { background: #1e40af; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .keyword-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .keyword-table th, .keyword-table td { border: 1px solid var(--border); padding: 12px 8px; text-align: center; }
+        .keyword-table th { background: var(--primary); color: white; cursor: pointer; user-select: none; }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th::after { content: ' ↕'; opacity: 0.5; }
+        .keyword-table th.sort-asc::after { content: ' ↑'; opacity: 1; }
+        .keyword-table th.sort-desc::after { content: ' ↓'; opacity: 1; }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        .search-link { display: inline-block; padding: 4px 10px; background: var(--green); color: white; border-radius: 4px; text-decoration: none; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+        .related-card { background: #f8f9fa; border-radius: 8px; padding: 1rem; border: 1px solid var(--border); }
+        .related-card h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .related-card ul { list-style: none; }
+        .related-card a { color: var(--text); text-decoration: none; }
+        .footer { background: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🔍 진데님 비보, 이해인 기자회견</h1>
+        <p>수동 키워드 분석 결과</p>
+        <small>📅 2026년 01월 06일 18시 22분</small>
+    </header>
+    <nav class="nav-buttons">
+        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
+        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
+        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <h2>📊 분석 결과 (85개 키워드)</h2>
+            <table class="keyword-table" id="keywordTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그문서수</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <tr>
+            <td>1</td>
+            <td><strong>박은혜 안성기 애도</strong></td>
+            <td>0</td>
+            <td>4</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=박은혜 안성기 애도" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>임성근화제성소셜미디어반응</strong></td>
+            <td>10</td>
+            <td>4</td>
+            <td>0.4</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=임성근화제성소셜미디어반응" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>이해인기자회견후기정리</strong></td>
+            <td>10</td>
+            <td>7</td>
+            <td>0.7</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=이해인기자회견후기정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>임성근화제성인터뷰내용</strong></td>
+            <td>0</td>
+            <td>8</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=임성근화제성인터뷰내용" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>안성기추모행사의의</strong></td>
+            <td>10</td>
+            <td>15</td>
+            <td>1.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=안성기추모행사의의" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>마이리얼트립과태료부과기준</strong></td>
+            <td>0</td>
+            <td>31</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=마이리얼트립과태료부과기준" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>젠틀몬스터 근로감독</strong></td>
+            <td>0</td>
+            <td>35</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=젠틀몬스터 근로감독" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>이해인기자회견참석방법</strong></td>
+            <td>10</td>
+            <td>37</td>
+            <td>3.7</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=이해인기자회견참석방법" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>젠틀몬스터근로감독관련법규</strong></td>
+            <td>10</td>
+            <td>38</td>
+            <td>3.8</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=젠틀몬스터근로감독관련법규" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>23기옥순결혼식후기모음</strong></td>
+            <td>10</td>
+            <td>59</td>
+            <td>5.9</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=23기옥순결혼식후기모음" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>진데님비보사용법안내</strong></td>
+            <td>10</td>
+            <td>72</td>
+            <td>7.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=진데님비보사용법안내" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>서울 이랜드 이윤오</strong></td>
+            <td>0</td>
+            <td>73</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=서울 이랜드 이윤오" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>서울이랜드이윤오선수인터뷰</strong></td>
+            <td>0</td>
+            <td>82</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=서울이랜드이윤오선수인터뷰" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>마이리얼트립과태료관련법규</strong></td>
+            <td>0</td>
+            <td>107</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=마이리얼트립과태료관련법규" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>마이리얼트립 과태료</strong></td>
+            <td>0</td>
+            <td>127</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=마이리얼트립 과태료" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>진데님 비보</strong></td>
+            <td>0</td>
+            <td>128</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=진데님 비보" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>젠틀몬스터근로감독사례연구</strong></td>
+            <td>10</td>
+            <td>162</td>
+            <td>16.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=젠틀몬스터근로감독사례연구" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>수원FC 조진우 영입</strong></td>
+            <td>10</td>
+            <td>167</td>
+            <td>16.7</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=수원FC 조진우 영입" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>한중관계발전사례연구</strong></td>
+            <td>10</td>
+            <td>173</td>
+            <td>17.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=한중관계발전사례연구" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>임성근 화제성</strong></td>
+            <td>10</td>
+            <td>223</td>
+            <td>22.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=임성근 화제성" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>23기옥순결혼식장소추천</strong></td>
+            <td>10</td>
+            <td>233</td>
+            <td>23.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=23기옥순결혼식장소추천" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>23기옥순결혼식비용정보</strong></td>
+            <td>10</td>
+            <td>243</td>
+            <td>24.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=23기옥순결혼식비용정보" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>같이 삽시다 싱글맘</strong></td>
+            <td>10</td>
+            <td>348</td>
+            <td>34.8</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=같이 삽시다 싱글맘" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td><strong>이해인 기자회견</strong></td>
+            <td>0</td>
+            <td>409</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=이해인 기자회견" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td><strong>마이리얼트립과태료사례연구</strong></td>
+            <td>0</td>
+            <td>412</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=마이리얼트립과태료사례연구" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>26</td>
+            <td><strong>정정용전북감독우승후기정리</strong></td>
+            <td>10</td>
+            <td>416</td>
+            <td>41.6</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=정정용전북감독우승후기정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>27</td>
+            <td><strong>흑백요리사2 11화</strong></td>
+            <td>0</td>
+            <td>578</td>
+            <td>0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=흑백요리사2 11화" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>28</td>
+            <td><strong>정정용 전북 감독 우승</strong></td>
+            <td>10</td>
+            <td>602</td>
+            <td>60.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=정정용 전북 감독 우승" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>29</td>
+            <td><strong>지소연 수원FC 위민 복귀</strong></td>
+            <td>10</td>
+            <td>930</td>
+            <td>93.0</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=지소연 수원FC 위민 복귀" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>30</td>
+            <td><strong>수원FC조진우영입후기</strong></td>
+            <td>10</td>
+            <td>971</td>
+            <td>97.1</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=수원FC조진우영입후기" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>31</td>
+            <td><strong>LCK컵 개막</strong></td>
+            <td>170</td>
+            <td>1,179</td>
+            <td>6.94</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=LCK컵 개막" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>32</td>
+            <td><strong>수원FC조진우영입계약조건</strong></td>
+            <td>10</td>
+            <td>1,430</td>
+            <td>143.0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=수원FC조진우영입계약조건" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>33</td>
+            <td><strong>김혜경 여사 북경한국국제학교</strong></td>
+            <td>10</td>
+            <td>1,465</td>
+            <td>146.5</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김혜경 여사 북경한국국제학교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>34</td>
+            <td><strong>아모림 맨유 경질</strong></td>
+            <td>10</td>
+            <td>1,549</td>
+            <td>154.9</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=아모림 맨유 경질" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>35</td>
+            <td><strong>진데님비보추천상품리스트</strong></td>
+            <td>10</td>
+            <td>1,613</td>
+            <td>161.3</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=진데님비보추천상품리스트" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>36</td>
+            <td><strong>김민석 총리 업무보고</strong></td>
+            <td>10</td>
+            <td>1,791</td>
+            <td>179.1</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김민석 총리 업무보고" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>37</td>
+            <td><strong>23기 옥순 결혼</strong></td>
+            <td>0</td>
+            <td>2,283</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=23기 옥순 결혼" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>38</td>
+            <td><strong>김민석총리업무보고후기정리</strong></td>
+            <td>10</td>
+            <td>2,355</td>
+            <td>235.5</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김민석총리업무보고후기정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>39</td>
+            <td><strong>서울이랜드이윤오선수활약상황</strong></td>
+            <td>10</td>
+            <td>2,689</td>
+            <td>268.9</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=서울이랜드이윤오선수활약상황" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>40</td>
+            <td><strong>소녀상 테러</strong></td>
+            <td>0</td>
+            <td>2,785</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=소녀상 테러" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>41</td>
+            <td><strong>안성기 추모</strong></td>
+            <td>590</td>
+            <td>2,864</td>
+            <td>4.85</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=안성기 추모" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>42</td>
+            <td><strong>소녀상테러사건의의분석</strong></td>
+            <td>10</td>
+            <td>2,942</td>
+            <td>294.2</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=소녀상테러사건의의분석" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>43</td>
+            <td><strong>LCK컵개막관전포인트</strong></td>
+            <td>0</td>
+            <td>2,951</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=LCK컵개막관전포인트" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>44</td>
+            <td><strong>임성근화제성관련뉴스정리</strong></td>
+            <td>0</td>
+            <td>3,137</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=임성근화제성관련뉴스정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>45</td>
+            <td><strong>LCK컵개막참가팀정보</strong></td>
+            <td>10</td>
+            <td>3,312</td>
+            <td>331.2</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=LCK컵개막참가팀정보" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>46</td>
+            <td><strong>dlss 4.5</strong></td>
+            <td>0</td>
+            <td>3,497</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=dlss 4.5" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>47</td>
+            <td><strong>정정용전북감독우승전략</strong></td>
+            <td>0</td>
+            <td>3,672</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=정정용전북감독우승전략" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>48</td>
+            <td><strong>LCK컵개막이벤트정보</strong></td>
+            <td>0</td>
+            <td>3,697</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=LCK컵개막이벤트정보" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>49</td>
+            <td><strong>안성기추모행사후기정리</strong></td>
+            <td>0</td>
+            <td>4,100</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=안성기추모행사후기정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>50</td>
+            <td><strong>수원FC조진우영입이유</strong></td>
+            <td>10</td>
+            <td>4,662</td>
+            <td>466.2</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=수원FC조진우영입이유" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>51</td>
+            <td><strong>정정용전북감독우승기대평가</strong></td>
+            <td>10</td>
+            <td>5,004</td>
+            <td>500.4</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=정정용전북감독우승기대평가" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>52</td>
+            <td><strong>김혜경여사북경한국국제학교후기</strong></td>
+            <td>10</td>
+            <td>5,021</td>
+            <td>502.1</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김혜경여사북경한국국제학교후기" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>53</td>
+            <td><strong>김민석총리업무보고일정안내</strong></td>
+            <td>10</td>
+            <td>5,048</td>
+            <td>504.8</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김민석총리업무보고일정안내" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>54</td>
+            <td><strong>젠틀몬스터근로감독사유분석</strong></td>
+            <td>0</td>
+            <td>5,152</td>
+            <td>0</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=젠틀몬스터근로감독사유분석" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>55</td>
+            <td><strong>진데님비보구매가격비교</strong></td>
+            <td>10</td>
+            <td>6,425</td>
+            <td>642.5</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=진데님비보구매가격비교" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>56</td>
+            <td><strong>김혜경여사북경한국국제학교특징</strong></td>
+            <td>10</td>
+            <td>7,807</td>
+            <td>780.7</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=김혜경여사북경한국국제학교특징" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>57</td>
+            <td><strong>강남비뇨기과</strong></td>
+            <td>4,570</td>
+            <td>8,483</td>
+            <td>1.86</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=강남비뇨기과" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>58</td>
+            <td><strong>아모림</strong></td>
+            <td>0</td>
+            <td>10,550</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=아모림" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>59</td>
+            <td><strong>칸셀루</strong></td>
+            <td>0</td>
+            <td>10,589</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=칸셀루" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>60</td>
+            <td><strong>서울이랜드이윤오선수계약조건</strong></td>
+            <td>0</td>
+            <td>10,958</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=서울이랜드이윤오선수계약조건" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>61</td>
+            <td><strong>남성병원 추천</strong></td>
+            <td>15</td>
+            <td>13,148</td>
+            <td>876.53</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=남성병원 추천" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>62</td>
+            <td><strong>김민석총리업무보고기대효과</strong></td>
+            <td>0</td>
+            <td>13,267</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=김민석총리업무보고기대효과" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>63</td>
+            <td><strong>윤남노</strong></td>
+            <td>0</td>
+            <td>15,516</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=윤남노" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>64</td>
+            <td><strong>안성기추모행사참여방법</strong></td>
+            <td>10</td>
+            <td>15,607</td>
+            <td>1560.7</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=안성기추모행사참여방법" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>65</td>
+            <td><strong>소녀상테러사건법적대응</strong></td>
+            <td>0</td>
+            <td>15,900</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=소녀상테러사건법적대응" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>66</td>
+            <td><strong>이해인기자회견주요내용정리</strong></td>
+            <td>10</td>
+            <td>21,937</td>
+            <td>2193.7</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=이해인기자회견주요내용정리" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>67</td>
+            <td><strong>배현진</strong></td>
+            <td>0</td>
+            <td>33,005</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=배현진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>68</td>
+            <td><strong>한중 관계 발전</strong></td>
+            <td>10</td>
+            <td>33,637</td>
+            <td>3363.7</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=한중 관계 발전" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>69</td>
+            <td><strong>정희원</strong></td>
+            <td>0</td>
+            <td>35,698</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=정희원" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>70</td>
+            <td><strong>쿠팡 개인정보 유출</strong></td>
+            <td>0</td>
+            <td>38,489</td>
+            <td>0</td>
+            <td>🟠</td>
+            <td><a href="https://search.naver.com/search.naver?query=쿠팡 개인정보 유출" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>71</td>
+            <td><strong>소녀상테러사건관련뉴스</strong></td>
+            <td>10</td>
+            <td>53,032</td>
+            <td>5303.2</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=소녀상테러사건관련뉴스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>72</td>
+            <td><strong>안경 탈출</strong></td>
+            <td>15</td>
+            <td>67,648</td>
+            <td>4509.87</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=안경 탈출" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>73</td>
+            <td><strong>웹디자인학원</strong></td>
+            <td>510</td>
+            <td>107,748</td>
+            <td>211.27</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=웹디자인학원" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>74</td>
+            <td><strong>한능검</strong></td>
+            <td>0</td>
+            <td>108,194</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=한능검" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>75</td>
+            <td><strong>김혜경여사북경한국국제학교입학정보</strong></td>
+            <td>10</td>
+            <td>121,309</td>
+            <td>12130.9</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=김혜경여사북경한국국제학교입학정보" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>76</td>
+            <td><strong>한중관계발전주요이슈</strong></td>
+            <td>0</td>
+            <td>144,273</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=한중관계발전주요이슈" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>77</td>
+            <td><strong>유기견 분양</strong></td>
+            <td>2,420</td>
+            <td>150,437</td>
+            <td>62.16</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=유기견 분양" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>78</td>
+            <td><strong>개인회생 자격</strong></td>
+            <td>0</td>
+            <td>201,118</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=개인회생 자격" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>79</td>
+            <td><strong>유품 정리 비용</strong></td>
+            <td>930</td>
+            <td>254,496</td>
+            <td>273.65</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=유품 정리 비용" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>80</td>
+            <td><strong>한중관계발전미래전망</strong></td>
+            <td>0</td>
+            <td>255,794</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=한중관계발전미래전망" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>81</td>
+            <td><strong>한중관계발전관련뉴스</strong></td>
+            <td>10</td>
+            <td>262,088</td>
+            <td>26208.8</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=한중관계발전관련뉴스" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>82</td>
+            <td><strong>허리디스크 초기</strong></td>
+            <td>600</td>
+            <td>333,503</td>
+            <td>555.84</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=허리디스크 초기" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>83</td>
+            <td><strong>일본 지진</strong></td>
+            <td>0</td>
+            <td>381,900</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=일본 지진" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>84</td>
+            <td><strong>방문 재활 치료</strong></td>
+            <td>0</td>
+            <td>516,315</td>
+            <td>0</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=방문 재활 치료" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>85</td>
+            <td><strong>개인사업자대출</strong></td>
+            <td>11,290</td>
+            <td>754,441</td>
+            <td>66.82</td>
+            <td>🔴</td>
+            <td><a href="https://search.naver.com/search.naver?query=개인사업자대출" target="_blank" class="search-link">🔍</a></td>
+        </tr>
+        </tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+        <div class="related-card">
+            <h4>박은혜 안성기 애도</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>임성근화제성소셜미디어반응</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>이해인기자회견후기정리</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>임성근화제성인터뷰내용</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>안성기추모행사의의</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>마이리얼트립과태료부과기준</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>젠틀몬스터 근로감독</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>이해인기자회견참석방법</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>젠틀몬스터근로감독관련법규</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        
+        <div class="related-card">
+            <h4>23기옥순결혼식후기모음</h4>
+            <ul><li>연관검색어 없음</li></ul>
+        </div>
+        </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('keywordTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const headers = table.querySelectorAll('th');
+            
+            const currentOrder = table.dataset.sortOrder;
+            const currentColumn = table.dataset.sortColumn;
+            
+            let newOrder = 'asc';
+            if (currentColumn == columnIndex && currentOrder === 'asc') {
+                newOrder = 'desc';
+            }
+            
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+                
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return newOrder === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+                
+                return newOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+            
+            table.dataset.sortOrder = newOrder;
+            table.dataset.sortColumn = columnIndex;
+            
+            headers.forEach((h, i) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    h.classList.add(newOrder === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta name="google-site-verification" content="gWEAZRdroAJvrxbYNgysEL8U7Oq7uIPjKfI6sZutBLs" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ 정부정책 - 뉴스 키워드</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LC96P4MDYH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LC96P4MDYH');
+</script>
+
+
+</head>
+
+<body>
+    <header class="header">
+        <h1>🏛️ 정부정책 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 1개</p>
+        <small>📅 2026년 01월 08일 12시 04분 업데이트</small>
+    </header>
+
+    <!-- 상단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn active">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>키워드</th>
+                        <th>월간검색량</th>
+                        <th>블로그</th>
+                        <th>포화도</th>
+                        <th>난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>빡차중고차</strong></td>
+            <td>11,030</td>
+            <td>635</td>
+            <td>0.06</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=빡차중고차" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>빡차중고차</strong>
+                    <a href="https://search.naver.com/search.naver?query=빡차중고차" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=빡차 중고차" target="_blank">빡차 중고차</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 할부" target="_blank">빡차 중고차 할부</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 구매" target="_blank">빡차 중고차 구매</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 구매 후기" target="_blank">빡차 중고차 구매 후기</a></li><li><a href="https://search.naver.com/search.naver?query=빡차 중고차 매입" target="_blank">빡차 중고차 매입</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>경북교육청</strong>
+                    <a href="https://search.naver.com/search.naver?query=경북교육청" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=경북교육청" target="_blank">경북교육청</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청 채용" target="_blank">경북교육청 채용</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청 인사" target="_blank">경북교육청 인사</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청연수원" target="_blank">경북교육청연수원</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청과학원" target="_blank">경북교육청과학원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>국취제</strong>
+                    <a href="https://search.naver.com/search.naver?query=국취제" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=국취제 1유형" target="_blank">국취제 1유형</a></li><li><a href="https://search.naver.com/search.naver?query=국취제" target="_blank">국취제</a></li><li><a href="https://search.naver.com/search.naver?query=국취제 60만원" target="_blank">국취제 60만원</a></li><li><a href="https://search.naver.com/search.naver?query=국취제 2유형" target="_blank">국취제 2유형</a></li><li><a href="https://search.naver.com/search.naver?query=국취제 신청" target="_blank">국취제 신청</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>국민취업지원제도</strong>
+                    <a href="https://search.naver.com/search.naver?query=국민취업지원제도" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=국민취업지원제도" target="_blank">국민취업지원제도</a></li><li><a href="https://search.naver.com/search.naver?query=국민취업지원제도 신청" target="_blank">국민취업지원제도 신청</a></li><li><a href="https://search.naver.com/search.naver?query=국민취업지원제도 1유형" target="_blank">국민취업지원제도 1유형</a></li><li><a href="https://search.naver.com/search.naver?query=국민취업지원제도 2유형" target="_blank">국민취업지원제도 2유형</a></li><li><a href="https://search.naver.com/search.naver?query=국민취업지원제도 재신청" target="_blank">국민취업지원제도 재신청</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>내일채움공제</strong>
+                    <a href="https://search.naver.com/search.naver?query=내일채움공제" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=내일채움공제" target="_blank">내일채움공제</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 중도해지" target="_blank">내일채움공제 중도해지</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 3년" target="_blank">내일채움공제 3년</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 5년" target="_blank">내일채움공제 5년</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 홈페이지" target="_blank">내일채움공제 홈페이지</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>동국대미래융합교육원</strong>
+                    <a href="https://search.naver.com/search.naver?query=동국대미래융합교육원" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=동국대 미래융합교육원" target="_blank">동국대 미래융합교육원</a></li><li><a href="https://search.naver.com/search.naver?query=동국대 미래융합교육원 실용무용" target="_blank">동국대 미래융합교육원 실용무용</a></li><li><a href="https://search.naver.com/search.naver?query=동국대 미래융합교육원 문헌정보" target="_blank">동국대 미래융합교육원 문헌정보</a></li><li><a href="https://search.naver.com/search.naver?query=동국대 미래융합교육원 주차" target="_blank">동국대 미래융합교육원 주차</a></li><li><a href="https://search.naver.com/search.naver?query=동국대 미래융합교육원 위치" target="_blank">동국대 미래융합교육원 위치</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>몬스터차일드</strong>
+                    <a href="https://search.naver.com/search.naver?query=몬스터차일드" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=몬스터 차일드" target="_blank">몬스터 차일드</a></li><li><a href="https://search.naver.com/search.naver?query=몬스터 차일드 2" target="_blank">몬스터 차일드 2</a></li><li><a href="https://search.naver.com/search.naver?query=몬스터 차일드 책" target="_blank">몬스터 차일드 책</a></li><li><a href="https://search.naver.com/search.naver?query=몬스터 차일드 줄거리" target="_blank">몬스터 차일드 줄거리</a></li><li><a href="https://search.naver.com/search.naver?query=몬스터 차일드 독후감" target="_blank">몬스터 차일드 독후감</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>오토바이폐차</strong>
+                    <a href="https://search.naver.com/search.naver?query=오토바이폐차" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=오토바이폐차)모터딜" target="_blank">오토바이폐차)모터딜</a></li><li><a href="https://search.naver.com/search.naver?query=오토바이 폐차" target="_blank">오토바이 폐차</a></li><li><a href="https://search.naver.com/search.naver?query=오토바이 폐차비용" target="_blank">오토바이 폐차비용</a></li><li><a href="https://search.naver.com/search.naver?query=오토바이 폐차방법" target="_blank">오토바이 폐차방법</a></li><li><a href="https://search.naver.com/search.naver?query=킹오토바이폐차장" target="_blank">킹오토바이폐차장</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>사회복지사2급</strong>
+                    <a href="https://search.naver.com/search.naver?query=사회복지사2급" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=사회복지사2급" target="_blank">사회복지사2급</a></li><li><a href="https://search.naver.com/search.naver?query=사회복지사2급취업" target="_blank">사회복지사2급취업</a></li><li><a href="https://search.naver.com/search.naver?query=사회복지사2급시험" target="_blank">사회복지사2급시험</a></li><li><a href="https://search.naver.com/search.naver?query=사회복지사2급실습" target="_blank">사회복지사2급실습</a></li><li><a href="https://search.naver.com/search.naver?query=사회복지사2급자격증취득방법" target="_blank">사회복지사2급자격증취득방법</a></li></ul>
+            </div>
+            
+    <div style="text-align:center; padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 15px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>OJT</strong>
+                    <a href="https://search.naver.com/search.naver?query=OJT" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=ojt 뜻" target="_blank">ojt 뜻</a></li><li><a href="https://search.naver.com/search.naver?query=ojt" target="_blank">ojt</a></li><li><a href="https://search.naver.com/search.naver?query=ojt 교육" target="_blank">ojt 교육</a></li><li><a href="https://search.naver.com/search.naver?query=ojt 교육 뜻" target="_blank">ojt 교육 뜻</a></li><li><a href="https://search.naver.com/search.naver?query=OJT OFFJT 차이점" target="_blank">OJT OFFJT 차이점</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+
+    <!-- 하단 광고 -->
+    <div style="text-align:center; margin: 20px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+
+            const headers = table.querySelectorAll('th');
+            const tbody = table.querySelector('tbody');
+
+            headers.forEach((header, index) => {
+                // 마지막 열(검색)은 정렬 제외
+                if (index === headers.length - 1) return;
+
+                header.addEventListener('click', function () {
+                    // 광고 행 제외 (colspan 있는 행 제외)
+                    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+                        return row.cells.length > 1 && !row.querySelector('[colspan]');
+                    });
+                    const isAsc = header.classList.contains('asc');
+
+                    headers.forEach(h => h.classList.remove('asc', 'desc'));
+                    header.classList.add(isAsc ? 'desc' : 'asc');
+
+                    rows.sort((a, b) => {
+                        if (!a.cells[index] || !b.cells[index]) return 0;
+                        
+                        let aVal = a.cells[index].textContent.trim();
+                        let bVal = b.cells[index].textContent.trim();
+
+                        const aNum = parseFloat(aVal.replace(/,/g, ''));
+                        const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return isAsc ? bNum - aNum : aNum - bNum;
+                        }
+
+                        return isAsc
+                            ? bVal.localeCompare(aVal, 'ko')
+                            : aVal.localeCompare(bVal, 'ko');
+                    });
+
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    </script>
+</body>
+</html>

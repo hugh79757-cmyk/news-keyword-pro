@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ 정부정책 - 뉴스 키워드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header small {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .keyword-table th, .keyword-table td {
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .keyword-table th {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .keyword-table th:hover { background: #1e40af; }
+        .keyword-table th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.8em;
+        }
+        .keyword-table th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.8em;
+        }
+        .keyword-table tr:nth-child(even) { background: #f9fafb; }
+        .keyword-table tr:hover { background: #f0f4ff; }
+        .keyword-table td:nth-child(2) { text-align: left; }
+        
+        .analyze-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .analyze-btn:hover { background: #059669; }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .related-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .related-list { list-style: none; }
+        .related-list li { padding: 4px 0; }
+        .related-list a { color: var(--text); text-decoration: none; }
+        .related-list a:hover { color: var(--primary-light); }
+        .no-data { color: #adb5bd; font-style: italic; }
+        
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-table { font-size: 12px; }
+            .keyword-table th, .keyword-table td { padding: 8px 4px; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.keyword-table');
+            if (!table) return;
+            
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const isAsc = table.dataset.sortOrder === 'asc' && table.dataset.sortColumn == columnIndex;
+            table.dataset.sortOrder = isAsc ? 'desc' : 'asc';
+            table.dataset.sortColumn = columnIndex;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aVal.replace(/,/g, ''));
+                const bNum = parseFloat(bVal.replace(/,/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? bNum - aNum : aNum - bNum;
+                }
+                return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll('.keyword-table th').forEach((th, i) => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === columnIndex) {
+                    th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <h1>🏛️ 정부정책 키워드</h1>
+        <p>상위노출 가능한 블로그 키워드 4개</p>
+        <small>📅 2026년 01월 05일 23시 08분 업데이트</small>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html" class="nav-btn">🏠 홈</a><a href="stock.html" class="nav-btn ">📈 증권/주식</a><a href="realestate.html" class="nav-btn ">🏠 부동산</a><a href="finance.html" class="nav-btn ">💰 금융</a><a href="car.html" class="nav-btn ">🚗 자동차</a><a href="health.html" class="nav-btn ">💊 건강/의료</a><a href="tech.html" class="nav-btn ">📱 IT/모바일</a><a href="policy.html" class="nav-btn active">🏛️ 정부정책</a><a href="archive.html" class="nav-btn">🗂️ 아카이브</a><a href="https://8.informationhot.kr/archive.html" class="nav-btn" target="_blank">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+    </nav>
+    
+    <main class="container">
+        <section class="card">
+            <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+            </p>
+            <table class="keyword-table">
+               <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">순위</th>
+                        <th onclick="sortTable(1)">키워드</th>
+                        <th onclick="sortTable(2)">월간검색량</th>
+                        <th onclick="sortTable(3)">블로그</th>
+                        <th onclick="sortTable(4)">포화도</th>
+                        <th onclick="sortTable(5)">난이도</th>
+                        <th>검색</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td><strong>3.3%계산기</strong></td>
+            <td>26,980</td>
+            <td>4,406</td>
+            <td>0.16</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=3.3%계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>포괄임금제</strong></td>
+            <td>47,300</td>
+            <td>21,210</td>
+            <td>0.45</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=포괄임금제" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>청년일자리도약장려금</strong></td>
+            <td>43,400</td>
+            <td>21,852</td>
+            <td>0.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=청년일자리도약장려금" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>장애인활동지원사</strong></td>
+            <td>42,450</td>
+            <td>25,883</td>
+            <td>0.61</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=장애인활동지원사" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="card">
+            <h2>🔗 연관 검색어</h2>
+            <div class="related-grid">
+                
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>3.3%계산기</strong>
+                    <a href="https://search.naver.com/search.naver?query=3.3%계산기" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=3.3% 계산기" target="_blank">3.3% 계산기</a></li><li><a href="https://search.naver.com/search.naver?query=세금 3.3% 계산기" target="_blank">세금 3.3% 계산기</a></li><li><a href="https://search.naver.com/search.naver?query=월급 3.3% 계산기" target="_blank">월급 3.3% 계산기</a></li><li><a href="https://search.naver.com/search.naver?query=3.3% 계산기 세금" target="_blank">3.3% 계산기 세금</a></li><li><a href="https://search.naver.com/search.naver?query=프리랜서 3.3% 계산기" target="_blank">프리랜서 3.3% 계산기</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>포괄임금제</strong>
+                    <a href="https://search.naver.com/search.naver?query=포괄임금제" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=포괄임금제 폐지" target="_blank">포괄임금제 폐지</a></li><li><a href="https://search.naver.com/search.naver?query=포괄임금제 뜻" target="_blank">포괄임금제 뜻</a></li><li><a href="https://search.naver.com/search.naver?query=포괄임금제" target="_blank">포괄임금제</a></li><li><a href="https://search.naver.com/search.naver?query=포괄임금제 폐지 시행일" target="_blank">포괄임금제 폐지 시행일</a></li><li><a href="https://search.naver.com/search.naver?query=포괄임금제 야근수당" target="_blank">포괄임금제 야근수당</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>청년일자리도약장려금</strong>
+                    <a href="https://search.naver.com/search.naver?query=청년일자리도약장려금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=청년일자리도약장려금" target="_blank">청년일자리도약장려금</a></li><li><a href="https://search.naver.com/search.naver?query=청년일자리도약장려금 유형2" target="_blank">청년일자리도약장려금 유형2</a></li><li><a href="https://search.naver.com/search.naver?query=청년일자리도약장려금 조건" target="_blank">청년일자리도약장려금 조건</a></li><li><a href="https://search.naver.com/search.naver?query=청년일자리도약장려금 후기" target="_blank">청년일자리도약장려금 후기</a></li><li><a href="https://search.naver.com/search.naver?query=청년일자리도약장려금 유형1" target="_blank">청년일자리도약장려금 유형1</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>장애인활동지원사</strong>
+                    <a href="https://search.naver.com/search.naver?query=장애인활동지원사" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사" target="_blank">장애인활동지원사</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 교육기관" target="_blank">장애인활동지원사 교육기관</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 자격증" target="_blank">장애인활동지원사 자격증</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 교육" target="_blank">장애인활동지원사 교육</a></li><li><a href="https://search.naver.com/search.naver?query=장애인활동지원사 급여" target="_blank">장애인활동지원사 급여</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>소상공인정책자금</strong>
+                    <a href="https://search.naver.com/search.naver?query=소상공인정책자금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=소상공인정책자금사이트" target="_blank">소상공인정책자금사이트</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인정책자금지원센터" target="_blank">소상공인정책자금지원센터</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인 정책자금" target="_blank">소상공인 정책자금</a></li><li><a href="https://search.naver.com/search.naver?query=2026 소상공인 정책자금" target="_blank">2026 소상공인 정책자금</a></li><li><a href="https://search.naver.com/search.naver?query=소상공인 정책자금 대출" target="_blank">소상공인 정책자금 대출</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>경북교육청</strong>
+                    <a href="https://search.naver.com/search.naver?query=경북교육청" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=경북교육청" target="_blank">경북교육청</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청 채용" target="_blank">경북교육청 채용</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청 인사" target="_blank">경북교육청 인사</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청연수원" target="_blank">경북교육청연수원</a></li><li><a href="https://search.naver.com/search.naver?query=경북교육청과학원" target="_blank">경북교육청과학원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>연차발생기준</strong>
+                    <a href="https://search.naver.com/search.naver?query=연차발생기준" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=연차발생기준" target="_blank">연차발생기준</a></li><li><a href="https://search.naver.com/search.naver?query=연차발생기준 계산" target="_blank">연차발생기준 계산</a></li><li><a href="https://search.naver.com/search.naver?query=연차발생기준 3년" target="_blank">연차발생기준 3년</a></li><li><a href="https://search.naver.com/search.naver?query=연차발생기준 회계연도" target="_blank">연차발생기준 회계연도</a></li><li><a href="https://search.naver.com/search.naver?query=연차발생기준법" target="_blank">연차발생기준법</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>희망리턴패키지</strong>
+                    <a href="https://search.naver.com/search.naver?query=희망리턴패키지" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=희망리턴패키지" target="_blank">희망리턴패키지</a></li><li><a href="https://search.naver.com/search.naver?query=희망리턴패키지 폐업" target="_blank">희망리턴패키지 폐업</a></li><li><a href="https://search.naver.com/search.naver?query=희망리턴패키지 재창업" target="_blank">희망리턴패키지 재창업</a></li><li><a href="https://search.naver.com/search.naver?query=희망리턴패키지 교육" target="_blank">희망리턴패키지 교육</a></li><li><a href="https://search.naver.com/search.naver?query=희망리턴패키지 철거" target="_blank">희망리턴패키지 철거</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>내일채움공제</strong>
+                    <a href="https://search.naver.com/search.naver?query=내일채움공제" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=내일채움공제" target="_blank">내일채움공제</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 홈페이지" target="_blank">내일채움공제 홈페이지</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 중도해지" target="_blank">내일채움공제 중도해지</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 5년" target="_blank">내일채움공제 5년</a></li><li><a href="https://search.naver.com/search.naver?query=내일채움공제 조건" target="_blank">내일채움공제 조건</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+                <div class="related-header">
+                    <strong>가수금</strong>
+                    <a href="https://search.naver.com/search.naver?query=가수금" target="_blank" class="analyze-btn">🔍</a>
+                </div>
+                <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=가수금 뜻" target="_blank">가수금 뜻</a></li><li><a href="https://search.naver.com/search.naver?query=가수금" target="_blank">가수금</a></li><li><a href="https://search.naver.com/search.naver?query=가수금 가지급금" target="_blank">가수금 가지급금</a></li><li><a href="https://search.naver.com/search.naver?query=가수금도희" target="_blank">가수금도희</a></li><li><a href="https://search.naver.com/search.naver?query=가수금 계정" target="_blank">가수금 계정</a></li></ul>
+            </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+    </footer>
+</body>
+</html>
