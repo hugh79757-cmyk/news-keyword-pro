@@ -225,6 +225,67 @@
 
 .count-box strong{ font-size:1.5rem; color: var(--primary); }
 
+/* === 메인 페이지 summary 카드 === */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 1rem;
+}
+.summary-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.summary-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(30,58,138,0.15);
+  transform: translateY(-2px);
+}
+.summary-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.summary-icon {
+  font-size: 2rem;
+}
+.summary-header h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin: 0;
+}
+.summary-keywords {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.summary-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.summary-footer span {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+.view-btn {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.view-btn:hover {
+  color: var(--primary-light);
+}
+
   </style>
 
   {{head_extra}}
