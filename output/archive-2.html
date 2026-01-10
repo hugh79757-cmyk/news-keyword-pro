@@ -1,170 +1,695 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta name="google-site-verification" content="gWEAZRdroAJvrxbYNgysEL8U7Oq7uIPjKfI6sZutBLs" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🗂️ 아카이브 - 뉴스 키워드 인사이트 Pro</title>
 
+  
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📚 아카이브 - 뉴스 키워드</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #1e3a8a;
-            --gold: #f59e0b;
-            --bg: #f0f4ff;
-            --card-bg: #ffffff;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --border: #e5e7eb;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
-            min-height: 100vh;
-            color: var(--text);
-            line-height: 1.7;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
-            padding: 2rem;
-            text-align: center;
-            color: white;
-        }
-        .header h1 { font-size: 1.8rem; }
-        
-        .nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 1rem;
-            background: white;
-            border-bottom: 1px solid var(--border);
-        }
-        .nav-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            color: var(--text);
-            background: var(--bg);
-            font-size: 0.9rem;
-        }
-        .nav-btn:hover { background: var(--primary); color: white; }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-        
-        .count-box {
-            background: #fffbeb;
-            border: 2px solid var(--gold);
-            padding: 1rem;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .count-box strong { font-size: 1.5rem; color: var(--primary); }
-        
-        .archive-list { list-style: none; }
-        .archive-list li {
-            background: var(--card-bg);
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-        }
-        .archive-list li:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
-        }
-        .archive-list a {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 18px;
-            color: var(--text);
-            text-decoration: none;
-        }
-        .archive-date { color: var(--text-light); }
-        .archive-category { color: var(--primary); font-weight: 500; }
-        
-        .footer {
-            background: var(--primary);
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        .page-btn {
-            padding: 8px 14px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text);
-            text-decoration: none;
-        }
-        .page-btn:hover, .page-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-    </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LC96P4MDYH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <style>
+    /* === 공통 CSS (지금 너 코드에서 공통만 여기로 모으기) === */
+    :root{
+      --primary:#1e3a8a;
+      --primary-light:#3b82f6;
+      --gold:#f59e0b;
+      --green:#10b981;
+      --red:#ef4444;
+      --bg:#f0f4ff;
+      --card-bg:#ffffff;
+      --text:#1f2937;
+      --text-light:#6b7280;
+      --border:#e5e7eb;
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:'Noto Sans KR', sans-serif;
+      background:linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+      min-height:100vh;
+      color:var(--text);
+      line-height:1.7;
+    }
+    .header{
+      background:linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+      padding:2rem;
+      text-align:center;
+      color:#fff;
+    }
+    .header h1{ font-size:2rem; margin-bottom:.5rem; }
+    .header p{ opacity:.9; }
+    .header small{
+      display:inline-block;
+      margin-top:.5rem;
+      background:rgba(255,255,255,.15);
+      padding:4px 12px;
+      border-radius:20px;
+      font-size:.85rem;
+    }
 
-  gtag('config', 'G-LC96P4MDYH');
-</script>
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      padding:1rem;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+    }
+    .nav-btn{
+      padding:8px 16px;
+      border-radius:20px;
+      text-decoration:none;
+      color:var(--text);
+      background:var(--bg);
+      font-size:.9rem;
+      transition:all .2s;
+    }
+    .nav-btn:hover, .nav-btn.active{ background:var(--primary); color:#fff; }
 
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:2rem 1rem;
+    }
 
+    .footer{
+      background:var(--primary);
+      color:#fff;
+      text-align:center;
+      padding:1.5rem;
+      margin-top:3rem;
+    }
+    .footer p{ opacity:.8; font-size:.85rem; }
+
+    /* === 공유버튼 공통 CSS(중요!) === */
+    .share-buttons{
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(5, 52px);
+      gap: 10px;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .share-buttons a{
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    .share-buttons a:hover{
+      transform: scale(1.08);
+      opacity: 0.92;
+    }
+    .share-buttons a svg{
+      width: 24px !important;
+      height: 24px !important;
+      display: block;
+    }
+    @media (max-width: 420px){
+      .share-buttons{ grid-template-columns: repeat(4, 52px); }
+    }
+    .archive-list { list-style: none; padding-left: 0; margin-top: 12px; }
+.archive-list li{
+  background: var(--card-bg);
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.archive-list li:hover{
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+}
+.archive-list a{
+  display:flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  color: var(--text);
+  text-decoration: none;
+}
+.archive-date { color: var(--text-light); }
+.archive-category { color: var(--primary); font-weight: 500; }
+.count-box{
+  background:#fffbeb;
+  border:2px solid var(--gold);
+  padding:1rem;
+  border-radius:12px;
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+/* === 공통 카드/테이블 (카테고리/메인 공통 확장) === */
+.card{
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  border: 1px solid var(--border);
+}
+.card h2{
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.keyword-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.keyword-table th, .keyword-table td{
+  border:1px solid var(--border);
+  padding:12px 8px;
+  text-align:center;
+}
+.keyword-table th{
+  background: var(--primary);
+  color:#fff;
+  cursor:pointer;
+  user-select:none;
+}
+.keyword-table tr:nth-child(even){ background:#f9fafb; }
+.keyword-table tr:hover{ background:#f0f4ff; }
+.keyword-table td:nth-child(2){ text-align:left; }
+
+.analyze-btn{
+  display:inline-block;
+  padding:4px 10px;
+  background: var(--green);
+  color:#fff;
+  border-radius:4px;
+  text-decoration:none;
+  font-size:13px;
+}
+.analyze-btn:hover{ background:#059669; }
+
+.related-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:16px;
+}
+.related-card{
+  background:#f8f9fa;
+  border-radius:8px;
+  padding:16px;
+  border:1px solid var(--border);
+}
+.related-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid #dee2e6;
+}
+.related-list{ list-style:none; }
+.related-list li{ padding:4px 0; }
+.related-list a{ color:var(--text); text-decoration:none; }
+.related-list a:hover{ color:var(--primary-light); }
+.no-data{ color:#adb5bd; font-style:italic; }
+
+@media (max-width:768px){
+  .keyword-table{ font-size:12px; }
+  .keyword-table th, .keyword-table td{ padding:8px 4px; }
+  .related-grid{ grid-template-columns:1fr; }
+}
+
+.count-box strong{ font-size:1.5rem; color: var(--primary); }
+
+/* === 메인 페이지 summary 카드 === */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 1rem;
+}
+.summary-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.summary-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(30,58,138,0.15);
+  transform: translateY(-2px);
+}
+.summary-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.summary-icon {
+  font-size: 2rem;
+}
+.summary-header h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin: 0;
+}
+.summary-keywords {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.summary-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.summary-footer span {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+.view-btn {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.view-btn:hover {
+  color: var(--primary-light);
+}
+
+  </style>
+
+  
 </head>
-</header>
-
-<!-- 상단 광고 -->
-<div style="text-align:center; margin: 20px auto; max-width: 728px;">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6677996696534146"
-     data-ad-slot="4514938349"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
 
 <body>
-    <header class="header">
-        <h1>📚 과거 분석 아카이브</h1>
-        <p>이전에 분석된 키워드 리포트</p>
-    </header>
+  <header class="header">
+    <h1>🗂️ 아카이브</h1>
+    <p>날짜별 생성된 리포트 모음</p>
+    <small>📅 2026년 01월 10일 11시 12분 업데이트</small>
+
+    <div class="share-buttons">
+  <a href="https://buymeacoffee.com/infohotinfo" target="_blank" title="커피 후원" style="background:#FFDD00;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#000" d="M20 3H4v10a4 4 0 004 4h6a4 4 0 004-4v-3h2a2 2 0 002-2V5a2 2 0 00-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡" style="background:#FEE500;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#000" d="M12 3c-5.52 0-10 3.59-10 8 0 2.84 1.89 5.33 4.73 6.73-.21.78-.77 2.82-.88 3.26-.14.54.2.53.42.39.17-.12 2.69-1.82 3.78-2.57.62.09 1.27.14 1.95.14 5.52 0 10-3.59 10-8s-4.48-8-10-8z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareNaver()" title="네이버" style="background:#03C75A;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareLine()" title="라인 공유" style="background:#06C755;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="#fff" d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북" style="background:#1877F2;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareTwitter()" title="X" style="background:#000;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareThreads()" title="Threads" style="background:#000;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.88-.73 2.088-1.146 3.396-1.324 1.242-.168 2.463-.102 3.631.196.034-1.165-.06-2.057-.393-2.73-.363-.73-1.013-1.17-1.93-1.323-.697-.116-1.432-.053-2.073.178l-.567-1.905c.93-.333 1.98-.44 2.964-.306 1.532.207 2.71.92 3.4 2.06.513.85.74 1.9.758 3.343.018 1.524-.214 2.685-.713 3.584-.663 1.193-1.69 1.975-3.04 2.323-.91.234-1.957.23-2.992-.012.044.453.223.847.535 1.148.51.494 1.3.732 2.288.692 1.188-.06 2.098-.467 2.709-1.21.64-.779.998-1.925 1.066-3.407l.025-.542 2.106.078-.025.585c-.097 2.14-.71 3.891-1.82 5.198C18.647 23.078 16.528 23.98 13.7 24h-.007z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="copyLink()" title="링크 복사" style="background:#6B7280;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M7.024 3.75c0-.966.784-1.75 1.75-1.75H20.25c.966 0 1.75.784 1.75 1.75v11.498a1.75 1.75 0 01-1.75 1.75H8.774a1.75 1.75 0 01-1.75-1.75V3.75zm1.75-.25a.25.25 0 00-.25.25v11.498c0 .139.112.25.25.25H20.25a.25.25 0 00.25-.25V3.75a.25.25 0 00-.25-.25H8.774zM1.995 10.749a1.75 1.75 0 011.75-1.751H5.25a.75.75 0 110 1.5H3.745a.25.25 0 00-.25.25L3.5 20.25c0 .138.111.25.25.25h9.5a.25.25 0 00.25-.25v-1.51a.75.75 0 111.5 0v1.51A1.75 1.75 0 0113.25 22h-9.5A1.75 1.75 0 012 20.25l-.005-9.501z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈 화면 추가" style="background:#8B5CF6;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </a>
+</div>
+
+  </header>
+
+  <nav class="nav">
+    <a href="/" class="nav-btn">🏠 홈</a><a href="../archive.html" class="nav-btn">🗂️ 아카이브</a><a href="../manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+  </nav>
+
+  <main class="container">
+    <section class="container">
+  <div class="card">
+    <h2>🗂️ 아카이브</h2>
+    <p>총 <strong>406</strong>개</p>
+  </div>
+
+  <ul class="archive-list">
     
-    <nav class="nav">
-        <a href="https://news-keyword-pro.onrender.com" class="nav-btn">🔍 새 분석</a>
-        <a href="https://8.informationhot.kr/" class="nav-btn">🏠 홈</a>
-        <a href="https://8.informationhot.kr/archive.html" class="nav-btn">📚 아카이브</a>
-    </nav>
+                <li>
+                    <a href="archive/2026-01-08_22-13_realestate.html">
+                        <span class="archive-date">📅 2026년 01월 08일 22:13</span>
+                        <span class="archive-category">🏠 부동산</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_22-11_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 22:11</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_20-40_manual_273f9274.html">
+                        <span class="archive-date">📅 2026년 01월 08일 20:40</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_20-38_manual_273f9274.html">
+                        <span class="archive-date">📅 2026년 01월 08일 20:38</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_20-18_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 20:18</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
     
-    <main class="container">
-        <div class="count-box">
-            <strong>370</strong>개의 분석 결과가 저장되어 있습니다.
-        </div>
-        <ul class="archive-list">
-            
+                <li>
+                    <a href="archive/2026-01-08_19-45_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 19:45</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_19-41_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 19:41</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_19-36_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 19:36</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_19-08_manual_273f9274.html">
+                        <span class="archive-date">📅 2026년 01월 08일 19:08</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-56_policy.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:56</span>
+                        <span class="archive-category">🏛️ 정부정책</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
+                <li>
+                    <a href="archive/2026-01-08_18-56_manual_56d5bf72.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:56</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-53_tech.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:53</span>
+                        <span class="archive-category">📱 IT/모바일</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-50_health.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:50</span>
+                        <span class="archive-category">💊 건강/의료</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-47_car.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:47</span>
+                        <span class="archive-category">🚗 자동차</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-46_policy.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:46</span>
+                        <span class="archive-category">🏛️ 정부정책</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
+                <li>
+                    <a href="archive/2026-01-08_18-44_finance.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:44</span>
+                        <span class="archive-category">💰 금융</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-42_realestate.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:42</span>
+                        <span class="archive-category">🏠 부동산</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-40_policy.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:40</span>
+                        <span class="archive-category">🏛️ 정부정책</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_18-39_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 18:39</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_17-07_manual_삼성전자 회장 누구.html">
+                        <span class="archive-date">📅 2026년 01월 08일 17:07</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
+                <li>
+                    <a href="archive/2026-01-08_16-57_manual_삼성전자 1분기 실적예상.html">
+                        <span class="archive-date">📅 2026년 01월 08일 16:57</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_16-53_manual_삼성전자 배당금.html">
+                        <span class="archive-date">📅 2026년 01월 08일 16:53</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_16-44_manual_삼성전자 배당금.html">
+                        <span class="archive-date">📅 2026년 01월 08일 16:44</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_15-56_manual_김광규 안유진 탁재훈 신정환.html">
+                        <span class="archive-date">📅 2026년 01월 08일 15:56</span>
+                        <span class="archive-category">🔍 수동분석</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_13-19_policy.html">
+                        <span class="archive-date">📅 2026년 01월 08일 13:19</span>
+                        <span class="archive-category">🏛️ 정부정책</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
+                <li>
+                    <a href="archive/2026-01-08_13-15_tech.html">
+                        <span class="archive-date">📅 2026년 01월 08일 13:15</span>
+                        <span class="archive-category">📱 IT/모바일</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_13-12_health.html">
+                        <span class="archive-date">📅 2026년 01월 08일 13:12</span>
+                        <span class="archive-category">💊 건강/의료</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_13-09_car.html">
+                        <span class="archive-date">📅 2026년 01월 08일 13:09</span>
+                        <span class="archive-category">🚗 자동차</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_13-06_finance.html">
+                        <span class="archive-date">📅 2026년 01월 08일 13:06</span>
+                        <span class="archive-category">💰 금융</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_13-03_realestate.html">
+                        <span class="archive-date">📅 2026년 01월 08일 13:03</span>
+                        <span class="archive-category">🏠 부동산</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
+                <li>
+                    <a href="archive/2026-01-08_12-59_stock.html">
+                        <span class="archive-date">📅 2026년 01월 08일 12:59</span>
+                        <span class="archive-category">📈 증권/주식</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_12-27_policy.html">
+                        <span class="archive-date">📅 2026년 01월 08일 12:27</span>
+                        <span class="archive-category">🏛️ 정부정책</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_12-24_tech.html">
+                        <span class="archive-date">📅 2026년 01월 08일 12:24</span>
+                        <span class="archive-category">📱 IT/모바일</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_12-21_health.html">
+                        <span class="archive-date">📅 2026년 01월 08일 12:21</span>
+                        <span class="archive-category">💊 건강/의료</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="archive/2026-01-08_12-18_car.html">
+                        <span class="archive-date">📅 2026년 01월 08일 12:18</span>
+                        <span class="archive-category">🚗 자동차</span>
+                    </a>
+                </li>
+                
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
+                <li>
+                    <a href="archive/2026-01-08_12-16_finance.html">
+                        <span class="archive-date">📅 2026년 01월 08일 12:16</span>
+                        <span class="archive-category">💰 금융</span>
+                    </a>
+                </li>
+                
                 <li>
                     <a href="archive/2026-01-08_12-13_realestate.html">
                         <span class="archive-date">📅 2026년 01월 08일 12:13</span>
@@ -193,6 +718,16 @@
                     </a>
                 </li>
                 
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
                 <li>
                     <a href="archive/2026-01-08_11-58_health.html">
                         <span class="archive-date">📅 2026년 01월 08일 11:58</span>
@@ -200,16 +735,6 @@
                     </a>
                 </li>
                 
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
                 <li>
                     <a href="archive/2026-01-08_11-55_car.html">
                         <span class="archive-date">📅 2026년 01월 08일 11:55</span>
@@ -238,6 +763,16 @@
                     </a>
                 </li>
                 
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
+    
                 <li>
                     <a href="archive/2026-01-07_17-51_policy.html">
                         <span class="archive-date">📅 2026년 01월 07일 17:51</span>
@@ -245,16 +780,6 @@
                     </a>
                 </li>
                 
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
                 <li>
                     <a href="archive/2026-01-07_17-48_tech.html">
                         <span class="archive-date">📅 2026년 01월 07일 17:48</span>
@@ -283,358 +808,107 @@
                     </a>
                 </li>
                 
-                <li>
-                    <a href="archive/2026-01-07_17-35_realestate.html">
-                        <span class="archive-date">📅 2026년 01월 07일 17:35</span>
-                        <span class="archive-category">🏠 부동산</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-07_17-14_stock.html">
-                        <span class="archive-date">📅 2026년 01월 07일 17:14</span>
-                        <span class="archive-category">📈 증권/주식</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-48_policy.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:48</span>
-                        <span class="archive-category">🏛️ 정부정책</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-46_tech.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:46</span>
-                        <span class="archive-category">📱 IT/모바일</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-43_health.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:43</span>
-                        <span class="archive-category">💊 건강/의료</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-40_car.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:40</span>
-                        <span class="archive-category">🚗 자동차</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-07_00-36_finance.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:36</span>
-                        <span class="archive-category">💰 금융</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-33_realestate.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:33</span>
-                        <span class="archive-category">🏠 부동산</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-30_stock.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:30</span>
-                        <span class="archive-category">📈 증권/주식</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-19_policy.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:19</span>
-                        <span class="archive-category">🏛️ 정부정책</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-07_00-16_tech.html">
-                        <span class="archive-date">📅 2026년 01월 07일 00:16</span>
-                        <span class="archive-category">📱 IT/모바일</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-06_23-54_health.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:54</span>
-                        <span class="archive-category">💊 건강/의료</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-51_car.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:51</span>
-                        <span class="archive-category">🚗 자동차</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-48_finance.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:48</span>
-                        <span class="archive-category">💰 금융</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-45_realestate.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:45</span>
-                        <span class="archive-category">🏠 부동산</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-42_stock.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:42</span>
-                        <span class="archive-category">📈 증권/주식</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-06_23-27_policy.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:27</span>
-                        <span class="archive-category">🏛️ 정부정책</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-25_manual_이혜훈 프로필.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:25</span>
-                        <span class="archive-category">🔍 수동분석</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-24_tech.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:24</span>
-                        <span class="archive-category">📱 IT/모바일</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-23_manual_비트코인 청년 주택청약.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:23</span>
-                        <span class="archive-category">🔍 수동분석</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-21_health.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:21</span>
-                        <span class="archive-category">💊 건강/의료</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-06_23-18_manual_삼성전자 4분기 실적 비트코인 10만달러.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:18</span>
-                        <span class="archive-category">🔍 수동분석</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-18_car.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:18</span>
-                        <span class="archive-category">🚗 자동차</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-17_manual_파킹통장금리비교후기.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:17</span>
-                        <span class="archive-category">🔍 수동분석</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-17_manual_정기예금금리비교.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:17</span>
-                        <span class="archive-category">🔍 수동분석</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-15_finance.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:15</span>
-                        <span class="archive-category">💰 금융</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-06_23-12_realestate.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:12</span>
-                        <span class="archive-category">🏠 부동산</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_23-09_stock.html">
-                        <span class="archive-date">📅 2026년 01월 06일 23:09</span>
-                        <span class="archive-category">📈 증권/주식</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_18-22_manual_진데님 비보 이해인 기자회견.html">
-                        <span class="archive-date">📅 2026년 01월 06일 18:22</span>
-                        <span class="archive-category">🔍 수동분석</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_14-27_policy.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:27</span>
-                        <span class="archive-category">🏛️ 정부정책</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_14-24_tech.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:24</span>
-                        <span class="archive-category">📱 IT/모바일</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-                <li>
-                    <a href="archive/2026-01-06_14-21_health.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:21</span>
-                        <span class="archive-category">💊 건강/의료</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_14-18_car.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:18</span>
-                        <span class="archive-category">🚗 자동차</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_14-15_finance.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:15</span>
-                        <span class="archive-category">💰 금융</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_14-12_realestate.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:12</span>
-                        <span class="archive-category">🏠 부동산</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="archive/2026-01-06_14-08_stock.html">
-                        <span class="archive-date">📅 2026년 01월 06일 14:08</span>
-                        <span class="archive-category">📈 증권/주식</span>
-                    </a>
-                </li>
-                
-        <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6677996696534146"
-                 data-ad-slot="4514938349"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-        
-        </ul>
-        <div class="pagination"><a href="archive.html" class="page-btn">← 이전</a><a href="archive.html" class="page-btn ">1</a><a href="archive-2.html" class="page-btn active">2</a><a href="archive-3.html" class="page-btn ">3</a><a href="archive-4.html" class="page-btn ">4</a><a href="archive-5.html" class="page-btn ">5</a><a href="archive-6.html" class="page-btn ">6</a><a href="archive-7.html" class="page-btn ">7</a><a href="archive-8.html" class="page-btn ">8</a><a href="archive-3.html" class="page-btn">다음 →</a></div>
-    </main>
-
-    <!-- 하단 광고 -->
-<div style="text-align:center; margin: 20px auto; max-width: 728px;">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6677996696534146"
-     data-ad-slot="4514938349"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<footer class="footer">
-
+    <li style="list-style:none; text-align:center; padding: 20px; background: #f9f9f9; margin: 10px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6677996696534146"
+             data-ad-slot="4514938349"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </li>
     
-    <footer class="footer">
-        <p>🤖 Powered by GPT-4o-mini & Naver API</p>
-    </footer>
+  </ul>
+
+  <div class="pagination"><a href="archive.html" class="page-btn">← 이전</a><a href="archive.html" class="page-btn ">1</a><a href="archive-2.html" class="page-btn active">2</a><a href="archive-3.html" class="page-btn ">3</a><a href="archive-4.html" class="page-btn ">4</a><a href="archive-5.html" class="page-btn ">5</a><a href="archive-6.html" class="page-btn ">6</a><a href="archive-7.html" class="page-btn ">7</a><a href="archive-8.html" class="page-btn ">8</a><a href="archive-9.html" class="page-btn ">9</a><a href="archive-3.html" class="page-btn">다음 →</a></div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+  </footer>
+
+  <script>
+  function shareKakao(){
+    const url = window.location.href;
+    const text = '뉴스 키워드 인사이트 Pro';
+
+    if (navigator.share){
+      navigator.share({ title: text, url });
+    } else {
+      copyText(text + '\n' + url);
+      alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
+    }
+  }
+
+  function shareNaver(){
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+    window.open(`https://share.naver.com/web/shareView?url=${url}&title=${title}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareLine(){
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareFacebook(){
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareTwitter(){
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(document.title);
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareThreads(){
+    const text = encodeURIComponent(document.title + "\n" + window.location.href);
+    window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank', 'width=600,height=400');
+  }
+
+  function copyText(t){
+    if (navigator.clipboard && window.isSecureContext){
+      return navigator.clipboard.writeText(t);
+    }
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = t;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+
+  function copyLink(){
+    copyText(window.location.href).then(() => alert('링크가 복사되었습니다!'));
+  }
+
+  function addToHomeScreen(){
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)){
+      alert('Safari 하단 공유 버튼 → "홈 화면에 추가"');
+    } else if (/Android/i.test(navigator.userAgent)){
+      alert('브라우저 메뉴(⋮) → "홈 화면에 추가"');
+    } else {
+      alert('Ctrl+D로 북마크 추가하세요!');
+    }
+  }
+</script>
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('SW 등록 완료'))
+      .catch(err => console.log('SW 등록 실패:', err));
+  }
+</script>
+
+  
 </body>
 </html>
