@@ -32,53 +32,15 @@ def load_partials():
     return share_buttons, share_js
 
 def generate_nav_links(current_category=None, is_archive_detail=False):
-    """네비게이션 링크 생성
-    
-    is_archive_detail: archive/ 폴더 안의 개별 파일인 경우 True (../ 필요)
-    """
     prefix = "../" if is_archive_detail else ""
-    
     nav = f'<a href="{prefix}index.html" class="nav-btn">🏠 홈</a>'
-    
     for cat_id, cat_info in NEWS_CATEGORIES.items():
         active = "active" if cat_id == current_category else ""
         nav += f'<a href="{prefix}{cat_info["output"]}" class="nav-btn {active}">{cat_info["icon"]} {cat_info["name"]}</a>'
-    
     nav += f'<a href="{prefix}archive.html" class="nav-btn">🗂️ 아카이브</a>'
     nav += f'<a href="{prefix}manual-archive.html" class="nav-btn">📋 수동아카이브</a>'
     nav += '<a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>'
-    
     return nav
-
-def generate_summary_cards(all_results, is_archive_detail=False):
-    """메인 페이지용 카테고리 요약 카드 생성"""
-    prefix = "../" if is_archive_detail else ""
-    
-    summary_cards = ""
-    for cat_id, results in all_results.items():
-        if not results:
-            continue
-        cat_info = NEWS_CATEGORIES[cat_id]
-        filtered = [r for r in results if r.get("saturation", 999) <= SATURATION_THRESHOLD]
-        top_keywords = filtered[:3]
-        if not top_keywords:
-            continue
-        
-        keywords_preview = ", ".join([r["keyword"] for r in top_keywords])
-        summary_cards += f"""
-        <div class="summary-card">
-          <div class="summary-header">
-            <span class="summary-icon">{cat_info['icon']}</span>
-            <h3>{cat_info['name']}</h3>
-          </div>
-          <p class="summary-keywords">{keywords_preview}</p>
-          <div class="summary-footer">
-            <span>{len(filtered)}개 키워드</span>
-            <a href="{prefix}{cat_info['output']}" class="view-btn">자세히 보기 →</a>
-          </div>
-        </div>
-        """
-    return summary_cards
 
 def build_category_page(category_id, category_info, keyword_results, related_data=None):
     kst = timezone(timedelta(hours=9))
@@ -110,15 +72,12 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
             keyword = item.get("keyword", "")
             related = item.get("related", [])
             naver_url = f"https://search.naver.com/search.naver?query={keyword}"
-            
             related_items = ""
             for rel_kw in related[:5]:
                 rel_url = f"https://search.naver.com/search.naver?query={rel_kw}"
                 related_items += f'<li><a href="{rel_url}" target="_blank">{rel_kw}</a></li>'
-            
             if not related:
                 related_items = '<li class="no-data">연관검색어 없음</li>'
-            
             related_cards += f"""
             <div class="related-card">
               <div class="related-header">
@@ -153,7 +112,6 @@ def build_category_page(category_id, category_info, keyword_results, related_dat
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
     
-    # 아카이브 저장
     archive_dir = BASE_DIR / "output" / "archive"
     archive_dir.mkdir(parents=True, exist_ok=True)
     archive_filename = f"{date_prefix}_{category_id}.html"
@@ -173,18 +131,14 @@ def save_to_csv(category_name, keyword_results):
     now = datetime.now(kst)
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M")
-    
     csv_dir = "output/csv"
     os.makedirs(csv_dir, exist_ok=True)
     csv_path = f"{csv_dir}/{date_str}.csv"
-    
     file_exists = os.path.exists(csv_path)
-    
     with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
         writer = csv.writer(f)
         if not file_exists:
             writer.writerow(['시간', '카테고리', '키워드', '월간검색량', '블로그', '포화도', '난이도'])
-        
         for item in keyword_results:
             writer.writerow([
                 time_str,
@@ -200,12 +154,32 @@ def build_index_page(all_results):
     kst = timezone(timedelta(hours=9))
     now = datetime.now(kst)
     update_time = now.strftime("%Y년 %m월 %d일 %H시 %M분")
-    date_prefix = now.strftime("%Y-%m-%d_%H-%M")
+    
+    summary_cards = ""
+    for cat_id, results in all_results.items():
+        if not results:
+            continue
+        cat_info = NEWS_CATEGORIES[cat_id]
+        filtered = [r for r in results if r.get("saturation", 999) <= SATURATION_THRESHOLD]
+        top_keywords = filtered[:3]
+        if not top_keywords:
+            continue
+        keywords_preview = ", ".join([r["keyword"] for r in top_keywords])
+        summary_cards += f"""
+        <div class="summary-card">
+          <div class="summary-header">
+            <span class="summary-icon">{cat_info['icon']}</span>
+            <h3>{cat_info['name']}</h3>
+          </div>
+          <p class="summary-keywords">{keywords_preview}</p>
+          <div class="summary-footer">
+            <span>{len(filtered)}개 키워드</span>
+            <a href="{cat_info['output']}" class="view-btn">자세히 보기 →</a>
+          </div>
+        </div>
+        """
     
     share_buttons, share_js = load_partials()
-    
-    # 메인 페이지용 (루트)
-    summary_cards = generate_summary_cards(all_results, is_archive_detail=False)
     
     context = {
         "page_title": "뉴스 키워드 인사이트 Pro - 블로그 상위노출 키워드 분석",
@@ -226,32 +200,14 @@ def build_index_page(all_results):
     output_path = BASE_DIR / "output" / "index.html"
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
-    
-    # 아카이브용 index 페이지 생성
-    archive_dir = BASE_DIR / "output" / "archive"
-    archive_dir.mkdir(parents=True, exist_ok=True)
-    
-    archive_summary_cards = generate_summary_cards(all_results, is_archive_detail=True)
-    
-    archive_context = dict(context)
-    archive_context["nav_links"] = generate_nav_links(is_archive_detail=True)
-    archive_context["summary_cards"] = archive_summary_cards
-    
-    archive_html = render_page("templates/pages/index.html", archive_context)
-    
-    archive_index_path = archive_dir / f"{date_prefix}_index.html"
-    with open(archive_index_path, "w", encoding="utf-8") as f:
-        f.write(archive_html)
-    
     print("    ✅ output/index.html 생성 완료")
 
 def build_archive_page():
     archive_dir = BASE_DIR / "output" / "archive"
     archive_dir.mkdir(parents=True, exist_ok=True)
     
-    # manual 파일과 index 파일 제외
     files = sorted(
-        [p.name for p in archive_dir.glob("*.html") if "_manual_" not in p.name and "_index" not in p.name], 
+        [p.name for p in archive_dir.glob("*.html") if "_manual_" not in p.name], 
         reverse=True
     )
     
@@ -359,14 +315,11 @@ def build_archive_page():
 def copy_static_files():
     output_dir = BASE_DIR / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
-    
     src_sw = BASE_DIR / "src" / "static" / "service-worker.js"
     dst_sw = output_dir / "service-worker.js"
-    
     if not src_sw.exists():
         print(f"⚠️ service-worker.js 없음: {src_sw} (복사 스킵)")
         return
-    
     shutil.copy2(src_sw, dst_sw)
     print(f"    ✅ service-worker 복사 완료: {dst_sw}")
 
