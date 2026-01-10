@@ -7,10 +7,12 @@
 
   
 
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* === 공통 CSS (지금 너 코드에서 공통만 여기로 모으기) === */
     :root{
       --primary:#1e3a8a;
       --primary-light:#3b82f6;
@@ -83,7 +85,6 @@
     }
     .footer p{ opacity:.8; font-size:.85rem; }
 
-    /* === 공유버튼 공통 CSS(중요!) === */
     .share-buttons{
       margin-top: 1rem;
       display: grid;
@@ -115,116 +116,201 @@
     @media (max-width: 420px){
       .share-buttons{ grid-template-columns: repeat(4, 52px); }
     }
+
     .archive-list { list-style: none; padding-left: 0; margin-top: 12px; }
-.archive-list li{
-  background: var(--card-bg);
-  margin-bottom: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  transition: all 0.2s;
-}
-.archive-list li:hover{
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(30,58,138,0.15);
-}
-.archive-list a{
-  display:flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 18px;
-  color: var(--text);
-  text-decoration: none;
-}
-.archive-date { color: var(--text-light); }
-.archive-category { color: var(--primary); font-weight: 500; }
-.count-box{
-  background:#fffbeb;
-  border:2px solid var(--gold);
-  padding:1rem;
-  border-radius:12px;
-  text-align:center;
-  margin-bottom:2rem;
-}
+    .archive-list li{
+      background: var(--card-bg);
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .archive-list li:hover{
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+    }
+    .archive-list a{
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .archive-date { color: var(--text-light); }
+    .archive-category { color: var(--primary); font-weight: 500; }
 
-/* === 공통 카드/테이블 (카테고리/메인 공통 확장) === */
-.card{
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,.08);
-  border: 1px solid var(--border);
-}
-.card h2{
-  color: var(--primary);
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
+    .count-box{
+      background:#fffbeb;
+      border:2px solid var(--gold);
+      padding:1rem;
+      border-radius:12px;
+      text-align:center;
+      margin-bottom:2rem;
+    }
+    .count-box strong{ font-size:1.5rem; color: var(--primary); }
 
-.keyword-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:14px;
-}
-.keyword-table th, .keyword-table td{
-  border:1px solid var(--border);
-  padding:12px 8px;
-  text-align:center;
-}
-.keyword-table th{
-  background: var(--primary);
-  color:#fff;
-  cursor:pointer;
-  user-select:none;
-}
-.keyword-table tr:nth-child(even){ background:#f9fafb; }
-.keyword-table tr:hover{ background:#f0f4ff; }
-.keyword-table td:nth-child(2){ text-align:left; }
+    .card{
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      border: 1px solid var(--border);
+    }
+    .card h2{
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
 
-.analyze-btn{
-  display:inline-block;
-  padding:4px 10px;
-  background: var(--green);
-  color:#fff;
-  border-radius:4px;
-  text-decoration:none;
-  font-size:13px;
-}
-.analyze-btn:hover{ background:#059669; }
+    .keyword-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    .keyword-table th, .keyword-table td{
+      border:1px solid var(--border);
+      padding:12px 8px;
+      text-align:center;
+    }
+    .keyword-table th{
+      background: var(--primary);
+      color:#fff;
+      cursor:pointer;
+      user-select:none;
+      position: relative;
+    }
+    .keyword-table th:hover{
+      background: var(--primary-light);
+    }
+    .keyword-table tr:nth-child(even){ background:#f9fafb; }
+    .keyword-table tr:hover{ background:#f0f4ff; }
+    .keyword-table td:nth-child(2){ text-align:left; }
 
-.related-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap:16px;
-}
-.related-card{
-  background:#f8f9fa;
-  border-radius:8px;
-  padding:16px;
-  border:1px solid var(--border);
-}
-.related-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-  padding-bottom:8px;
-  border-bottom:1px solid #dee2e6;
-}
-.related-list{ list-style:none; }
-.related-list li{ padding:4px 0; }
-.related-list a{ color:var(--text); text-decoration:none; }
-.related-list a:hover{ color:var(--primary-light); }
-.no-data{ color:#adb5bd; font-style:italic; }
+    .analyze-btn{
+      display:inline-block;
+      padding:4px 10px;
+      background: var(--green);
+      color:#fff;
+      border-radius:4px;
+      text-decoration:none;
+      font-size:13px;
+    }
+    .analyze-btn:hover{ background:#059669; }
 
-@media (max-width:768px){
-  .keyword-table{ font-size:12px; }
-  .keyword-table th, .keyword-table td{ padding:8px 4px; }
-  .related-grid{ grid-template-columns:1fr; }
-}
+    .related-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap:16px;
+    }
+    .related-card{
+      background:#f8f9fa;
+      border-radius:8px;
+      padding:16px;
+      border:1px solid var(--border);
+    }
+    .related-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+      padding-bottom:8px;
+      border-bottom:1px solid #dee2e6;
+    }
+    .related-list{ list-style:none; }
+    .related-list li{ padding:4px 0; }
+    .related-list a{ color:var(--text); text-decoration:none; }
+    .related-list a:hover{ color:var(--primary-light); }
+    .no-data{ color:#adb5bd; font-style:italic; }
 
-.count-box strong{ font-size:1.5rem; color: var(--primary); }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 1rem;
+    }
+    .summary-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .summary-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 25px rgba(30,58,138,0.15);
+      transform: translateY(-2px);
+    }
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .summary-icon {
+      font-size: 2rem;
+    }
+    .summary-header h3 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .summary-keywords {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .summary-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .summary-footer span {
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+    .view-btn {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .view-btn:hover {
+      color: var(--primary-light);
+    }
 
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2rem;
+    }
+    .page-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .page-btn:hover, .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    @media (max-width:768px){
+      .keyword-table{ font-size:12px; }
+      .keyword-table th, .keyword-table td{ padding:8px 4px; }
+      .related-grid{ grid-template-columns:1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
   </style>
 
   
@@ -233,8 +319,8 @@
 <body>
   <header class="header">
     <h1>📱 IT/모바일 키워드</h1>
-    <p>상위노출 가능한 블로그 키워드 21개</p>
-    <small>📅 2026년 01월 10일 08시 06분 업데이트</small>
+    <p>상위노출 가능한 블로그 키워드 23개</p>
+    <small>📅 2026년 01월 10일 11시 37분 업데이트</small>
 
     <div class="share-buttons">
   <a href="https://buymeacoffee.com/infohotinfo" target="_blank" title="커피 후원" style="background:#FFDD00;">
@@ -333,7 +419,7 @@
             <td>2</td>
             <td><strong>챗지피티</strong></td>
             <td>8,212,300</td>
-            <td>242,546</td>
+            <td>242,603</td>
             <td>0.03</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a></td>
@@ -343,7 +429,7 @@
             <td>3</td>
             <td><strong>갤럭시S26</strong></td>
             <td>354,500</td>
-            <td>12,748</td>
+            <td>12,804</td>
             <td>0.04</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a></td>
@@ -353,7 +439,7 @@
             <td>4</td>
             <td><strong>쳇GPT</strong></td>
             <td>497,600</td>
-            <td>38,529</td>
+            <td>38,545</td>
             <td>0.08</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=쳇GPT" target="_blank" class="analyze-btn">🔍</a></td>
@@ -363,7 +449,7 @@
             <td>5</td>
             <td><strong>챗GPT</strong></td>
             <td>4,597,600</td>
-            <td>608,151</td>
+            <td>608,313</td>
             <td>0.13</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=챗GPT" target="_blank" class="analyze-btn">🔍</a></td>
@@ -373,7 +459,7 @@
             <td>6</td>
             <td><strong>S26</strong></td>
             <td>79,200</td>
-            <td>15,902</td>
+            <td>15,964</td>
             <td>0.2</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=S26" target="_blank" class="analyze-btn">🔍</a></td>
@@ -381,56 +467,66 @@
         
         <tr>
             <td>7</td>
-            <td><strong>삼세페</strong></td>
-            <td>37,380</td>
-            <td>7,335</td>
-            <td>0.2</td>
+            <td><strong>챗GTP</strong></td>
+            <td>38,800</td>
+            <td>9,465</td>
+            <td>0.24</td>
             <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=삼세페" target="_blank" class="analyze-btn">🔍</a></td>
+            <td><a href="https://search.naver.com/search.naver?query=챗GTP" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
             <td>8</td>
-            <td><strong>삼성몰</strong></td>
-            <td>20,570</td>
-            <td>4,648</td>
-            <td>0.23</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=삼성몰" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
-            <td>9</td>
             <td><strong>CHATGPT</strong></td>
             <td>1,916,800</td>
-            <td>505,894</td>
+            <td>505,973</td>
             <td>0.26</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=CHATGPT" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
+            <td>9</td>
+            <td><strong>증시휴장일</strong></td>
+            <td>46,500</td>
+            <td>12,630</td>
+            <td>0.27</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=증시휴장일" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
             <td>10</td>
+            <td><strong>원리금균등상환계산기</strong></td>
+            <td>31,360</td>
+            <td>8,813</td>
+            <td>0.28</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=원리금균등상환계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>JB우리캐피탈</strong></td>
+            <td>22,340</td>
+            <td>6,653</td>
+            <td>0.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=JB우리캐피탈" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
             <td><strong>아이폰16E</strong></td>
             <td>37,070</td>
-            <td>11,703</td>
+            <td>11,704</td>
             <td>0.32</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=아이폰16E" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>11</td>
-            <td><strong>구글</strong></td>
-            <td>19,150,900</td>
-            <td>7,586,341</td>
-            <td>0.4</td>
-            <td>🟢</td>
-            <td><a href="https://search.naver.com/search.naver?query=구글" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
-            <td>12</td>
+            <td>13</td>
             <td><strong>양지사다이어리</strong></td>
             <td>18,950</td>
             <td>7,664</td>
@@ -440,70 +536,60 @@
         </tr>
         
         <tr>
-            <td>13</td>
+            <td>14</td>
             <td><strong>갤럭시S25</strong></td>
             <td>409,600</td>
-            <td>167,759</td>
+            <td>167,830</td>
             <td>0.41</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S25" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>14</td>
+            <td>15</td>
             <td><strong>갤럭시S25울트라</strong></td>
             <td>136,200</td>
-            <td>68,387</td>
+            <td>68,420</td>
             <td>0.5</td>
             <td>🟢</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S25울트라" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>15</td>
+            <td>16</td>
             <td><strong>VMS</strong></td>
             <td>79,700</td>
-            <td>42,279</td>
+            <td>42,281</td>
             <td>0.53</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=VMS" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>16</td>
+            <td>17</td>
             <td><strong>갤럭시워치8</strong></td>
             <td>162,900</td>
-            <td>102,930</td>
+            <td>102,931</td>
             <td>0.63</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>17</td>
+            <td>18</td>
             <td><strong>아이폰17</strong></td>
             <td>556,100</td>
-            <td>400,832</td>
+            <td>400,892</td>
             <td>0.72</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=아이폰17" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
         <tr>
-            <td>18</td>
-            <td><strong>MDS테크</strong></td>
-            <td>26,970</td>
-            <td>20,410</td>
-            <td>0.76</td>
-            <td>🟡</td>
-            <td><a href="https://search.naver.com/search.naver?query=MDS테크" target="_blank" class="analyze-btn">🔍</a></td>
-        </tr>
-        
-        <tr>
             <td>19</td>
             <td><strong>갤럭시S25울트라케이스</strong></td>
             <td>21,730</td>
-            <td>17,670</td>
+            <td>17,677</td>
             <td>0.81</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S25울트라케이스" target="_blank" class="analyze-btn">🔍</a></td>
@@ -513,7 +599,7 @@
             <td>20</td>
             <td><strong>S25울트라</strong></td>
             <td>84,500</td>
-            <td>72,138</td>
+            <td>72,179</td>
             <td>0.85</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=S25울트라" target="_blank" class="analyze-btn">🔍</a></td>
@@ -523,15 +609,46 @@
             <td>21</td>
             <td><strong>갤럭시S25플러스</strong></td>
             <td>46,220</td>
-            <td>39,391</td>
+            <td>39,409</td>
             <td>0.85</td>
             <td>🟡</td>
             <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스" target="_blank" class="analyze-btn">🔍</a></td>
         </tr>
         
+        <tr>
+            <td>22</td>
+            <td><strong>주식사는법</strong></td>
+            <td>44,490</td>
+            <td>40,529</td>
+            <td>0.91</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=주식사는법" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>미드저니</strong></td>
+            <td>55,400</td>
+            <td>54,433</td>
+            <td>0.98</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=미드저니" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
     </tbody>
   </table>
 </section>
+
+<!-- 테이블 하단 광고 -->
+<div style="margin: 2rem 0; text-align: center;">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6677996696534146"
+       data-ad-slot="4514938349"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
 
 <section class="card">
   <h2>🔗 연관 검색어</h2>
@@ -587,18 +704,10 @@
             
             <div class="related-card">
               <div class="related-header">
-                <strong>삼세페</strong>
-                <a href="https://search.naver.com/search.naver?query=삼세페" target="_blank" class="analyze-btn">🔍</a>
+                <strong>챗GTP</strong>
+                <a href="https://search.naver.com/search.naver?query=챗GTP" target="_blank" class="analyze-btn">🔍</a>
               </div>
-              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=삼세페" target="_blank">삼세페</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 기간 2026" target="_blank">삼세페 기간 2026</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 2026" target="_blank">삼세페 2026</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 갤럭시" target="_blank">삼세페 갤럭시</a></li><li><a href="https://search.naver.com/search.naver?query=삼세페 할인" target="_blank">삼세페 할인</a></li></ul>
-            </div>
-            
-            <div class="related-card">
-              <div class="related-header">
-                <strong>삼성몰</strong>
-                <a href="https://search.naver.com/search.naver?query=삼성몰" target="_blank" class="analyze-btn">🔍</a>
-              </div>
-              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=삼성몰" target="_blank">삼성몰</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 스토어" target="_blank">삼성몰 스토어</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 임직원몰" target="_blank">삼성몰 임직원몰</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 핸드폰" target="_blank">삼성몰 핸드폰</a></li><li><a href="https://search.naver.com/search.naver?query=삼성몰 할인" target="_blank">삼성몰 할인</a></li></ul>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗gtp" target="_blank">챗gtp</a></li><li><a href="https://search.naver.com/search.naver?query=챗gtp 타로" target="_blank">챗gtp 타로</a></li><li><a href="https://search.naver.com/search.naver?query=챗GTP 설정하는법" target="_blank">챗GTP 설정하는법</a></li><li><a href="https://search.naver.com/search.naver?query=챗gtp 제미니 비교" target="_blank">챗gtp 제미니 비교</a></li><li><a href="https://search.naver.com/search.naver?query=챗GTP 질문방법" target="_blank">챗GTP 질문방법</a></li></ul>
             </div>
             
             <div class="related-card">
@@ -611,10 +720,18 @@
             
             <div class="related-card">
               <div class="related-header">
-                <strong>아이폰16E</strong>
-                <a href="https://search.naver.com/search.naver?query=아이폰16E" target="_blank" class="analyze-btn">🔍</a>
+                <strong>증시휴장일</strong>
+                <a href="https://search.naver.com/search.naver?query=증시휴장일" target="_blank" class="analyze-btn">🔍</a>
               </div>
-              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=아이폰16e" target="_blank">아이폰16e</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 케이스" target="_blank">아이폰16e 케이스</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 자급제" target="_blank">아이폰16e 자급제</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 후기" target="_blank">아이폰16e 후기</a></li><li><a href="https://search.naver.com/search.naver?query=아이폰16e 중고" target="_blank">아이폰16e 중고</a></li></ul>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=증시 휴장일" target="_blank">증시 휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=미국증시 휴장일" target="_blank">미국증시 휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=미증시 휴장일" target="_blank">미증시 휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=한국증시휴장일" target="_blank">한국증시휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=일본증시휴장일" target="_blank">일본증시휴장일</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>원리금균등상환계산기</strong>
+                <a href="https://search.naver.com/search.naver?query=원리금균등상환계산기" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기" target="_blank">원리금균등상환 계산기</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 이자" target="_blank">원리금균등상환 계산기 이자</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 거치" target="_blank">원리금균등상환 계산기 거치</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 엑셀" target="_blank">원리금균등상환 계산기 엑셀</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 거치기간" target="_blank">원리금균등상환 계산기 거치기간</a></li></ul>
             </div>
             
   </div>
@@ -698,13 +815,68 @@
   }
 </script>
 
+
   <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js')
       .then(() => console.log('SW 등록 완료'))
       .catch(err => console.log('SW 등록 실패:', err));
   }
-</script>
+  </script>
+
+  <script>
+  // 테이블 헤더 클릭 정렬 기능
+  document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('.keyword-table');
+    
+    tables.forEach(table => {
+      const headers = table.querySelectorAll('th');
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      
+      headers.forEach((header, index) => {
+        let sortDir = 0; // 0: none, 1: asc, -1: desc
+        
+        header.addEventListener('click', function() {
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          
+          // 정렬 방향 토글
+          sortDir = sortDir === 1 ? -1 : 1;
+          
+          // 모든 헤더에서 정렬 표시 제거
+          headers.forEach(h => {
+            h.textContent = h.textContent.replace(' ▲', '').replace(' ▼', '');
+          });
+          
+          // 현재 헤더에 정렬 표시
+          header.textContent = header.textContent + (sortDir === 1 ? ' ▲' : ' ▼');
+          
+          // 정렬 실행
+          rows.sort((a, b) => {
+            let aVal = a.cells[index]?.textContent.trim() || '';
+            let bVal = b.cells[index]?.textContent.trim() || '';
+            
+            // 숫자 변환 (콤마 제거)
+            const aNum = parseFloat(aVal.replace(/,/g, ''));
+            const bNum = parseFloat(bVal.replace(/,/g, ''));
+            
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+              return sortDir === 1 ? aNum - bNum : bNum - aNum;
+            }
+            
+            // 문자열 비교
+            return sortDir === 1 
+              ? aVal.localeCompare(bVal, 'ko') 
+              : bVal.localeCompare(aVal, 'ko');
+          });
+          
+          // 정렬된 행 다시 삽입
+          rows.forEach(row => tbody.appendChild(row));
+        });
+      });
+    });
+  });
+  </script>
 
   
 </body>
