@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📱 IT/모바일 - 뉴스 키워드</title>
+
+  
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6677996696534146" crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#1e3a8a;
+      --primary-light:#3b82f6;
+      --gold:#f59e0b;
+      --green:#10b981;
+      --red:#ef4444;
+      --bg:#f0f4ff;
+      --card-bg:#ffffff;
+      --text:#1f2937;
+      --text-light:#6b7280;
+      --border:#e5e7eb;
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:'Noto Sans KR', sans-serif;
+      background:linear-gradient(180deg, var(--bg) 0%, #f8fafc 100%);
+      min-height:100vh;
+      color:var(--text);
+      line-height:1.7;
+    }
+    .header{
+      background:linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+      padding:2rem;
+      text-align:center;
+      color:#fff;
+    }
+    .header h1{ font-size:2rem; margin-bottom:.5rem; }
+    .header p{ opacity:.9; }
+    .header small{
+      display:inline-block;
+      margin-top:.5rem;
+      background:rgba(255,255,255,.15);
+      padding:4px 12px;
+      border-radius:20px;
+      font-size:.85rem;
+    }
+
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      padding:1rem;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+    }
+    .nav-btn{
+      padding:8px 16px;
+      border-radius:20px;
+      text-decoration:none;
+      color:var(--text);
+      background:var(--bg);
+      font-size:.9rem;
+      transition:all .2s;
+    }
+    .nav-btn:hover, .nav-btn.active{ background:var(--primary); color:#fff; }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:2rem 1rem;
+    }
+
+    .footer{
+      background:var(--primary);
+      color:#fff;
+      text-align:center;
+      padding:1.5rem;
+      margin-top:3rem;
+    }
+    .footer p{ opacity:.8; font-size:.85rem; }
+
+    .share-buttons{
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(5, 52px);
+      gap: 10px;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .share-buttons a{
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    .share-buttons a:hover{
+      transform: scale(1.08);
+      opacity: 0.92;
+    }
+    .share-buttons a svg{
+      width: 24px !important;
+      height: 24px !important;
+      display: block;
+    }
+    @media (max-width: 420px){
+      .share-buttons{ grid-template-columns: repeat(4, 52px); }
+    }
+
+    .archive-list { list-style: none; padding-left: 0; margin-top: 12px; }
+    .archive-list li{
+      background: var(--card-bg);
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .archive-list li:hover{
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+    }
+    .archive-list a{
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .archive-date { color: var(--text-light); }
+    .archive-category { color: var(--primary); font-weight: 500; }
+
+    .count-box{
+      background:#fffbeb;
+      border:2px solid var(--gold);
+      padding:1rem;
+      border-radius:12px;
+      text-align:center;
+      margin-bottom:2rem;
+    }
+    .count-box strong{ font-size:1.5rem; color: var(--primary); }
+
+    .card{
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      border: 1px solid var(--border);
+    }
+    .card h2{
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .keyword-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    .keyword-table th, .keyword-table td{
+      border:1px solid var(--border);
+      padding:12px 8px;
+      text-align:center;
+    }
+    .keyword-table th{
+      background: var(--primary);
+      color:#fff;
+      cursor:pointer;
+      user-select:none;
+      position: relative;
+    }
+    .keyword-table th:hover{
+      background: var(--primary-light);
+    }
+    .keyword-table tr:nth-child(even){ background:#f9fafb; }
+    .keyword-table tr:hover{ background:#f0f4ff; }
+    .keyword-table td:nth-child(2){ text-align:left; }
+
+    .analyze-btn{
+      display:inline-block;
+      padding:4px 10px;
+      background: var(--green);
+      color:#fff;
+      border-radius:4px;
+      text-decoration:none;
+      font-size:13px;
+    }
+    .analyze-btn:hover{ background:#059669; }
+
+    .related-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap:16px;
+    }
+    .related-card{
+      background:#f8f9fa;
+      border-radius:8px;
+      padding:16px;
+      border:1px solid var(--border);
+    }
+    .related-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+      padding-bottom:8px;
+      border-bottom:1px solid #dee2e6;
+    }
+    .related-list{ list-style:none; }
+    .related-list li{ padding:4px 0; }
+    .related-list a{ color:var(--text); text-decoration:none; }
+    .related-list a:hover{ color:var(--primary-light); }
+    .no-data{ color:#adb5bd; font-style:italic; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 1rem;
+    }
+    .summary-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .summary-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 25px rgba(30,58,138,0.15);
+      transform: translateY(-2px);
+    }
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .summary-icon {
+      font-size: 2rem;
+    }
+    .summary-header h3 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .summary-keywords {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .summary-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .summary-footer span {
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+    .view-btn {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .view-btn:hover {
+      color: var(--primary-light);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2rem;
+    }
+    .page-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .page-btn:hover, .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    @media (max-width:768px){
+      .keyword-table{ font-size:12px; }
+      .keyword-table th, .keyword-table td{ padding:8px 4px; }
+      .related-grid{ grid-template-columns:1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  
+</head>
+
+<body>
+  <header class="header">
+    <h1>📱 IT/모바일 키워드</h1>
+    <p>상위노출 가능한 블로그 키워드 23개</p>
+    <small>📅 2026년 01월 10일 11시 37분 업데이트</small>
+
+    <div class="share-buttons">
+  <a href="https://buymeacoffee.com/infohotinfo" target="_blank" title="커피 후원" style="background:#FFDD00;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#000" d="M20 3H4v10a4 4 0 004 4h6a4 4 0 004-4v-3h2a2 2 0 002-2V5a2 2 0 00-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareKakao()" title="카카오톡" style="background:#FEE500;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#000" d="M12 3c-5.52 0-10 3.59-10 8 0 2.84 1.89 5.33 4.73 6.73-.21.78-.77 2.82-.88 3.26-.14.54.2.53.42.39.17-.12 2.69-1.82 3.78-2.57.62.09 1.27.14 1.95.14 5.52 0 10-3.59 10-8s-4.48-8-10-8z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareNaver()" title="네이버" style="background:#03C75A;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareLine()" title="라인 공유" style="background:#06C755;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="#fff" d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareFacebook()" title="페이스북" style="background:#1877F2;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareTwitter()" title="X" style="background:#000;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="shareThreads()" title="Threads" style="background:#000;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.88-.73 2.088-1.146 3.396-1.324 1.242-.168 2.463-.102 3.631.196.034-1.165-.06-2.057-.393-2.73-.363-.73-1.013-1.17-1.93-1.323-.697-.116-1.432-.053-2.073.178l-.567-1.905c.93-.333 1.98-.44 2.964-.306 1.532.207 2.71.92 3.4 2.06.513.85.74 1.9.758 3.343.018 1.524-.214 2.685-.713 3.584-.663 1.193-1.69 1.975-3.04 2.323-.91.234-1.957.23-2.992-.012.044.453.223.847.535 1.148.51.494 1.3.732 2.288.692 1.188-.06 2.098-.467 2.709-1.21.64-.779.998-1.925 1.066-3.407l.025-.542 2.106.078-.025.585c-.097 2.14-.71 3.891-1.82 5.198C18.647 23.078 16.528 23.98 13.7 24h-.007z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="copyLink()" title="링크 복사" style="background:#6B7280;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M7.024 3.75c0-.966.784-1.75 1.75-1.75H20.25c.966 0 1.75.784 1.75 1.75v11.498a1.75 1.75 0 01-1.75 1.75H8.774a1.75 1.75 0 01-1.75-1.75V3.75zm1.75-.25a.25.25 0 00-.25.25v11.498c0 .139.112.25.25.25H20.25a.25.25 0 00.25-.25V3.75a.25.25 0 00-.25-.25H8.774zM1.995 10.749a1.75 1.75 0 011.75-1.751H5.25a.75.75 0 110 1.5H3.745a.25.25 0 00-.25.25L3.5 20.25c0 .138.111.25.25.25h9.5a.25.25 0 00.25-.25v-1.51a.75.75 0 111.5 0v1.51A1.75 1.75 0 0113.25 22h-9.5A1.75 1.75 0 012 20.25l-.005-9.501z"/>
+    </svg>
+  </a>
+
+  <a href="javascript:void(0)" onclick="addToHomeScreen()" title="홈 화면 추가" style="background:#8B5CF6;">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fff" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </a>
+</div>
+
+  </header>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-btn">🏠 홈</a><a href="../stock.html" class="nav-btn ">📈 증권/주식</a><a href="../realestate.html" class="nav-btn ">🏠 부동산</a><a href="../finance.html" class="nav-btn ">💰 금융</a><a href="../car.html" class="nav-btn ">🚗 자동차</a><a href="../health.html" class="nav-btn ">💊 건강/의료</a><a href="../tech.html" class="nav-btn active">📱 IT/모바일</a><a href="../policy.html" class="nav-btn ">🏛️ 정부정책</a><a href="../archive.html" class="nav-btn">🗂️ 아카이브</a><a href="../manual-archive.html" class="nav-btn">📋 수동아카이브</a><a href="https://news-keyword-pro.onrender.com" class="nav-btn" target="_blank">🔍 수동검색</a>
+  </nav>
+
+  <main class="container">
+    <section class="card">
+  <h2>📊 추천 키워드 (포화도 1.0 이하)</h2>
+  <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+    포화도 = 블로그문서수 ÷ 월간검색량 (낮을수록 상위노출 쉬움) · 헤더 클릭시 정렬
+  </p>
+
+  <table class="keyword-table">
+    <thead>
+      <tr>
+        <th>순위</th>
+        <th>키워드</th>
+        <th>월간검색량</th>
+        <th>블로그</th>
+        <th>포화도</th>
+        <th>난이도</th>
+        <th>검색</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+            <td>1</td>
+            <td><strong>겔럭시S25</strong></td>
+            <td>29,650</td>
+            <td>593</td>
+            <td>0.02</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=겔럭시S25" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td><strong>챗지피티</strong></td>
+            <td>8,212,300</td>
+            <td>242,603</td>
+            <td>0.03</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td><strong>갤럭시S26</strong></td>
+            <td>354,500</td>
+            <td>12,804</td>
+            <td>0.04</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td><strong>쳇GPT</strong></td>
+            <td>497,600</td>
+            <td>38,545</td>
+            <td>0.08</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=쳇GPT" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td><strong>챗GPT</strong></td>
+            <td>4,597,600</td>
+            <td>608,313</td>
+            <td>0.13</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=챗GPT" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td><strong>S26</strong></td>
+            <td>79,200</td>
+            <td>15,964</td>
+            <td>0.2</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=S26" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>챗GTP</strong></td>
+            <td>38,800</td>
+            <td>9,465</td>
+            <td>0.24</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=챗GTP" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td><strong>CHATGPT</strong></td>
+            <td>1,916,800</td>
+            <td>505,973</td>
+            <td>0.26</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=CHATGPT" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td><strong>증시휴장일</strong></td>
+            <td>46,500</td>
+            <td>12,630</td>
+            <td>0.27</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=증시휴장일" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>원리금균등상환계산기</strong></td>
+            <td>31,360</td>
+            <td>8,813</td>
+            <td>0.28</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=원리금균등상환계산기" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>JB우리캐피탈</strong></td>
+            <td>22,340</td>
+            <td>6,653</td>
+            <td>0.3</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=JB우리캐피탈" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>아이폰16E</strong></td>
+            <td>37,070</td>
+            <td>11,704</td>
+            <td>0.32</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=아이폰16E" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>양지사다이어리</strong></td>
+            <td>18,950</td>
+            <td>7,664</td>
+            <td>0.4</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=양지사다이어리" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td><strong>갤럭시S25</strong></td>
+            <td>409,600</td>
+            <td>167,830</td>
+            <td>0.41</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td><strong>갤럭시S25울트라</strong></td>
+            <td>136,200</td>
+            <td>68,420</td>
+            <td>0.5</td>
+            <td>🟢</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25울트라" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td><strong>VMS</strong></td>
+            <td>79,700</td>
+            <td>42,281</td>
+            <td>0.53</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=VMS" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td><strong>갤럭시워치8</strong></td>
+            <td>162,900</td>
+            <td>102,931</td>
+            <td>0.63</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시워치8" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td><strong>아이폰17</strong></td>
+            <td>556,100</td>
+            <td>400,892</td>
+            <td>0.72</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=아이폰17" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td><strong>갤럭시S25울트라케이스</strong></td>
+            <td>21,730</td>
+            <td>17,677</td>
+            <td>0.81</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25울트라케이스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td><strong>S25울트라</strong></td>
+            <td>84,500</td>
+            <td>72,179</td>
+            <td>0.85</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=S25울트라" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td><strong>갤럭시S25플러스</strong></td>
+            <td>46,220</td>
+            <td>39,409</td>
+            <td>0.85</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=갤럭시S25플러스" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td><strong>주식사는법</strong></td>
+            <td>44,490</td>
+            <td>40,529</td>
+            <td>0.91</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=주식사는법" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td><strong>미드저니</strong></td>
+            <td>55,400</td>
+            <td>54,433</td>
+            <td>0.98</td>
+            <td>🟡</td>
+            <td><a href="https://search.naver.com/search.naver?query=미드저니" target="_blank" class="analyze-btn">🔍</a></td>
+        </tr>
+        
+    </tbody>
+  </table>
+</section>
+
+<!-- 테이블 하단 광고 -->
+<div style="margin: 2rem 0; text-align: center;">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6677996696534146"
+       data-ad-slot="4514938349"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<section class="card">
+  <h2>🔗 연관 검색어</h2>
+  <div class="related-grid">
+    
+            <div class="related-card">
+              <div class="related-header">
+                <strong>겔럭시S25</strong>
+                <a href="https://search.naver.com/search.naver?query=겔럭시S25" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=겔럭시s25" target="_blank">겔럭시s25</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25플러스" target="_blank">겔럭시s25플러스</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25fe" target="_blank">겔럭시s25fe</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25 케이스" target="_blank">겔럭시s25 케이스</a></li><li><a href="https://search.naver.com/search.naver?query=겔럭시s25울트라재원" target="_blank">겔럭시s25울트라재원</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>챗지피티</strong>
+                <a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗지피티" target="_blank">챗지피티</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 사주" target="_blank">챗지피티 사주</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 무료" target="_blank">챗지피티 무료</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 유료 가격" target="_blank">챗지피티 유료 가격</a></li><li><a href="https://search.naver.com/search.naver?query=챗지피티 팩폭" target="_blank">챗지피티 팩폭</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>갤럭시S26</strong>
+                <a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 출시일" target="_blank">갤럭시s26 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26울트라" target="_blank">갤럭시S26울트라</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시S26" target="_blank">갤럭시S26</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 디자인" target="_blank">갤럭시s26 디자인</a></li><li><a href="https://search.naver.com/search.naver?query=갤럭시s26 색상" target="_blank">갤럭시s26 색상</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>쳇GPT</strong>
+                <a href="https://search.naver.com/search.naver?query=쳇GPT" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=쳇gpt" target="_blank">쳇gpt</a></li><li><a href="https://search.naver.com/search.naver?query=쳇gpt 사주" target="_blank">쳇gpt 사주</a></li><li><a href="https://search.naver.com/search.naver?query=쳇gpt 무료" target="_blank">쳇gpt 무료</a></li><li><a href="https://search.naver.com/search.naver?query=쳇gpt 사주 명령어" target="_blank">쳇gpt 사주 명령어</a></li><li><a href="https://search.naver.com/search.naver?query=쳇gpt 해지" target="_blank">쳇gpt 해지</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>챗GPT</strong>
+                <a href="https://search.naver.com/search.naver?query=챗GPT" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗gpt" target="_blank">챗gpt</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 사주" target="_blank">챗gpt 사주</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 무료" target="_blank">챗gpt 무료</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 유료 가격" target="_blank">챗gpt 유료 가격</a></li><li><a href="https://search.naver.com/search.naver?query=챗gpt 유료" target="_blank">챗gpt 유료</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>S26</strong>
+                <a href="https://search.naver.com/search.naver?query=S26" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=s26" target="_blank">s26</a></li><li><a href="https://search.naver.com/search.naver?query=s26 출시일" target="_blank">s26 출시일</a></li><li><a href="https://search.naver.com/search.naver?query=s26 사전예약" target="_blank">s26 사전예약</a></li><li><a href="https://search.naver.com/search.naver?query=s26 울트라" target="_blank">s26 울트라</a></li><li><a href="https://search.naver.com/search.naver?query=s26 디자인" target="_blank">s26 디자인</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>챗GTP</strong>
+                <a href="https://search.naver.com/search.naver?query=챗GTP" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=챗gtp" target="_blank">챗gtp</a></li><li><a href="https://search.naver.com/search.naver?query=챗gtp 타로" target="_blank">챗gtp 타로</a></li><li><a href="https://search.naver.com/search.naver?query=챗GTP 설정하는법" target="_blank">챗GTP 설정하는법</a></li><li><a href="https://search.naver.com/search.naver?query=챗gtp 제미니 비교" target="_blank">챗gtp 제미니 비교</a></li><li><a href="https://search.naver.com/search.naver?query=챗GTP 질문방법" target="_blank">챗GTP 질문방법</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>CHATGPT</strong>
+                <a href="https://search.naver.com/search.naver?query=CHATGPT" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=chatgpt" target="_blank">chatgpt</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt 무료" target="_blank">chatgpt 무료</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt 사주" target="_blank">chatgpt 사주</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt.com" target="_blank">chatgpt.com</a></li><li><a href="https://search.naver.com/search.naver?query=chatgpt 할인" target="_blank">chatgpt 할인</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>증시휴장일</strong>
+                <a href="https://search.naver.com/search.naver?query=증시휴장일" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=증시 휴장일" target="_blank">증시 휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=미국증시 휴장일" target="_blank">미국증시 휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=미증시 휴장일" target="_blank">미증시 휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=한국증시휴장일" target="_blank">한국증시휴장일</a></li><li><a href="https://search.naver.com/search.naver?query=일본증시휴장일" target="_blank">일본증시휴장일</a></li></ul>
+            </div>
+            
+            <div class="related-card">
+              <div class="related-header">
+                <strong>원리금균등상환계산기</strong>
+                <a href="https://search.naver.com/search.naver?query=원리금균등상환계산기" target="_blank" class="analyze-btn">🔍</a>
+              </div>
+              <ul class="related-list"><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기" target="_blank">원리금균등상환 계산기</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 이자" target="_blank">원리금균등상환 계산기 이자</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 거치" target="_blank">원리금균등상환 계산기 거치</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 엑셀" target="_blank">원리금균등상환 계산기 엑셀</a></li><li><a href="https://search.naver.com/search.naver?query=원리금균등상환 계산기 거치기간" target="_blank">원리금균등상환 계산기 거치기간</a></li></ul>
+            </div>
+            
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <p>🤖 Powered by GPT-4o-mini & Naver API</p>
+  </footer>
+
+  <script>
+  function shareKakao(){
+    const url = window.location.href;
+    const text = '뉴스 키워드 인사이트 Pro';
+
+    if (navigator.share){
+      navigator.share({ title: text, url });
+    } else {
+      copyText(text + '\n' + url);
+      alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
+    }
+  }
+
+  function shareNaver(){
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+    window.open(`https://share.naver.com/web/shareView?url=${url}&title=${title}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareLine(){
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareFacebook(){
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareTwitter(){
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(document.title);
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+  }
+
+  function shareThreads(){
+    const text = encodeURIComponent(document.title + "\n" + window.location.href);
+    window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank', 'width=600,height=400');
+  }
+
+  function copyText(t){
+    if (navigator.clipboard && window.isSecureContext){
+      return navigator.clipboard.writeText(t);
+    }
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = t;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+
+  function copyLink(){
+    copyText(window.location.href).then(() => alert('링크가 복사되었습니다!'));
+  }
+
+  function addToHomeScreen(){
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)){
+      alert('Safari 하단 공유 버튼 → "홈 화면에 추가"');
+    } else if (/Android/i.test(navigator.userAgent)){
+      alert('브라우저 메뉴(⋮) → "홈 화면에 추가"');
+    } else {
+      alert('Ctrl+D로 북마크 추가하세요!');
+    }
+  }
+</script>
+
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('SW 등록 완료'))
+      .catch(err => console.log('SW 등록 실패:', err));
+  }
+  </script>
+
+  <script>
+  // 테이블 헤더 클릭 정렬 기능
+  document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('.keyword-table');
+    
+    tables.forEach(table => {
+      const headers = table.querySelectorAll('th');
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      
+      headers.forEach((header, index) => {
+        let sortDir = 0; // 0: none, 1: asc, -1: desc
+        
+        header.addEventListener('click', function() {
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          
+          // 정렬 방향 토글
+          sortDir = sortDir === 1 ? -1 : 1;
+          
+          // 모든 헤더에서 정렬 표시 제거
+          headers.forEach(h => {
+            h.textContent = h.textContent.replace(' ▲', '').replace(' ▼', '');
+          });
+          
+          // 현재 헤더에 정렬 표시
+          header.textContent = header.textContent + (sortDir === 1 ? ' ▲' : ' ▼');
+          
+          // 정렬 실행
+          rows.sort((a, b) => {
+            let aVal = a.cells[index]?.textContent.trim() || '';
+            let bVal = b.cells[index]?.textContent.trim() || '';
+            
+            // 숫자 변환 (콤마 제거)
+            const aNum = parseFloat(aVal.replace(/,/g, ''));
+            const bNum = parseFloat(bVal.replace(/,/g, ''));
+            
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+              return sortDir === 1 ? aNum - bNum : bNum - aNum;
+            }
+            
+            // 문자열 비교
+            return sortDir === 1 
+              ? aVal.localeCompare(bVal, 'ko') 
+              : bVal.localeCompare(aVal, 'ko');
+          });
+          
+          // 정렬된 행 다시 삽입
+          rows.forEach(row => tbody.appendChild(row));
+        });
+      });
+    });
+  });
+  </script>
+
+  
+</body>
+</html>
