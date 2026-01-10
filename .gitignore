@@ -1,12 +1,8 @@
 .env
-venv/
 __pycache__/
 *.pyc
-.DS_Store__pycache__/
-*.pyc
+.DS_Store
 .venv/
 venv/
-.DS_Store
-output/archive/
-output/
 output/csv/
+output/archive_backup/
